@@ -1,0 +1,321 @@
+::root{
+	--app-background-color: white;
+	--app-nav-item-color: black;
+}
+
+body{
+    background-color: azure;
+}
+
+.main-layout{
+    /* margin-inline: 5%; */
+    margin-top: 25px;
+}
+
+.fixed-to-app-layout{
+    left: 15%;
+    right: 15%;
+}
+
+/* forms */
+
+.login-form-view, .change-password-form-view{
+	margin-top: 15vh;
+	margin-bottom: 15vh;
+}
+
+.edit-profile-form-view{
+	margin-top: 15vh;
+	margin-bottom: 15vh;
+}
+
+.register-form-view{
+	margin-top: 10vh;
+	margin-bottom: 10vh;
+}
+
+/* forms end */
+
+.cpopup{
+    left: 20%;
+    right: 20%;
+    z-index: 2;
+}
+
+.one-four-one{
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+}
+
+.two-five-two{
+    display: grid;
+    grid-template-columns: 2fr 5fr 2fr;
+}
+
+.one-ten-one{
+    display: grid;
+    grid-template-columns: 1fr 10fr 1fr;
+}
+
+.one-one-one{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.text-align-center{
+    text-align: center;
+}
+
+.text-align-left{
+    text-align: right;
+}
+
+.text-align-right{
+    text-align: right;
+}
+
+.text-small{
+    font-size: 15px;
+}
+
+.text-line-small{
+    line-height: 16px;
+}
+
+.position-relative{
+    position: relative;
+}
+
+.cursor-pointer:hover{
+    cursor: pointer;
+}
+
+.c-btn{
+    cursor: pointer;
+    user-select: none;
+}
+
+.c-mt-3{
+	margin-top: 0.6rem;
+}
+
+.c-me-2{
+	margin-right: 0.4rem;
+}
+
+.btn-green{
+    color: #198d26;
+}
+
+.back-btn{
+    font-size: 25px;
+}
+
+.border-radius-3{
+    border-radius: 3px;
+}
+
+/* .justify-content-between{
+    display: flex;
+    justify-content: space-between;
+} */
+
+.justify-content-right{
+    display: flex;
+    justify-content: right;
+}
+
+.align-items-start{
+    align-items: start;
+}
+
+.align-items-end{
+    align-items: end;
+}
+
+.icon{
+    width: 30px;
+    height: 30px;
+}
+
+.icon-sm{
+    width: 25px;
+    height: 25px;
+}
+
+.object-cover{
+    object-fit: cover;
+}
+
+.fa-icon{
+    font-size: 24px;
+}
+
+.list-style-type-none{
+    list-style-type: none;
+}
+
+.user-select-none{
+    user-select: none;
+}
+
+.normal-popup{
+    position: fixed;
+    /* top: 6.5rem; */
+    left: 28%;
+    right: 28%;
+    background-color: rgb(78, 141, 73);
+    border-radius: 1.5px;
+    /* box-shadow: 0.5px 0.5px 2px black; */
+}
+
+@media(max-width: 460px){
+	*{
+		font-size: 15px;	
+	}
+
+	.lt-460\:d-none{
+		display: none;
+	}
+
+	.lt-460\:mx-2{
+		margin-inline: 0.5rem;
+	}
+}
+
+@media(max-width: 460px) and (max-height: 560px){
+	.login-form-view, .change-password-form-view{
+		margin-top: 25vh;
+		margin-bottom: 25vh;
+	}
+
+	.edit-profile-form-view{
+		margin-top: 13vh;
+		margin-bottom: 13vh;
+	}
+}
+
+@media(max-width: 460px) and (max-height: 400px){
+	.login-form-view, .change-password-form-view{
+		margin-top: 20vh;
+		margin-bottom: 20vh;
+	}
+
+	.edit-profile-form-view{
+		margin-top: 5vh;
+		margin-bottom: 5vh;
+	}
+}
+
+@media(max-width: 460px) and (max-height: 330px){
+	.login-form-view, .change-password-form-view{
+		margin-top: 18vh;
+		margin-bottom: 18vh;
+	}
+}
+
+@media(max-height: 300px){
+	.login-form-view, .change-password-form-view{
+		margin-top: 10vh;
+		margin-bottom: 10vh;
+	}
+}
+
+@media(max-width: 460px) and (max-height: 300px){
+	.login-form-view, .change-password-form-view{
+		margin-top: 18vh;
+		margin-bottom: 18vh;
+	}
+}
+
+@media(max-width: 460px) and (max-height: 260px){
+	.login-form-view, .change-password-form-view{
+		margin-top: 10vh;
+		margin-bottom: 10vh;
+	}
+}
+
+@media(min-width: 461px){
+	.gt-460\:d-none{
+		display: none;
+	}
+}
+
+@media(max-width: 360px){
+	*{
+		font-size: 13px;
+	}
+
+	.lt-360\:d-none{
+		display: none;
+	}
+
+	.lt-360\:d-flex{
+		display: flex;
+	}
+}
+
+@media(max-width: 360px) and (max-height: 660px){
+	.register-form-view{
+		margin-top: 15vh;
+		margin-bottom: 15vh;
+	}
+}
+
+@media(max-width: 360px) and (max-height: 560px){
+	.register-form-view{
+		margin-top: 10vh;
+		margin-bottom: 10vh;
+	}
+}
+
+@media(max-width: 360px) and (max-height: 500px){
+	.register-form-view{
+		margin-top: 6vh;
+		margin-bottom: 6vh;
+	}
+}
+
+@media(max-width: 360px) and (max-height: 460px){
+	.register-form-view{
+		margin-top: 5vh;
+		margin-bottom: 5vh;
+	}
+}
+
+@media(min-width: 361px){
+	.gt-360\:d-none{
+		display: none;
+	}
+
+	.gt-360\:d-flex{
+		display: flex;
+	}
+}
+
+@media(max-width: 280px){
+	*{
+		font-size: 12px;
+	}
+}
+
+@media(max-width: 261px){
+	.lt-260\:d-none{
+		display: none;
+	}
+}
+
+@media(min-width: 260px){
+	.gt-260\:d-none{
+		display: none;
+		color: red;
+	}
+}
+
+@media(max-width: 260px){
+	*{
+		font-size: 12px;
+	}
+}
+
+

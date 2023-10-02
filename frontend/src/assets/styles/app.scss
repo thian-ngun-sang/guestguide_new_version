@@ -1,0 +1,89 @@
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    // text-align: center;
+    color: #2c3e50;
+  }
+  
+  nav {
+    // padding-top: 30px;
+  
+    a {
+      font-weight: bold;
+      color: #2c3e50;
+  
+      &.router-link-exact-active {
+        color: #42b983;
+      }
+    }
+  }
+  
+  .project-body{
+    height: 100vh;
+  }
+  
+  .three-by-one{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  
+  .side-bar div{
+    display: flex;
+    padding-top: 5px;
+    padding-left: 30px;
+  }
+  
+  .content{
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+  }
+  
+  .make-service{
+    padding-right: 30px;
+  }
+  
+  .right-nav-bar{
+    margin-top: 40px;
+    padding-right: 30px;
+  }
+  
+  .message-box ul{
+    list-style: none;
+    text-align: left;
+  
+    li{
+      margin: 5px 0px;
+    }
+  }
+  
+  .messagebox-title, .messagebox-search-input{
+    margin-left: 30px;
+    margin-bottom: 10px;
+  }
+  
+  .c-select-box{
+    /* for Firefox */
+    -moz-appearance: none;
+    appearance: unset;
+    /* for Chrome */
+    -webkit-appearance: none;
+  }
+  
+  .c-select-box:focus{
+    border: 3px solid green;
+    text-transform: none;
+  }
+  
+  .position-absolute{
+    position: absolute;
+  }
+  
+  .right-search-icon{
+    right: 10px;
+    top: 5px;
+  }
+  
+  .right-search-box{
+    position: relative;
+  }
