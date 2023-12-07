@@ -94,7 +94,7 @@
 										return;
 								}
 
-                axios.post('http://127.0.0.1:3000/api/auth/register', { ...this.form })
+                axios.post('/api/auth/register', { ...this.form })
                     .then(res => {
                         const data = res.data;
                         const { token } = data;

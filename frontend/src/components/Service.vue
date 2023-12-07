@@ -265,7 +265,7 @@
 									return this.getBaseUrl + "/profileImages/defaults/user.jpg";
 							}
 							if(user.profile_image !== undefined && /[a-zA-Z0-9]+\.?(jpg|jpeg|webp)/.test(user.profile_image)){
-								return this.getBaseUrl + "/profileImages" + user.profile_image;
+								return this.getBaseUrl + "/profileImages/" + user.profile_image;
 							}else{
 								if(user.gender === "male"){
 									return this.getBaseUrl + "/profileImages/defaults/male.jpg";
