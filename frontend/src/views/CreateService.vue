@@ -12,7 +12,7 @@
                     </div>
                     <div class="my-3">
                         <label>What kind of service</label><br/>
-                        <select class="w-100" v-on:change="handleServiceType($event)" v-model="form.serviceType">
+                        <select class="w-100 c-select-box" v-on:change="handleServiceType($event)" v-model="form.serviceType">
                             <option :value="serviceType" v-for="(serviceType, index) in serviceTypes" :key="index">{{ serviceType }}</option>
                         </select>
                     </div>

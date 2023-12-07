@@ -17,7 +17,7 @@ import { faCoffee, faEllipsis,
 	faLaptopCode, faTruckMoving, faUser, faChevronLeft,
 	faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
-axios.defaults.baseURL = "http://127.0.0.1:3000";
+axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 
 library.add(faCoffee, faEllipsis, faArrowLeft, faMagnifyingGlass, faXmark, faSquarePlus,
 	faHouseLaptop, faHouseChimneyWindow, faBookOpen, faLaptopCode, faTruckMoving, faUser,

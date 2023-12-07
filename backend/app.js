@@ -6,6 +6,7 @@ const cors = require("cors");
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/user");
 const serviceRoute = require("./routes/service");
+const savedServiceRoute = require("./routes/savedService");
 
 const notFound = require("./middlewares/not-found");
 const { authenticate, authorize } = require("./middlewares/auth");
@@ -37,14 +38,14 @@ app.use('/api/auth', authRoute);
 app.use('/api/v1', authorize);// authorize middleware
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/service', serviceRoute);
+app.use('/api/v1/saved-services', savedServiceRoute);
 
 app.use(notFound);
 
 const PORT = process.env.PORT || 3000;
 const start = async () => {
     try{
-        // await connectDB(process.env.MONGO_URI);
-        await connectDB("mongodb://127.0.0.1:27017/guestguide?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.10.1");
+        await connectDB(process.env.MONGO_URI);
         app.listen(PORT, () => {
             console.log("Sever is listening on port http://127.0.0.1:" + PORT)
         })

@@ -50,8 +50,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 0.3rem;
-        margin-bottom: 20px;
+				margin-bottom: 0.5rem;
     }
 
     .cnav-item{

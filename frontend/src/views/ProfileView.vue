@@ -23,9 +23,18 @@
                                 <font-awesome-icon icon="ellipsis" class="align-self-center" />
                             </div>
                             <div :class="accountEllipsisState ? 'position-absolute account-menu' : 'd-none'" ref="account-menu">
-                                <div class="cursor-pointer" v-on:click="handleLogoutRequest">Logout</div>
-                                <!-- <div class="cursor-pointer">Change Password</div> -->
-                                <router-link to="/change-password" class="text-decoration-none text-dark">Change Password</router-link>
+																<ul class="list-style-type-none user-select-none m-0 p-0">
+																	<li>
+																		<div class="cursor-pointer" v-on:click="handleLogoutRequest">Logout</div>
+																	</li>
+																	<li>
+																		<router-link to="/saved-services" class="text-decoration-none text-dark">Saved Services</router-link>
+																	</li>
+																	<li>
+																		<router-link to="/change-password" class="text-decoration-none text-dark">Change Password</router-link>
+																	</li>
+
+																</ul>
                             </div>
                         </div>
                     </div>
@@ -35,22 +44,19 @@
         <div class="mb-5">
             <div :class="bioEditState ? 'd-none' : ''">
 								<div v-if="user.bio !== '' && user.bio !== undefined">
-										<div class="mt-3 w-100 text-center account-bio account-bio-text">
+										<div class="w-100 text-center account-bio-text">
 											<p>
 												{{ user.bio }} 	
 											</p>
 										</div>
-										<div class="ms-2 mt-3">
+										<div class="text-center">
 												<button class="b-btn c-w-90" v-on:click="editBio">
 														Edit Bio
 												</button>
 										</div>
 								</div>
 								<div v-else>
-										<!-- <div class="ms-5 mt-3 account-bio account-bio-text">
-											{{ user.bio }} 	
-										</div> -->
-										<div class="ms-2 mt-3">
+										<div class="text-center">
 												<button class="b-btn c-w-90" v-on:click="editBio">
 														Add Bio
 												</button>
@@ -59,11 +65,11 @@
                 
             </div>
 						<div :class="bioEditState ? '' : 'd-none'">
-								<div class="mt-3 text-center">
+								<div class="text-center">
 										<!-- <input type="text" class="w-100" v-model="form.bio" ref="bio-input"/> -->
-										<textarea class="w-75 account-bio account-bio-text-input" v-model="form.bio" ref="bio-input"></textarea>
+										<textarea class="w-75 account-bio-text-input" v-model="form.bio" ref="bio-input"></textarea>
 								</div>
-                <div class="mt-3 text-center">
+                <div class="text-center">
 										 <button class="b-btn c-w-45" v-on:click="cancelSaveBio">
 												Cancel
 										</button>
@@ -94,7 +100,7 @@
         </div>
 
         <!-- popup -->
-        <div v-if="logoutRequest" class="normal-popup p-3 logout-popup">
+        <div v-if="logoutRequest" class="normal-popup logout-popup">
             <div class="text-white">
                 Are you sure you want to logout?
             </div>
@@ -153,18 +159,17 @@
 			margin-top: 0.7rem;
 		}
 
-		.account-bio{
-			min-height: 30px;
-		}
-
 		.account-bio-text{
 			padding-top: 3px;
 			padding-left: 4px;
+			min-height: 2.4rem;
+			margin-bottom: 0.2rem;
 		}
 
 		.account-bio-text-input{
 			margin-bottom: 0px;
-			color: red;
+			height: 2.5rem;
+			margin-bottom: 0.1rem;
 		}
 
     .account-banner-right-section{
@@ -196,9 +201,12 @@
 
     .account-menu{
         right: 0px;
-        top: 32px;
+        /* top: 32px;
         width: 150px;
-        padding: 5px;
+        padding: 5px; */
+				top: 2rem;
+        width: 9.3rem;
+        padding: 0.3rem;
         border-radius: 2px;
         background-color: #FFFFFF;
         /* box-shadow: 0px 0px 5px rgb(224, 216, 216), 0px 0px 5px rgb(227, 218, 218); */
@@ -219,6 +227,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+				padding: 1rem;
     }
 
 		@media(max-width: 660px){
@@ -268,6 +277,13 @@
 		}
 
 		@media(max-width: 360px){
+				/* popup */
+
+				.logout-popup{
+						height: 7.1rem;
+						padding: 0.7rem;
+				}
+
 				.cover-image{
 					height: 170px;
 				}
@@ -335,8 +351,6 @@
 
             this.$store.dispatch("setIsLoading" , false);
 						this.form.bio = this.user.bio === undefined ? "" : this.user.bio;
-
-						console.log(this.user.bio);
 
             this.$watch(() => this.user, () => {
                 console.log("Got user info");

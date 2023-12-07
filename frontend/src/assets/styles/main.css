@@ -90,6 +90,13 @@ body{
     cursor: pointer;
 }
 
+.c-select-box{
+	height: 1.8rem;
+	border-radius: 0.2rem;
+	border: 1px solid green;
+	cursor: pointer;
+}
+
 .c-btn{
     cursor: pointer;
     user-select: none;
@@ -101,6 +108,14 @@ body{
 
 .c-me-2{
 	margin-right: 0.4rem;
+}
+
+.m-0{
+	margin: 0px;
+}
+
+.p-0{
+	padding: 0px;
 }
 
 .btn-green{
@@ -167,9 +182,24 @@ body{
     background-color: rgb(78, 141, 73);
     border-radius: 1.5px;
     /* box-shadow: 0.5px 0.5px 2px black; */
+		color: red;
+}
+
+@media(max-width: 560px){
+	/* popup */
+	.normal-popup{
+			left: 25%;
+			right: 25%;
+	}
 }
 
 @media(max-width: 460px){
+	/* popup */
+	.normal-popup{
+			left: 23%;
+			right: 23%;
+	}
+
 	*{
 		font-size: 15px;	
 	}
@@ -242,6 +272,12 @@ body{
 }
 
 @media(max-width: 360px){
+	/* popup */
+	.normal-popup{
+			left: 20%;
+			right: 20%;
+	}
+
 	*{
 		font-size: 13px;
 	}
@@ -294,6 +330,12 @@ body{
 }
 
 @media(max-width: 280px){
+	/* popup */
+	.normal-popup{
+			left: 15%;
+			right: 15%;
+	}
+
 	*{
 		font-size: 12px;
 	}

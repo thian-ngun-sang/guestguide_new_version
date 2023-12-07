@@ -12,6 +12,7 @@ const authenticate = async (req, res, next) => {
         if(token){
             try{
                 const decodedToken = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
+
                 user = await User.findOne({_id: decodedToken.user_id}, "_id");
                 // const userObj = await User.findOne({_id: decodedToken._id});
             }catch(error){

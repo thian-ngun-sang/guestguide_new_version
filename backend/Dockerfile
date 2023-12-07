@@ -4,7 +4,6 @@ FROM node:18
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-COPY *.config.js ./
 
 RUN npm install
 # RUN npm ci --omit=dev
@@ -12,5 +11,5 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 8081
+EXPOSE 3000
 CMD [ "npm", "run", "start" ]

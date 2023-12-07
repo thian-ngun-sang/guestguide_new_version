@@ -11,11 +11,11 @@
                 <option :selected="option === 'all'" v-for="option in options" :value="option.value">{{ option.label }}</option>
               </select>
               <div :class="{'filter--ms-4': currentPath !== '/'}" class="d-flex">
-                <input type="checkbox" id="phone-number" v-model="queryParams.phone"/>
+                <input class="service--filter-checkbox" type="checkbox" id="phone-number" v-model="queryParams.phone"/>
                 <label for="phone-number" class="ms-1 cursor-pointer checkbox-text">With phone number</label>
               </div>
               <div class="filter--ms-4 d-flex">
-                <input type="checkbox" id="nearby-me" v-model="queryParams.nearby"/>
+                <input class="service--filter-checkbox" type="checkbox" id="nearby-me" v-model="queryParams.nearby"/>
                 <label for="nearby-me" class="ms-1 cursor-pointer">Nearby Me</label>
               </div>
               <div class="filter--ms-4">
@@ -38,15 +38,15 @@
 
     .filter-form{
       position: fixed;
-      top: 5rem;
+			top: 4.8rem;
       left: 15%;
       right: 15%;
       width: 70%;
+			padding-top: 0.2rem;
       padding-bottom: 3px;
       background-color: white;
       white-space: nowrap;
       z-index: 1;
-      /* margin-top: 25px; */
     }
 
     .filter-form-wrapper{
@@ -93,8 +93,21 @@
 		}
 
     .service--filter-select{
-      width: 89.6px;
+      width: 4.7rem;
+			height: 1.5rem;
+			border-radius: 0.2rem;
+			border: 1px solid green;
+			cursor: pointer;
+			outline: none;
     }
+
+		.filter--searchbar{
+			height: 1.7rem;
+		}
+
+		.service--filter-checkbox{
+			font-size: 1rem;
+		}
 
     @media(max-width: 1100px){
       .filter-form{
@@ -102,15 +115,11 @@
         right: 17%;
         width: 66%;
       }
-
-      .service--filter-select{
-        width: 89.6px;
-      }
     }
 
     @media(max-width: 960px){
       .filter-form{
-        top: 78px;
+				top: 4.4rem;
         font-size: 16px;
       }
 
@@ -130,7 +139,7 @@
 
     @media(max-width: 860px){
       .filter-form{
-        top: 80px;
+        top: 4.2rem;
         left: 19%;
         right: 19%;
         width: 62%;
@@ -170,9 +179,6 @@
         margin-left: 30px;
       }
 
-			.filter-form{
-				top: 4.8rem;
-			}
     }
 
     @media(max-width: 360px){

@@ -6,7 +6,7 @@ export default createStore({
     user: {},
     token: "",
     isLoading: true,
-    baseUrl: "http://127.0.0.1:3000",
+		baseUrl: process.env.VUE_APP_BASE_URL,
     imageTypes: ["image/jpeg", "image/png"]
   },
 
@@ -37,7 +37,7 @@ export default createStore({
   actions: {
     setIsLoading: ({state}, value) => state.isLoading = value,
     setIsAuthenticated: ({state}, value) => state.isAuthenticated = value,
-    setUser: ({state}, user) => state.user = user,
+    setUser: ({state}, user) => state.user = { ...state.user, ...user },
   },
 
   modules: {

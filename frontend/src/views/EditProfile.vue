@@ -84,7 +84,11 @@
             submitForm(){
                 axios.post("/api/v1/user/update-profile", this.user)
                     .then(res => {
-                        this.$router.push('/account');
+												const { user } = res.data;
+												if(user !== undefined){
+													this.$store.dispatch("setUser", user)
+													this.$router.push('/account');
+												}
                     })
                     .catch(err => {
 											const { msg } = err.response.data;

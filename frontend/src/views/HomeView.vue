@@ -1,7 +1,16 @@
 <template>
     <ServiceFilter/>
     <div v-if="services.length !== 0" class="app-content">
-      <Service v-for="service in services" :service="service" :removeService="removeService"/>
+      <Service v-for="service in services"
+				:service="service"
+				:removeService="removeService"
+				:setInfoPopup="setInfoPopup"/>
+
+			<InfoPopup v-if="infoPopup.state"
+				:classProp="infoPopup.className"
+				:text="infoPopup.text"
+				:close="removeInfoPopup"
+				duration="4000"/>
     </div>
 </template>
 
@@ -18,6 +27,7 @@ import axios from "axios";
 
 import Service from "../components/Service.vue";
 import ServiceFilter from '@/components/ServiceFilter.vue';
+import InfoPopup from '@/components/InfoPopup.vue';
 
 export default defineComponent({
   name: 'HomeView',
@@ -25,7 +35,12 @@ export default defineComponent({
     return {
         services: [],
         srcUrl: "/api/v1/service",
-        query: ""
+        query: "",
+				infoPopup: {
+					state: false,
+					className: "",
+					text: ""
+				}
     };
   },
   mounted(){
@@ -51,7 +66,7 @@ export default defineComponent({
         axios.get(this.srcUrl)
           .then(res => {
             const { services } = res.data;
-						console.log(services);
+						// console.log(services);
 
             this.services = services;
           })
@@ -110,11 +125,22 @@ export default defineComponent({
 			this.services = this.services.filter(service => {
 				return service._id !== serviceId;
 			})
+		},
+		setInfoPopup(data){
+			this.infoPopup = data;
+		},
+		removeInfoPopup(){
+			this.infoPopup = {
+				state: false,
+				className: "",
+				text: ""
+			}
 		}
   },
   components: {
     Service,
-    ServiceFilter
+    ServiceFilter,
+		InfoPopup
   },
 });
 

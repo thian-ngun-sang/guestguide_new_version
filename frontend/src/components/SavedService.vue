@@ -2,15 +2,18 @@
     <div class="position-relative">
         <div>
             <div class="mb-3 d-flex justify-content-between">
-                <div class="d-flex align-items-start">
-                    <!-- <img class="user-list-img" :src="`${this.$store.state.baseUrl}/profileImages/${service.user.profile_image}`"/> -->
-                    <img class="user-list-img" :src="generateProfileImageUri(service.user)"/>
+                <div class="d-flex align-items-start" v-if="savedService.service !== null">
+                    <img class="user-list-img" :src="generateProfileImageUri(savedService.service.user)"/>
                     <div class="text-small text-line-small ms-2 mt-1">
-                        <div v-if="service.user !== null && service.user !== undefined">{{ service.user.first_name }} {{ service.user.last_name }}</div>
+                        <div v-if="savedService.service.user !== null && savedService.service.user !== undefined">
+													{{ savedService.service.user.first_name }} {{ savedService.service.user.last_name }}
+												</div>
 												<div v-else>Deleted User</div>
-                        <div class="mt-1">{{ timeAgo(service.created_at) }}</div>
+                        <div class="mt-1">{{ timeAgo(savedService.service.created_at) }}</div>
                     </div>
                 </div>
+								<div v-else></div>
+
                 <div class="position-relative service-options">
 										<!-- service ellipsis icon -->
 										<span v-on:click="toggleServiceEllipsis" ref="service-ellipsis">
@@ -18,43 +21,41 @@
 										</span>
 
 										<!-- service close icon -->
-                    <font-awesome-icon v-on:click="() => this.removeService(service._id)" class="cursor-pointer ms-2 cicon" :icon="['fas', 'xmark']" />
+                    <font-awesome-icon v-on:click="() => this.removeSavedService(savedService._id)" class="cursor-pointer ms-2 cicon" :icon="['fas', 'xmark']" />
 
                     <div :class="ellipsisIsOpen ? '' : 'd-none'" class="position-absolute service--ellipsis-ctn" ref="service-ref">
                         <ul class="list-style-type-none user-select-none">
-                            <li v-if="service.user?._id === this.$store.state.user._id">
-                                <router-link :to="{path:'/service/edit/' + service._id}" class="text-decoration-none btn-green me-2">Edit</router-link>
+                            <li v-if="savedService.user?._id === this.$store.state.user._id">
+                                <span v-on:click="deleteSavedServiceRequest" class="c-btn btn-green">
+																	Delete
+																</span>
                             </li>
-                            <li v-if="service.user?._id === this.$store.state.user._id">
-                                <span v-on:click="deletePost" class="c-btn btn-green">Delete</span>
-                            </li>
-                            <li>
-															<span class="c-btn btn-green" v-on:click="saveService">Save</span>
-														</li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div>
-                <div>
-                    <b class="me-1">Around:</b>
-                    <span>{{ service.address }}</span>
-                </div>
-                <div v-if="service.phone !== ''">
-                    <b class="me-1">Phone:</b>
-                    <span>{{ service.phone }}</span>
-                </div>
-                <div>
-                    <b class="me-1">Description:</b>
-                    <span>{{ service.description }}</span>
-                </div>
+
+						<div v-if="savedService.service !== null">
+							<div>
+								<div>
+										<b class="me-1">Around:</b>
+										<span>{{ savedService.service.address }}</span>
+								</div>
+								<div v-if="savedService.service.phone !== ''">
+										<b class="me-1">Phone:</b>
+										<span>{{ savedService.service.phone }}</span>
+								</div>
+								<div>
+										<b class="me-1">Description:</b>
+										<span>{{ savedService.service.description }}</span>
+								</div>
+							</div>
+							<div class="text-align-center" v-if="savedService.service.file">
+									<img class="front-img" :src="`${this.$store.state.baseUrl}/posts/${savedService.service.file}`"/>
+							</div>
+							<div class="text-align-center my-3" v-else></div>
             </div>
-            <div class="text-align-center" v-if="service.file">
-                <img class="front-img" :src="`${this.$store.state.baseUrl}/posts/${service.file}`"/>
-            </div>
-            <div class="text-align-center my-3" v-else>
-                
-            </div>
+						<div v-else>This service has been deleted</div>
         </div>
         <div ref="deletePopup" class="delete-popup cpopup d-none">
             <span class="c-btn btn-green d-block" v-on:click="hideDeletePopup">Back</span>
@@ -63,7 +64,7 @@
             </div>
             <div class="text-end">
                 <button class="btn btn-sm btn-secondary" v-on:click="hideDeletePopup">No</button>
-                <button class="ms-2 btn btn-sm btn-secondary" v-on:click="deleteService">Yes</button>
+                <button class="ms-2 btn btn-sm btn-secondary" v-on:click="deleteSavedService">Yes</button>
             </div>
         </div>
         <div>
@@ -133,17 +134,25 @@
 
     export default defineComponent({
         name: 'service',
+        components: {
+        },
         data(){
             return {
                 ellipsisIsOpen: false
             }
         },
-        props: ["service", "removeService", "setInfoPopup"],
+        props: ["savedService", "removeSavedService", "setInfoPopup"],
 				computed: {
 					...mapGetters(["getBaseUrl"]),
 				},
+        mounted(){
+        },
+				watch:{
+					ellipsisIsOpen(){
+					}
+				},
         methods: {
-            deletePost(){
+            deleteSavedServiceRequest(){
 								this.ellipsisIsOpen = false;
                 const deletePopup = this.$refs.deletePopup;
                 deletePopup.classList.replace("d-none", "d-block");
@@ -188,45 +197,14 @@
             },
 						saveService(){
 								this.ellipsisIsOpen = false;
-
-								const data = {
-									userId: this.$store.state.user._id,
-									serviceId: this.service._id.toString()
-								}
-
-								axios.post(`/api/v1/saved-services`, data)
-									.then(res => {
-										console.log(res.data);
-
-										this.setInfoPopup({
-											state: true,
-											text: "Service has been saved",
-											className: "info-popup-success"
-										});
-									})
-									.catch(err => {
-										console.log(err.response.data);
-										const { msg } = err.response.data;
-									
-										if(msg){
-
-											this.setInfoPopup({
-												state: true,
-												text: msg,
-												className: "info-popup-unsuccess"
-											});
-										}
-									})
 						},
-						deleteService(){
-							const serviceId = this.service._id.toString();
+						deleteSavedService(){
+							const savedServiceId = this.savedService._id.toString();
 
-							axios.delete(`/api/v1/service/delete/${serviceId}`)
+							axios.delete(`/api/v1/saved-services/${savedServiceId}`)
 								.then(res => {
 										const { msg } = res.data;
-
 										if(msg){
-
 											this.setInfoPopup({
 												state: true,
 												text: msg,
@@ -235,9 +213,10 @@
 										}
 
 										this.hideDeletePopup();
-										this.removeService(serviceId);
+										this.removeSavedService(savedServiceId);
 									})
 								.catch(err => console.log(err.response));
+							console.log("service deleted");
 						},
 						clickOutsideServiceEllipsis(event){
 							const serviceRef = this.$refs["service-ref"];
@@ -253,7 +232,7 @@
 							}
 						},
 						toggleServiceEllipsis(){
-							
+
 							this.ellipsisIsOpen = !this.ellipsisIsOpen;
 							if(this.ellipsisIsOpen){
 								document.addEventListener("mousedown", this.clickOutsideServiceEllipsis);
@@ -261,6 +240,7 @@
 						},
 						generateProfileImageUri(user){
 							// for example: window[128].jpg
+
 							if(user === null || user === undefined){
 									return this.getBaseUrl + "/profileImages/defaults/user.jpg";
 							}

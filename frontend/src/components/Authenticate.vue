@@ -19,8 +19,6 @@
 
             this.$watch(() => this.$store.state.token, () => {
 								console.log("Authenticate.vue rerun");
-
-                this.isLoading = true;
                 this.index();
             })
         },
@@ -43,7 +41,14 @@
                     .then(res => {
                         const { user } = res.data;
                         if(!this.validateImage(user.profile_image)){
-                            user.profile_image = "defaults/male.jpg";
+														if(user.gender === "male"){ 
+															user.profile_image = "defaults/male.jpg";
+														}else if(user.gender == "female"){
+															user.profile_image = "defaults/female.jpg";
+														}else{
+															user.profile_image = "defaults/user.jpg";
+														}
+
                         }
                         if(!this.validateImage(user.cover_image)){
                             user.cover_image = "defaults/coverImage.jpg";

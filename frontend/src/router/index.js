@@ -1,8 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
+import ChangePassword from '../views/ChangePassword.vue';
+
+import ProfileView from '../views/ProfileView.vue';
+import EditProfile from '../views/EditProfile.vue';
+
 import HomeView from '../views/HomeView.vue';
+
 import CreateService from '../views/CreateService.vue';
+import EditView from '../views/EditView.vue';
+import SavedServices from '../views/SavedServices.vue';
 
 const routes = [
   {
@@ -26,7 +35,7 @@ const routes = [
   {
     path: '/change-password',
     name: 'changePassword',
-    component: () => import('../views/ChangePassword.vue'),
+    component: ChangePassword,
     meta: {
 	    authRoute: true
     }
@@ -39,7 +48,7 @@ const routes = [
   {
     path: '/account',
     name: 'account',
-    component: () => import('../views/ProfileView.vue'),
+    component: ProfileView,
     meta: {
       loginRequired: true
     }
@@ -47,7 +56,7 @@ const routes = [
   {
     path: '/edit-profile',
     name: 'edit-profile',
-    component: () => import('../views/EditProfile.vue'),
+    component: EditProfile,
     meta: {
       authRoute: true,
       loginRequired: true
@@ -90,7 +99,16 @@ const routes = [
   {
     path: '/service/edit/:id',
     name: 'service/edit/:id',
-    component: () => import('../views/EditView.vue'),
+    // component: () => import('../views/EditView.vue'),
+    component: EditView,
+    meta: {
+      loginRequired: true
+    }
+  },
+	{
+    path: '/saved-services',
+    name: 'saved-services',
+    component: SavedServices,
     meta: {
       loginRequired: true
     }
