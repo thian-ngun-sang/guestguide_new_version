@@ -1,5 +1,5 @@
 <template>
-    <ServiceFilter/>
+    <!-- <ServiceFilter/> -->
     <div v-if="services.length !== 0" class="app-content">
       <Service v-for="service in services"
 				:service="service"
@@ -17,7 +17,7 @@
 <style>
   .app-content{
     /* margin-top: 120px; */
-		margin-top: 7.5rem;
+		margin-top: 9.5rem;
   }
 </style>
 
@@ -26,7 +26,7 @@ import { defineComponent } from 'vue';
 import axios from "axios";
 
 import Service from "../components/Service.vue";
-import ServiceFilter from '@/components/ServiceFilter.vue';
+// import ServiceFilter from '@/components/ServiceFilter.vue';
 import InfoPopup from '@/components/InfoPopup.vue';
 
 export default defineComponent({
@@ -139,7 +139,7 @@ export default defineComponent({
   },
   components: {
     Service,
-    ServiceFilter,
+    // ServiceFilter,
 		InfoPopup
   },
 });

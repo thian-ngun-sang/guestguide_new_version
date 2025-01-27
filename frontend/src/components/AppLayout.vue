@@ -17,7 +17,7 @@
     left: 15%;
     right: 15%;
     background-color: white;
-    z-index: 1;
+    z-index: 2;
   }
 
   .app-view{

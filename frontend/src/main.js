@@ -15,12 +15,12 @@ import { faCoffee, faEllipsis,
 	faArrowLeft, faMagnifyingGlass, faXmark, faSquarePlus,
 	faHouseLaptop, faHouseChimneyWindow, faBookOpen,
 	faLaptopCode, faTruckMoving, faUser, faChevronLeft,
-	faChevronRight } from '@fortawesome/free-solid-svg-icons';
+	faChevronRight, faSliders } from '@fortawesome/free-solid-svg-icons';
 
 axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 
 library.add(faCoffee, faEllipsis, faArrowLeft, faMagnifyingGlass, faXmark, faSquarePlus,
 	faHouseLaptop, faHouseChimneyWindow, faBookOpen, faLaptopCode, faTruckMoving, faUser,
-	faChevronLeft, faChevronRight );
+	faChevronLeft, faChevronRight, faSliders );
 
 createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(store).use(router).mount('#app')

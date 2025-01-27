@@ -12,6 +12,10 @@ body{
     margin-top: 25px;
 }
 
+.app-content{
+	margin-top: 10rem;
+}
+
 .fixed-to-app-layout{
     left: 15%;
     right: 15%;

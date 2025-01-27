@@ -1,5 +1,5 @@
 <template>
-    <div class="create-service-form-wrapper">
+    <div class="create-service-form-wrapper app-content">
         <div class="text-center mb-3">
             <h5>Make a better world with your very service</h5>
         </div>

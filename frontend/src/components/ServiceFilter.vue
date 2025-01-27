@@ -1,361 +1,68 @@
 <template>
-    <div class="filter-form user-select-none">
-        <div class="position-relative">
-          <div class="filter-form-wrapper" v-on:scroll="handleFilterScroll">
-            <!-- <span class="filter--scroll-left d-none position-absolute" v-on:click="scrollLeft">&lt;</span> -->
-            <span class="filter--scroll-left d-none position-absolute" v-on:click="scrollLeft">
-							<font-awesome-icon class="left-chevron" :icon="['fas', 'chevron-left']" />
-						</span>
-            <form class="filter-form--layout d-flex align-items-center" v-on:submit.prevent="searchByLocation">
-              <select v-if="currentPath !== '/'" class="service--filter-select" v-model="currentOption">
-                <option :selected="option === 'all'" v-for="option in options" :value="option.value">{{ option.label }}</option>
-              </select>
-              <div :class="{'filter--ms-4': currentPath !== '/'}" class="d-flex">
-                <input class="service--filter-checkbox" type="checkbox" id="phone-number" v-model="queryParams.phone"/>
-                <label for="phone-number" class="ms-1 cursor-pointer checkbox-text">With phone number</label>
-              </div>
-              <div class="filter--ms-4 d-flex">
-                <input class="service--filter-checkbox" type="checkbox" id="nearby-me" v-model="queryParams.nearby"/>
-                <label for="nearby-me" class="ms-1 cursor-pointer">Nearby Me</label>
-              </div>
-              <div class="filter--ms-4">
-                <input type="text" class="filter--searchbar" placeholder="Location: Taung Za Lat" v-model="queryParams.location"/>
-              </div>
-            </form>
-						<!-- <span class="filter--scroll-right position-absolute" v-on:click="scrollRight">&gt;</span> -->
-						<span class="filter--scroll-right position-absolute" v-on:click="scrollRight">
-							<font-awesome-icon class="right-chevron" :icon="['fas', 'chevron-right']" />
-						</span>
-          </div>
-        </div>
+	<div class="filter-popup">
+		<div>
+			<button class="btn border-0 p-0" v-on:click="() => this.closeFilterPopup()">
+				<font-awesome-icon class="cursor-pointer ms-2 cicon" :icon="['fas', 'xmark']" />
+			</button>
+		</div>
+		<hr class="my-1 filter-hr"/>
+		<div class="mx-2">
+			<div>
+				<input type="checkbox" id="phone-number" v-model="form.phoneNumberProvided"/>
+				<label class="ms-2 cursor-pointer" for="phone-number">Phone number provided</label>
 			</div>
+			<div>
+				<input type="checkbox" id="nearby-me" v-model="form.nearbyMe"/>
+				<label class="ms-2 cursor-pointer" for="nearby-me">Nearby me</label>
+			</div>
+		</div>
+		<hr class="my-1 filter-hr"/>
+		<div class="d-flex justify-content-between mx-2 mt-2">
+			<button class="btn border-0 ps-0">Clear All</button>
+			<button class="btn border-0 btn-sm btn-dark" v-on:click="showResults">Show 1000+ Results</button>
+		</div>
+	</div>
 </template>
 
 <style>
-    .filter--ms-4{
-      margin-left: 15px;
-    }
+	.filter-popup{
+		background-color: white;
+		padding-block: 0.6rem;
+		position: absolute;
+		z-index: 2;
+		border-radius: 8px;
+		left: 20%;
+		right: 20%;
+		box-shadow: 0.8px 0.8px 2px black;
+	}
 
-    .filter-form{
-      position: fixed;
-			top: 4.8rem;
-      left: 15%;
-      right: 15%;
-      width: 70%;
-			padding-top: 0.2rem;
-      padding-bottom: 3px;
-      background-color: white;
-      white-space: nowrap;
-      z-index: 1;
-    }
+	.filter-hr{
+		border: none;
+		height: 1px;
+		background-color: black;
+		box-shadow: none;
+	}
 
-    .filter-form-wrapper{
-      width: 100%;
-      overflow-x: scroll;
-      scrollbar-width: none;
-      scroll-behavior: smooth;
-    }
-
-    .filter-form-wrapper::-webkit-scrollbar{
-      display: none;
-    }
-
-    .filter-form--layout{
-      justify-content: space-between;
-    }
-
-    .filter--scroll-left{
-      left: 0px;
-      cursor: pointer;
-      /* background-color: rgb(224, 206, 206); */
-			background-color: white;
-      padding-inline: 2px;
-      padding-block: 3.5px;
-      top: 0.3px;
-    }
-
-    .filter--scroll-right{
-      right: 0px;
-      cursor: pointer;
-      /* background-color: rgb(224, 206, 206); */
-			background-color: white;
-      padding-inline: 2px;
-      padding-block: 3.5px;
-      top: 0.3px;
-    }
-
-    .filter--scroll-left, .filter--scroll-right{
-      display: none;
-    }
-
-		.left-chevron, .right-chevron{
-			font-size: 1rem;	
-		}
-
-    .service--filter-select{
-      width: 4.7rem;
-			height: 1.5rem;
-			border-radius: 0.2rem;
-			border: 1px solid green;
-			cursor: pointer;
-			outline: none;
-    }
-
-		.filter--searchbar{
-			height: 1.7rem;
-		}
-
-		.service--filter-checkbox{
-			font-size: 1rem;
-		}
-
-    @media(max-width: 1100px){
-      .filter-form{
-        left: 17%;
-        right: 17%;
-        width: 66%;
-      }
-    }
-
-    @media(max-width: 960px){
-      .filter-form{
-				top: 4.4rem;
-        font-size: 16px;
-      }
-
-      .filter--scroll-left, .filter--scroll-right{
-        display: inline;
-      }
-      .filter--ms-4{
-        margin-left: 65px;
-      }
-    }
-
-    @media(max-width: 942px){
-      .filter--scroll-left, .filter--scroll-right{
-        display: inline;
-      }
-    }
-
-    @media(max-width: 860px){
-      .filter-form{
-        top: 4.2rem;
-        left: 19%;
-        right: 19%;
-        width: 62%;
-        font-size: 15px;
-      }
-    }
-
-    @media(max-width: 760px){
-      .filter-form{
-        left: 1%;
-        right: 1%;
-        width: 98%;
-      }
-
-      .filter--scroll-left, .filter--scroll-right{
-        display: none;
-      }
-
-      .filter--ms-4{
-        margin-left: 0px;
-        color: green;
-      }
-    }
-
-    @media(max-width: 660px){
-      .filter--scroll-left, .filter--scroll-right{
-        display: inline;
-      }
-
-      .filter--ms-4{
-        margin-left: 65px;
-      }
-    }
-
-    @media(max-width: 460px){
-      .filter--ms-4{
-        margin-left: 30px;
-      }
-
-    }
-
-    @media(max-width: 360px){
-      .filter--ms-4{
-        margin-left: 25px;
-      }
-    }
 </style>
 
 <script>
-    import {defineComponent} from "vue";
+import { defineComponent } from "vue";
 
-    export default defineComponent({
-        name: "serviceFilter",
-        data(){
-          return {
-            currentPath: "",
-            options: [],
-            currentOption: "all",
-            optionsDict: {
-              home: [
-                { label: "all", value: "all" }
-              ],
-              transition: [
-                { label: "all", value: "all" },
-                { label: "taxi", value: "taxi"},
-                { label: "air ticket", value: "air ticket"}
-              ],
-              courses: [
-                { label: "all", value: "all" },
-                { label: "online", value: "online"},
-                { label: "inclass", value: "inclass"},
-              ],
-              housing: [
-                { label: "all", value: "all" },
-                { label: "hotel", value: "hotel"},
-                { label: "rent", value: "rent"}
-              ]
-            },
-            queryParams: {
-              type: "",
-              phone: false,
-              nearby: false,
-              location: ""
-            }
-          }
-        },
-        mounted(){
-          this.currentPath = this.$route.path;
-          if(this.$route.path === "/"){
-            this.options = this.optionsDict.home;
-          }else{
-            this.currentPath = this.$route.path;
-            let modifiedPath = this.currentPath.replace("/", "");
-            this.options = this.optionsDict[modifiedPath];
-
-            if(this.$route.path !== "/"){
-              this.$store.commit("setServiceType", this.options[0].value);
-            }
-          }
-          
-          this.$watch(() => this.$route.path, (newValue) => {
-           
-            if(this.$route.path !== "/"){
-              this.$store.commit("setServiceType", this.options[0].value);
-
-              let modifiedPath = newValue.replace("/", "");
-              this.options = this.optionsDict[modifiedPath];
-              this.currentOption = "all";
-            }
-            this.currentPath = newValue;
-
-            this.queryParams = {
-              type: "",
-              phone: false,
-              nearby: false,
-              location: ""
-            };
-          });
-
-        },
-        methods: {
-            toggleArrows(){
-                const scrollString = document.querySelector(".filter-form-wrapper");
-                const leftArrow = document.querySelector(".filter--scroll-left");
-                const rightArrow = document.querySelector(".filter--scroll-right");
-                
-                // if(scrollString.scrollLeft >= 20){
-                if(scrollString.scrollLeft >= 5){
-                    leftArrow.classList.remove("d-none");
-                }else{
-                    leftArrow.classList.add("d-none");
-                }
-
-                // let maxScrollValue = scrollString.scrollWidth - scrollString.clientWidth;
-                let maxScrollValue = scrollString.scrollWidth - scrollString.clientWidth - 5;
-                // console.log("scroll width: ", scrollString.scrollWidth, ", ", "client width: ", scrollString.clientWidth);
-                
-                if(scrollString.scrollLeft >= maxScrollValue){
-                    rightArrow.classList.add("d-none");
-                }else{
-                    rightArrow.classList.remove("d-none");
-                }
-            },
-            scrollLeft(){
-                const scrollString = document.querySelector(".filter-form-wrapper");
-                scrollString.scrollLeft -= 200;
-                this.toggleArrows();
-            },
-            scrollRight(){
-                const scrollString = document.querySelector(".filter-form-wrapper");
-                scrollString.scrollLeft += 200;
-                this.toggleArrows();
-            },
-            handleFilterScroll(){
-                this.toggleArrows();
-            },
-            searchByLocation(){
-              const query = this.$route.query;
-
-              if(this.queryParams.location !== ""){
-                const newQuery = {
-                  ...query,
-                  q: this.queryParams.location
-                };
-                this.$router.push({query: newQuery});
-              }else{
-                const { q, ...restQuery } = query;
-                this.$router.push({query: restQuery});
-              }
-
-            }
-        },
-        watch: {
-          'queryParams.phone': {
-            handler(newValue){
-              let query = this.$route.query;
-              if(newValue){
-                const newQuery = Object.assign({ phone: 'true' }, query);
-                this.$router.push({ query: newQuery });
-              }else{
-                const { phone, ...restQuery} = query;
-                if(phone === 'true'){
-                  this.$router.push({ query: restQuery});
-                }
-              }
-            },
-            deep: true
-          },
-          'queryParams.nearby': {
-            handler(newValue){
-              let query = this.$route.query;
-              if(newValue){
-                const newQuery = Object.assign({ nearby: 'true' }, query);
-                this.$router.push({ query: newQuery });
-              }else{
-                const { nearby, ...restQuery} = query;
-                if(nearby === 'true'){
-                  this.$router.push({ query: restQuery});
-                }
-              }
-            },
-            deep: true
-          },
-          currentOption: {
-            handler(newValue){
-              let query = this.$route.query;
-
-              if(newValue !== 'all'){
-                const newQuery = {...query, type: newValue };
-                this.$router.push({ query: newQuery });
-              }else{
-                const { type, ...restQuery} = query;
-                this.$router.push({ query: restQuery });
-              }
-            }
-          }
-        }
-    });
+export default defineComponent({
+	name: "ServiceFilter",
+	data() {
+		return {
+			form: {
+				phoneNumberProvided: false,
+				nearbyMe: false
+			}
+		}
+	},
+	methods: {
+		showResults(){
+			console.log(this.form);
+		}
+	},
+	props: ["closeFilterPopup"]
+});
 </script>
