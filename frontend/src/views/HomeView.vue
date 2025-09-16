@@ -1,10 +1,15 @@
 <template>
     <!-- <ServiceFilter/> -->
     <div v-if="services.length !== 0" class="app-content">
-      <Service v-for="service in services"
-				:service="service"
-				:removeService="removeService"
-				:setInfoPopup="setInfoPopup"/>
+			<div class="service-list">
+				<Service v-for="service in services"
+					:service="service"
+					:removeService="removeService"
+					:setInfoPopup="setInfoPopup"/>
+
+				<div v-if="services.length <= 2"></div>
+				<div v-if="services.length <= 1"></div>
+			</div>
 
 			<InfoPopup v-if="infoPopup.state"
 				:classProp="infoPopup.className"
@@ -16,9 +21,14 @@
 
 <style>
   .app-content{
-    /* margin-top: 120px; */
 		margin-top: 9.5rem;
   }
+
+	.service-list{
+		display: grid;
+		gap: 1.3rem;
+		grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+	}
 </style>
 
 <script>

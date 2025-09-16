@@ -1,5 +1,5 @@
 <template>
-	<div class="saved-service-ctn">
+	<div class="saved-service-ctn app-content">
 		<div v-for="savedService in savedServices">
 			<SavedService :savedService="savedService"
 				:removeSavedService="removeSavedService"
@@ -14,9 +14,9 @@
 </template>
 
 <style>
-	.saved-service-ctn{
-		padding-top: 0.5rem;
-	}
+  .app-content{
+		margin-top: 9.5rem;
+  }
 
 	@media(max-width: 960px){
 		.saved-service-ctn{

@@ -21,8 +21,7 @@
   }
 
   .app-view{
-    /* margin-top: 91px; */
-		margin-top: 4.6rem;
+		margin-top: 9.5rem;
   }
 
   .left-side-bar{

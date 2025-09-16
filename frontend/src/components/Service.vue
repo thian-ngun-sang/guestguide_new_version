@@ -1,9 +1,8 @@
 <template>
     <div class="position-relative">
-        <div>
+        <div class="d-none">
             <div class="mb-3 d-flex justify-content-between">
                 <div class="d-flex align-items-start">
-                    <!-- <img class="user-list-img" :src="`${this.$store.state.baseUrl}/profileImages/${service.user.profile_image}`"/> -->
                     <img class="user-list-img" :src="generateProfileImageUri(service.user)"/>
                     <div class="text-small text-line-small ms-2 mt-1">
                         <div v-if="service.user !== null && service.user !== undefined">{{ service.user.first_name }} {{ service.user.last_name }}</div>
@@ -66,12 +65,72 @@
                 <button class="ms-2 btn btn-sm btn-secondary" v-on:click="deleteService">Yes</button>
             </div>
         </div>
-        <div>
-        </div><hr/>
+
+				<div v-if="service.type === 'transition'" class="service-container position-relative">
+					<div class="position-absolute name-wrapper">
+						<span class="text-white service-username">{{ service.user.first_name }} {{ service.user.last_name }}</span>
+					</div>	
+					<img class="service-img" src="https://media.istockphoto.com/id/1443628665/photo/adult-writing-in-the-classroom.jpg?s=2048x2048&w=is&k=20&c=xc-XV2kx54YKVTjFTnxEl5vhMPnhc5CPKM5f1Tabjg8="/>
+					<div class="px-2 d-flex justify-content-between price-label">
+						<span>{{ service.category }}</span>
+						<span>$600/mo</span>
+					</div>
+					<div class="px-2 location-label">
+						{{ service.address }}
+					</div>
+				</div>
+
+				<div v-if="service.type === 'courses'" class="service-container position-relative">
+					<div class="position-absolute name-wrapper">
+						<span class="text-white service-username">{{ service.user.first_name }} {{ service.user.last_name }}</span>
+					</div>	
+					<img class="service-img" src="https://media.istockphoto.com/id/1443628665/photo/adult-writing-in-the-classroom.jpg?s=2048x2048&w=is&k=20&c=xc-XV2kx54YKVTjFTnxEl5vhMPnhc5CPKM5f1Tabjg8="/>
+					<div class="px-2 d-flex justify-content-between price-label">
+						<span>{{ service.description }}</span>
+					</div>
+					<div class="px-2 location-label">
+						{{ service.address }}
+					</div>
+					<div class="px-2 text-end price-label">$3600</div>
+				</div>
+
     </div>
 </template>
 
 <style>
+		.service-container{
+			border: 1px solid black;
+			border-radius: 10px;
+			overflow: hidden;
+		}
+
+		.service-img{
+			width: 100%;
+			height: 14.5rem;
+			object-fit: cover;
+			object-position: 50% 10%;
+		}
+
+		.name-wrapper{
+			background-color: rgba(0, 0, 0, 0.5);
+			left: 0;
+			right: 0;
+		}
+
+		.service-username{
+			display: inline-block;
+			padding: 0.4rem 0.5rem;
+		}
+
+		.price-label{
+			font-weight: 650;
+		}
+
+		.location-label{
+			opacity: 0.6;
+			font-size: 0.98rem;
+		}
+
     .user-list-img{
         /* width: 50px;
         height: 50px; */
@@ -276,6 +335,9 @@
 								}
 							}
 						}
-        }
+        },
+				created(){
+					console.log(this.service);
+				}
     })
 </script>

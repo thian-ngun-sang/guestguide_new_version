@@ -11,7 +11,6 @@
                         <div>{{ user.first_name }} {{ user.last_name }}</div>
                         <!-- <div class="cursor-pointer">5 Friends</div> -->
                     </div>
-                    <!-- <div class="account-banner-right-section gt-360:d-flex lt-360:d-none"> -->
                     <div class="account-banner-right-section">
 											 <div>
                             <span class="button-shadow border-radius-3 cursor-pointer">
@@ -78,25 +77,6 @@
                     </button>
                 </div>
 						</div>
-            <!-- <div class="mt-4 ms-2">
-                <div class="my-2">
-                    Works at <b>Student</b>
-                </div>
-                <div class="my-2">
-                    Went to <b>KalayMyo, No. 2 Hight School</b>
-                </div>
-                <div class="my-2">
-                    Studies at <b>Kalay Technological University</b>
-                </div>
-                <div class="my-2">
-                    Lives in <b>Kalaymyo, Sagaing, Burma</b>
-                </div>
-            </div>
-            <div class="ms-2 mt-3">
-                <button class="b-btn c-w-90">
-                    Edit details
-                </button>
-            </div> -->
         </div>
 
         <!-- popup -->
@@ -291,10 +271,6 @@
 				.profile-image{
 						width: 6.3rem;
 						height: 6.3rem;
-				}
-
-				.account-banner{
-					display: initial;
 				}
 			
 				.account-banner-right-section{

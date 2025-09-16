@@ -51,7 +51,7 @@
     .popup-md-cover{
         width: 100%;
         /* height: 200px; */
-        height: 30vh;
+        height: 40vh;
     }
 
     .popup-md-profile{
@@ -65,7 +65,7 @@
     .md-popup-center{
         position: fixed;
         padding: 10px 20px;
-        top: 6.5rem;
+        top: 10.5rem;
         left: 28%;
         right: 28%;
         background-color: rgb(78, 141, 73);
@@ -105,19 +105,23 @@
 
 		@media(max-width: 460px) and (max-height: 660px){
 			.md-popup-center{
-				top: 10rem;
+				top: 12rem;
+			}
+
+			.popup-md-cover{
+					height: 30vh;
 			}
 		}
 
 		@media(max-width: 460px) and (max-height: 460px){
 			.md-popup-center{
-				top: 7rem;
+				top: 6rem;
 			}
 		}
 
 		@media(max-width: 360px){
 			.md-popup-center{
-					top: 6.5rem;
+					top: 12.5rem;
 					left: 8%;
 					right: 8%;
 					padding: 5px 10px;
@@ -126,17 +130,13 @@
 
 		@media(max-width: 280px){
 			.md-popup-center{
-					top: 6.5rem;
+					top: 13.5rem;
 					left: 7%;
 					right: 7%;
 			}
-		}
-	
-		@media(max-width: 260px){
-			.md-popup-center{
-					top: 6.5rem;
-					left: 6%;
-					right: 6%;
+
+			.popup-md-cover{
+					height: 25vh;
 			}
 		}
 

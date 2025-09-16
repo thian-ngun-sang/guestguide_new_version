@@ -7,16 +7,13 @@
                 </router-link>
             </div>
             <nav>
-                <router-link class="ms-2 lt-460:d-none" :to="{ name: 'account' }">
-									<font-awesome-icon class="user-nav-icon text-dark" :icon="['fas', 'user']" />
-								</router-link>
-                <router-link class="gt-460:d-none" :to="{ name: 'account' }">
-									<font-awesome-icon class="cnav-icon" :icon="['fas', 'user']" />
-								</router-link>
+							<router-link :to="{ name: 'account' }">
+								<font-awesome-icon class="user-nav-icon text-dark" :icon="['fas', 'user']" />
+							</router-link>
             </nav>
         </div>
 				<div class="d-flex justify-content-center align-items-center gap-2">
-					<div class="d-flex align-items-center position-relative">
+					<div class="d-flex align-items-center position-relative search-ctn">
 						<label for="search-input" class="search-input-label cursor-pointer">
 							<font-awesome-icon class="search-icon" :icon="['fas', 'magnifying-glass']" />
 						</label>
@@ -72,9 +69,13 @@
 			border-radius: 50%;
 		}
 
+		.search-ctn {
+			width: 100%;
+		}
+
 		.search-input-label{
 			position: absolute;
-			left: 2.3rem;
+			left: 2.8rem;
 		}
 
 		.filter-icon{
@@ -87,7 +88,7 @@
 		.search-input{
 			border: 1px solid black;
 			border-radius: 1rem;
-			width: 30rem;
+			width: 100%;
 			padding-left: 2.3rem;
 			padding-block: 0.3rem;
 		}
@@ -98,16 +99,11 @@
 
 		.cnav-icon{
 			/* font-size: 22px; */
-			font-size: 1.3rem;
+			font-size: 1.2rem;
 		}
 
     .cnav-item-mobile{
         display: none;
-    }
-
-    .nav-search-input{
-        width: 250px;
-        border-radius: 5px;
     }
 
     .searchbar-ctn{
@@ -119,53 +115,24 @@
     margin-left: -25px;
   }
 
-  @media(max-width: 960px){
-    .cnav-item{
-        font-size: 18px;
-    }
 
-    .nav-search-input{
-        width: 230px !important;
-    }
+  @media(min-width: 460px){
+		.search-ctn {
+			width: 18rem;
+		}
   }
 
-  @media(max-width: 860px){
-    .cnav-item{
-        font-size: 16px;
-    }
-
-    .nav-search-input{
-        width: 210px !important;
-    }
+  @media(min-width: 768px){
+		.search-ctn {
+			width: 25rem;
+		}
   }
 
-  @media(max-width: 660px){
-    .nav-search-input{
-        width: 200px !important;
-    }
-  }
-
-  @media(max-width: 560px){
-    .nav-search-input{
-        width: 160px !important;
-        color: green;
-    }
-  }
-
-  @media(max-width: 460px){
-    .nav-search-input{
-        display: none;
-    }
-
-    .search-icon{
-        margin-left: 0px;
-    }
-  }
-
-  @media(max-width: 360px){
-    .cnav-item{
-        font-size: 13px;
-    }
+  @media(min-width: 640px){
+		.search-input-label{
+			position: absolute;
+			left: 2.5rem;
+		}
   }
 </style>
 

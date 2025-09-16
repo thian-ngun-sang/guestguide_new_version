@@ -23,8 +23,6 @@ const index = async (req, res) => {
 }
 
 const store = async (req, res) => {
-	// console.log(req.body);
-
 	const { _id: userId } = req.user;
 	const { serviceId } = req.body;
 

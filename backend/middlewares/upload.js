@@ -4,7 +4,6 @@ const crypto = require("crypto");
 const storage = multer.diskStorage({
     destination: function(req, file, cb){
       if(req.originalUrl === "/api/v1/user/update-profile-image"){
-        console.log("Profile image changed");
         cb(null, 'uploads/profileImages/');
       }else if(req.originalUrl === "/api/v1/user/update-cover-image"){
         cb(null, 'uploads/coverImages/');

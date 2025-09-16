@@ -77,7 +77,6 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     let {email, password} = req.body;
-		console.log(email);
 
     if(!email){
         return res.status(400).json({msg: "Email cannot be null"});
@@ -139,7 +138,6 @@ const changePassword = async (req, res) => {
 	try{
 		passwordState = await comparePasswords(oldPassword, dbPassword);
 	}catch(error){
-		console.log(error);
 		return res.status(400).json({msg: "Incorrect password"});
 	}
 

@@ -28,9 +28,6 @@ const createService = async (req, res) => {
     }
     
     const service = await Service.create(queryData);
-    console.log(service);
-    console.log("Service created");
-
     return res.status(200).json({"msg": "Success"});
 }
 
@@ -154,10 +151,7 @@ const deleteService = async (req, res) => {
 	let service;
 	try{
 		service = await Service.deleteOne({ _id: id.toString() });
-		console.log(service);
 	}catch(err){
-		console.log(err);
-
 		return res.status(400).json({ msg: "Bad Request" });
 	}
 
