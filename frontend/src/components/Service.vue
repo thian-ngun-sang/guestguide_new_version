@@ -76,6 +76,7 @@
 						<span>$600/mo</span>
 					</div>
 					<div class="px-2 location-label">
+						{{ service.phone }}
 						{{ service.address }}
 					</div>
 				</div>
@@ -85,13 +86,12 @@
 						<span class="text-white service-username">{{ service.user.first_name }} {{ service.user.last_name }}</span>
 					</div>	
 					<img class="service-img" src="https://media.istockphoto.com/id/1443628665/photo/adult-writing-in-the-classroom.jpg?s=2048x2048&w=is&k=20&c=xc-XV2kx54YKVTjFTnxEl5vhMPnhc5CPKM5f1Tabjg8="/>
-					<div class="px-2 d-flex justify-content-between price-label">
-						<span>{{ service.description }}</span>
-					</div>
+					<div class="px-2 text-end price-label">$3600</div>
+					<div class="px-2">{{ service.description }}</div>
 					<div class="px-2 location-label">
+						{{ service.phone }}
 						{{ service.address }}
 					</div>
-					<div class="px-2 text-end price-label">$3600</div>
 				</div>
 
     </div>
@@ -102,6 +102,7 @@
 			border: 1px solid black;
 			border-radius: 10px;
 			overflow: hidden;
+			padding-bottom: 0.5rem;
 		}
 
 		.service-img{

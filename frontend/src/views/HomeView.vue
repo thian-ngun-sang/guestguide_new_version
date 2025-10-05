@@ -27,7 +27,7 @@
 	.service-list{
 		display: grid;
 		gap: 1.3rem;
-		grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
 	}
 </style>
 
