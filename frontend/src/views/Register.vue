@@ -104,6 +104,11 @@
                         this.$router.push('/account');
                     })
                     .catch(error => {
+											if(error.message){
+													this.httpErrorMessage = error.message;
+													return;
+											}
+
 											const { msg } = error.response.data;
 											if(msg !== undefined && msg !== null){
 												this.httpErrorMessage = msg;
