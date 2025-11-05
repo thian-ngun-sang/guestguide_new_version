@@ -18,7 +18,6 @@
             this.index();
 
             this.$watch(() => this.$store.state.token, () => {
-								console.log("Authenticate.vue rerun");
                 this.index();
             })
         },
@@ -60,7 +59,7 @@
                     .catch(err => {
                         this.isLoading = false;
                         this.$router.push("/login");
-                        console.log(err.response);
+                        console.error(err.response);
                     });
             }
         }

@@ -65,16 +65,16 @@
                         // this.$store.commit('setAuthentication', true);
                     })
                     .catch(error => {
-											if(error.message){
-													this.httpErrorMessage = error.message;
-													return;
-											}
 
-											if(error.response?.data){
+											if(error?.response?.data){
 												const { msg } = error.response.data;
 												if(msg !== undefined && msg !== null){
 													this.httpErrorMessage = msg;
 												}
+											}
+
+											if(error?.message){
+													this.httpErrorMessage = error.message;
 											}
 										})
             }
