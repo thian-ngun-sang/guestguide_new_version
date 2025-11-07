@@ -70,10 +70,12 @@
 					<div class="position-absolute name-wrapper">
 						<span class="text-white service-username">{{ service.user.first_name }} {{ service.user.last_name }}</span>
 					</div>	
-					<img class="service-img" src="https://media.istockphoto.com/id/1443628665/photo/adult-writing-in-the-classroom.jpg?s=2048x2048&w=is&k=20&c=xc-XV2kx54YKVTjFTnxEl5vhMPnhc5CPKM5f1Tabjg8="/>
+
+					<img v-if="service.file" class="service-img mb-1" :src="`${this.$store.state.baseUrl}/posts/${service.file}`"/>
+					<img v-else class="service-img mb-1" src="/svgs/image_placeholder.svg"/>
+
 					<div class="px-2 d-flex justify-content-between price-label">
-						<span>{{ service.category }}</span>
-						<span>$600/mo</span>
+						<span class="text-capitalize">{{ service.category }}</span>
 					</div>
 					<div class="px-2 location-label">
 						{{ service.phone }}
@@ -85,12 +87,36 @@
 					<div class="position-absolute name-wrapper">
 						<span class="text-white service-username">{{ service.user.first_name }} {{ service.user.last_name }}</span>
 					</div>	
-					<img class="service-img" src="https://media.istockphoto.com/id/1443628665/photo/adult-writing-in-the-classroom.jpg?s=2048x2048&w=is&k=20&c=xc-XV2kx54YKVTjFTnxEl5vhMPnhc5CPKM5f1Tabjg8="/>
-					<div class="px-2 text-end price-label">$3600</div>
+
+					<img v-if="service.file" class="service-img mb-1" :src="`${this.$store.state.baseUrl}/posts/${service.file}`">
+					<img v-else class="service-img mb-1" src="/svgs/image_placeholder.svg"/>
+
+					<div class="px-2 d-flex justify-content-between price-label">
+						<span class="text-capitalize">{{ service.category }} course</span>
+						<span class="px-2 text-end price-label">$3600</span>
+					</div>
 					<div class="px-2">{{ service.description }}</div>
 					<div class="px-2 location-label">
 						{{ service.phone }}
-						{{ service.address }}
+					</div>
+				</div>
+
+				<div v-if="service.type === 'housing'" class="service-container position-relative">
+					<div class="position-absolute name-wrapper">
+						<span class="text-white service-username">{{ service.user.first_name }} {{ service.user.last_name }}</span>
+					</div>	
+
+					<img v-if="service.file" class="service-img mb-1" :src="`${this.$store.state.baseUrl}/posts/${service.file}`"/>
+					<img v-else class="service-img mb-1" src="/svgs/image_placeholder.svg"/>
+
+					<div class="d-flex justify-content-between">
+						<div class="px-2 text-end price-label text-capitalize">{{ service.category }}</div>
+						<div class="px-2 text-end price-label">$3600</div>
+					</div>
+
+					<div class="px-2">{{ service.address }}</div>
+					<div class="px-2">
+						{{ service.phone }}
 					</div>
 				</div>
 

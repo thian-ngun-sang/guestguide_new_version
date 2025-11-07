@@ -18,7 +18,7 @@
                     </div>
                     <div class="my-3">
                         <label>Please select service category</label><br/>
-                        <select class="w-100" v-model="form.subCategory">
+                        <select class="w-100 c-select-box" v-model="form.subCategory">
                             <option :value="subcategory" v-for="(subcategory, index) in subCategory" :key="index">{{ subcategory }}</option>
                         </select>
                     </div>
