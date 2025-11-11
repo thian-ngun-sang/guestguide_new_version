@@ -4,7 +4,7 @@
       <Navbar class="app-nav"/>
       <!-- Value from Views and Components go here -->
       <div class="app-view">
-        <router-view/>
+				<slot/>
       </div>
     </div>
   </div>

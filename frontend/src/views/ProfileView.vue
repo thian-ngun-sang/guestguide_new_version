@@ -1,100 +1,102 @@
 <template>
-    <div v-if="this.$store.state.isLoading == false">
-        <div class="cover-image-parent">
-            <img class="cover-image cursor-pointer" :src="this.$store.state.baseUrl +'/coverImages/' + user.cover_image" v-on:click="openCoverDialogPopup"/>
-        </div>
-        <div class="profile-image-parent">
-            <img class="profile-image cursor-pointer" :src="this.$store.state.baseUrl +'/profileImages/' + user.profile_image" v-on:click="openProfileDialogPopup"/>
-            <div class="account-banner-wrapper">
-                <div class="account-banner">
-                    <div>
-                        <div>{{ user.first_name }} {{ user.last_name }}</div>
-                        <!-- <div class="cursor-pointer">5 Friends</div> -->
-                    </div>
-                    <div class="account-banner-right-section">
-											 <div>
-                            <span class="button-shadow border-radius-3 cursor-pointer">
-                                <router-link class="text-decoration-none text-dark" to="/edit-profile">Edit Profile</router-link>
-                            </span>
-                        </div>
-                        <div class="position-relative">
-                            <div class="horizontal-dots d-flex justify-content-center cursor-pointer" ref="account-ellipsis" v-on:click="toggleAccountEllipsis">
-                                <font-awesome-icon icon="ellipsis" class="align-self-center" />
-                            </div>
-                            <div :class="accountEllipsisState ? 'position-absolute account-menu' : 'd-none'" ref="account-menu">
-																<ul class="list-style-type-none user-select-none m-0 p-0">
-																	<li>
-																		<div class="cursor-pointer" v-on:click="handleLogoutRequest">Logout</div>
-																	</li>
-																	<li>
-																		<router-link to="/saved-services" class="text-decoration-none text-dark">Saved Services</router-link>
-																	</li>
-																	<li>
-																		<router-link to="/change-password" class="text-decoration-none text-dark">Change Password</router-link>
-																	</li>
+	<AppLayout>
+			<div v-if="this.$store.state.isLoading == false">
+					<div class="cover-image-parent">
+							<img class="cover-image cursor-pointer" :src="this.$store.state.baseUrl +'/coverImages/' + user.cover_image" v-on:click="openCoverDialogPopup"/>
+					</div>
+					<div class="profile-image-parent">
+							<img class="profile-image cursor-pointer" :src="this.$store.state.baseUrl +'/profileImages/' + user.profile_image" v-on:click="openProfileDialogPopup"/>
+							<div class="account-banner-wrapper">
+									<div class="account-banner">
+											<div>
+													<div>{{ user.first_name }} {{ user.last_name }}</div>
+													<!-- <div class="cursor-pointer">5 Friends</div> -->
+											</div>
+											<div class="account-banner-right-section">
+												 <div>
+															<span class="button-shadow border-radius-3 cursor-pointer">
+																	<router-link class="text-decoration-none text-dark" to="/edit-profile">Edit Profile</router-link>
+															</span>
+													</div>
+													<div class="position-relative">
+															<div class="horizontal-dots d-flex justify-content-center cursor-pointer" ref="account-ellipsis" v-on:click="toggleAccountEllipsis">
+																	<font-awesome-icon icon="ellipsis" class="align-self-center" />
+															</div>
+															<div :class="accountEllipsisState ? 'position-absolute account-menu' : 'd-none'" ref="account-menu">
+																	<ul class="list-style-type-none user-select-none m-0 p-0">
+																		<li>
+																			<div class="cursor-pointer" v-on:click="handleLogoutRequest">Logout</div>
+																		</li>
+																		<li>
+																			<router-link to="/saved-services" class="text-decoration-none text-dark">Saved Services</router-link>
+																		</li>
+																		<li>
+																			<router-link to="/change-password" class="text-decoration-none text-dark">Change Password</router-link>
+																		</li>
 
-																</ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="mb-5">
-            <div :class="bioEditState ? 'd-none' : ''">
-								<div v-if="user.bio !== '' && user.bio !== undefined">
-										<div class="w-100 text-center account-bio-text">
-											<p>
-												{{ user.bio }} 	
-											</p>
-										</div>
-										<div class="text-center">
-												<button class="b-btn c-w-90" v-on:click="editBio">
-														Edit Bio
-												</button>
-										</div>
-								</div>
-								<div v-else>
-										<div class="text-center">
-												<button class="b-btn c-w-90" v-on:click="editBio">
-														Add Bio
-												</button>
-										</div>
-								</div>
-                
-            </div>
-						<div :class="bioEditState ? '' : 'd-none'">
-								<div class="text-center">
-										<!-- <input type="text" class="w-100" v-model="form.bio" ref="bio-input"/> -->
-										<textarea class="w-75 account-bio-text-input" v-model="form.bio" ref="bio-input"></textarea>
-								</div>
-                <div class="text-center">
-										 <button class="b-btn c-w-45" v-on:click="cancelSaveBio">
-												Cancel
-										</button>
-										<button class="ms-1 b-btn c-w-45" v-on:click="updateBio"> 
-                       Save Bio 
-                    </button>
-                </div>
-						</div>
-        </div>
+																	</ul>
+															</div>
+													</div>
+											</div>
+									</div>
+							</div>
+					</div>
+					<div class="mb-5">
+							<div :class="bioEditState ? 'd-none' : ''">
+									<div v-if="user.bio !== '' && user.bio !== undefined">
+											<div class="w-100 text-center account-bio-text">
+												<p>
+													{{ user.bio }} 	
+												</p>
+											</div>
+											<div class="text-center">
+													<button class="b-btn c-w-90" v-on:click="editBio">
+															Edit Bio
+													</button>
+											</div>
+									</div>
+									<div v-else>
+											<div class="text-center">
+													<button class="b-btn c-w-90" v-on:click="editBio">
+															Add Bio
+													</button>
+											</div>
+									</div>
+									
+							</div>
+							<div :class="bioEditState ? '' : 'd-none'">
+									<div class="text-center">
+											<!-- <input type="text" class="w-100" v-model="form.bio" ref="bio-input"/> -->
+											<textarea class="w-75 account-bio-text-input" v-model="form.bio" ref="bio-input"></textarea>
+									</div>
+									<div class="text-center">
+											 <button class="b-btn c-w-45" v-on:click="cancelSaveBio">
+													Cancel
+											</button>
+											<button class="ms-1 b-btn c-w-45" v-on:click="updateBio"> 
+												 Save Bio 
+											</button>
+									</div>
+							</div>
+					</div>
 
-        <!-- popup -->
-        <div v-if="logoutRequest" class="normal-popup logout-popup">
-            <div class="text-white">
-                Are you sure you want to logout?
-            </div>
-            <div class="text-end">
-                <button class="btn btn-sm btn-dark" v-on:click="cancelLogoutRequest">No</button>
-                <button class="btn btn-sm btn-dark ms-2" v-on:click="logout">Yes</button>
-            </div>
-        </div>
+					<!-- popup -->
+					<div v-if="logoutRequest" class="normal-popup logout-popup">
+							<div class="text-white">
+									Are you sure you want to logout?
+							</div>
+							<div class="text-end">
+									<button class="btn btn-sm btn-dark" v-on:click="cancelLogoutRequest">No</button>
+									<button class="btn btn-sm btn-dark ms-2" v-on:click="logout">Yes</button>
+							</div>
+					</div>
 
-        <!-- popup -->
-        <div>
-            <UserImageDialog v-if="userImageDialog.changeState" :meta="userImageDialog" :actions="{ closeUserImageDialogPopup, changeUserDialogImageUrl, changeUserDialogModified, changeUserProfileImage, changeUserCoverImage }"/>
-        </div>
-    </div>
+					<!-- popup -->
+					<div>
+							<UserImageDialog v-if="userImageDialog.changeState" :meta="userImageDialog" :actions="{ closeUserImageDialogPopup, changeUserDialogImageUrl, changeUserDialogModified, changeUserProfileImage, changeUserCoverImage }"/>
+					</div>
+			</div>
+		</AppLayout>
 </template>
 
 <style>
@@ -284,6 +286,7 @@
     import { defineComponent } from 'vue';
 		import axios from 'axios';
 		import { mapGetters } from 'vuex';
+		import AppLayout from "../components/AppLayout.vue";
 
     import UserImageDialog from "../components/UserImageDialog.vue";
 
@@ -317,7 +320,8 @@
             };
         },
         components: {
-            UserImageDialog
+            UserImageDialog,
+						AppLayout
         },
 				computed: {
 					...mapGetters(["getUser"]),

@@ -1,75 +1,88 @@
 <template>
-    <div class="create-service-form-wrapper app-content">
-        <div class="text-center mb-3">
-            <h5>Make a better world with your very service</h5>
-        </div>
-        <div class="create-service-form">
-            <form v-on:submit.prevent="submitForm">
-                <div v-if="formStep === 1">
-                    <div class="my-3">
-                        <label>Description</label>
-                        <textarea class="w-100" placeholder="Describe your service" v-model="form.description"></textarea>
-                    </div>
-                    <div class="my-3">
-                        <label>What kind of service</label><br/>
-                        <select class="w-100 c-select-box" v-on:change="handleServiceType($event)" v-model="form.serviceType">
-                            <option :value="serviceType" v-for="(serviceType, index) in serviceTypes" :key="index">{{ serviceType }}</option>
-                        </select>
-                    </div>
-                    <div class="my-3">
-                        <label>Please select service category</label><br/>
-                        <select class="w-100 c-select-box" v-model="form.subCategory">
-                            <option :value="subcategory" v-for="(subcategory, index) in subCategory" :key="index">{{ subcategory }}</option>
-                        </select>
-                    </div>
-                    <div class="text-end">
-                        <button type="button" class="btn btn-sm btn-success" v-on:click="handleNextStep">Next Step</button>
-                    </div>
-                </div>
-                <div v-else-if="formStep === 2">
-                    <div>
-                        <button class="btn btn-sm btn-secondary" v-on:click="handlePrevStep">Back</button>
-                    </div>
-                    <div class="my-3">
-                        <label>Address</label>
-                        <input type="text" class="w-100" placeholder="Country, Town, ward" v-model="form.address"/>
-                    </div>
-                    <div class="my-3">
-                        <label>Phone</label>
-                        <input type="tel" class="w-100" placeholder="09xxxxxxxxx" v-model="form.phone"/>
-                    </div>
-                    <div v-if="form.file.file !== ''">
-                        <img v-if="form.file.type === 'image'" class="make-service-file" :src="form.file.file"/>
-                    </div>
-                    <!-- <div class="text-align-center file-box"> -->
-                    <div class="">
-                        <input type="file" id="upload-file" class="d-none" placeholder="Image or video" v-on:change="handleFileUpload($event)"/>
-                        <label v-if="form.file.file === ''" for="upload-file" class="btn btn-sm btn-secondary">
-													Add image
-												</label>
-												<div v-else class="text-end mt-1">
-													<button v-on:click="cancelFileUpload" type="button" class="c-btn btn btn-sm btn-secondary w-45">
-														Delete Image
-													</button>
-													<label for="upload-file" class="c-btn btn btn-sm btn-secondary w-45 ms-1">
-														Change Image
+		<div class="create-service">
+			<div class="create-service-form">
+				<span v-on:click="$router.back()" class="cursor-pointer">
+						<font-awesome-icon  class="cicon" :icon="['fas', 'arrow-left']" />
+				</span>
+
+					<div class="text-center">
+							<h5>Make a better world with your very service</h5>
+					</div>
+					<div>
+							<form v-on:submit.prevent="submitForm">
+									<div v-if="formStep === 1">
+											<div class="mb-3">
+													<label>Description</label>
+													<textarea class="w-100" placeholder="Describe your service" v-model="form.description"></textarea>
+											</div>
+											<div class="my-3">
+													<label>What kind of service</label><br/>
+													<select class="w-100 c-select-box" v-on:change="handleServiceType($event)" v-model="form.serviceType">
+															<option :value="serviceType" v-for="(serviceType, index) in serviceTypes" :key="index">{{ serviceType }}</option>
+													</select>
+											</div>
+											<div class="my-3">
+													<label>Please select service category</label><br/>
+													<select class="w-100 c-select-box" v-model="form.subCategory">
+															<option :value="subcategory" v-for="(subcategory, index) in subCategory" :key="index">{{ subcategory }}</option>
+													</select>
+											</div>
+											<div class="text-end">
+													<button type="button" class="btn btn-sm btn-success" v-on:click="handleNextStep">Next Step</button>
+											</div>
+									</div>
+									<div v-else-if="formStep === 2">
+											<div>
+													<button class="btn btn-sm btn-secondary" v-on:click="handlePrevStep">Back</button>
+											</div>
+											<div class="my-3">
+													<label>Address</label>
+													<input type="text" class="w-100" placeholder="Country, Town, ward" v-model="form.address"/>
+											</div>
+											<div class="my-3">
+													<label>Phone</label>
+													<input type="tel" class="w-100" placeholder="09xxxxxxxxx" v-model="form.phone"/>
+											</div>
+											<div v-if="form.file.file !== ''">
+													<img v-if="form.file.type === 'image'" class="make-service-file" :src="form.file.file"/>
+											</div>
+											<!-- <div class="text-align-center file-box"> -->
+											<div class="">
+													<input type="file" id="upload-file" class="d-none" placeholder="Image or video" v-on:change="handleFileUpload($event)"/>
+													<label v-if="form.file.file === ''" for="upload-file" class="btn btn-sm btn-secondary">
+														Add image
 													</label>
-												</div>
-                    </div>
-                    <div class="text-end mt-3">
-                        <button type="submit" class="btn btn-sm btn-primary">Submit</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="text-center">
-            <div class="text-danger" v-for="err in error.messages">{{ err }}</div>
-        </div>
-    </div>
+													<div v-else class="text-end mt-1">
+														<button v-on:click="cancelFileUpload" type="button" class="c-btn btn btn-sm btn-secondary w-45">
+															Delete Image
+														</button>
+														<label for="upload-file" class="c-btn btn btn-sm btn-secondary w-45 ms-1">
+															Change Image
+														</label>
+													</div>
+											</div>
+											<div class="text-end mt-3">
+													<button type="submit" class="btn btn-sm btn-primary">Submit</button>
+											</div>
+									</div>
+							</form>
+					</div>
+					<div class="text-center">
+							<div class="text-danger" v-for="err in error.messages">{{ err }}</div>
+					</div>
+			</div>
+		</div>
     
 </template>
   
 <style>
+
+.create-service{
+	height: 100vh;	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 
 .create-service-form{
     box-shadow: 0.05px 0.05px 0.9px black;

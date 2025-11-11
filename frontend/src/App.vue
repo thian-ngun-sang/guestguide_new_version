@@ -3,7 +3,7 @@
     <Authenticate>
       <AuthLayout v-if="auth_layout"/>
       <Authorize v-else>
-        <AppLayout/>
+        <router-view/>
       </Authorize>
     </Authenticate>
   </div>

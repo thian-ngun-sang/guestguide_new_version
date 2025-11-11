@@ -1,22 +1,25 @@
 <template>
     <!-- <ServiceFilter/> -->
-    <div v-if="services.length !== 0" class="app-content">
-			<div class="service-list">
-				<Service v-for="service in services"
-					:service="service"
-					:removeService="removeService"
-					:setInfoPopup="setInfoPopup"/>
 
-				<div v-if="services.length <= 2"></div>
-				<div v-if="services.length <= 1"></div>
+		<AppLayout>
+			<div v-if="services.length !== 0" class="app-content">
+				<div class="service-list">
+					<Service v-for="service in services"
+						:service="service"
+						:removeService="removeService"
+						:setInfoPopup="setInfoPopup"/>
+
+					<div v-if="services.length <= 2"></div>
+					<div v-if="services.length <= 1"></div>
+				</div>
+
+				<InfoPopup v-if="infoPopup.state"
+					:classProp="infoPopup.className"
+					:text="infoPopup.text"
+					:close="removeInfoPopup"
+					duration="4000"/>
 			</div>
-
-			<InfoPopup v-if="infoPopup.state"
-				:classProp="infoPopup.className"
-				:text="infoPopup.text"
-				:close="removeInfoPopup"
-				duration="4000"/>
-    </div>
+		</AppLayout>
 </template>
 
 <style>
@@ -36,6 +39,7 @@ import { defineComponent } from 'vue';
 import axios from "axios";
 
 import Service from "../components/Service.vue";
+import AppLayout from "../components/AppLayout.vue";
 // import ServiceFilter from '@/components/ServiceFilter.vue';
 import InfoPopup from '@/components/InfoPopup.vue';
 
@@ -150,7 +154,8 @@ export default defineComponent({
   components: {
     Service,
     // ServiceFilter,
-		InfoPopup
+		InfoPopup,
+		AppLayout
   },
 });
 
