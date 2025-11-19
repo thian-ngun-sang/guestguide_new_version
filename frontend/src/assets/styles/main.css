@@ -1,6 +1,8 @@
-::root{
+:root{
 	--app-background-color: white;
 	--app-nav-item-color: black;
+	--app-padding-inline: 11rem;
+	--popup-padding-inline: 20rem;
 }
 
 body{
@@ -111,22 +113,6 @@ body{
     user-select: none;
 }
 
-.c-mt-3{
-	margin-top: 0.6rem;
-}
-
-.c-me-2{
-	margin-right: 0.4rem;
-}
-
-.m-0{
-	margin: 0px;
-}
-
-.p-0{
-	padding: 0px;
-}
-
 .btn-green{
     color: #198d26;
 }
@@ -192,6 +178,11 @@ body{
     border-radius: 1.5px;
     /* box-shadow: 0.5px 0.5px 2px black; */
 		color: red;
+}
+
+.divider{
+	height: 0.8px;
+	background: black;
 }
 
 @media(max-width: 560px){

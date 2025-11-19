@@ -1,16 +1,26 @@
 <template>
   <div class="app-layout">
     <div class="main-content">
-      <Navbar class="app-nav"/>
+
+      <Navbar class="app-nav" :openCreateTransportationPopup="openCreateTransportationPopup"
+				:openCreateAccomodationPopup="openCreateAccomodationPopup"
+				:openCreateEducationPopup="openCreateEducationPopup"/>
+
       <!-- Value from Views and Components go here -->
       <div class="app-view">
 				<slot/>
       </div>
     </div>
+
+				<CreateTransportationPopup v-if="createTransportationPopup" :closeCreateTransportationPopup="closeCreateTransportationPopup"/>
+				<CreateAccomodationPopup v-if="createAccomodationPopup" :closeCreateAccomodationPopup="closeCreateAccomodationPopup"/>
+				<CreateEducationPopup v-if="createEducationPopup" :closeCreateEducationPopup="closeCreateEducationPopup"/>
+
+
   </div>
 </template>
   
-  <style lang="scss">
+<style lang="scss" scope>
   .app-nav{
     position: fixed;
     top: 0px;
@@ -54,6 +64,42 @@
     width: 300px;
   }
 
+	.create-service-popup{
+		z-index: 2;
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background: #000000AA;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding-inline: var(--popup-padding-inline);
+	}
+
+	.create-service-popup-body{
+		width: 100%;
+		border-radius: 0.2rem;
+		padding-block: 0.5rem;
+	}
+
+	.create-service-field-ctn{
+		max-height: 20rem;
+		overflow-y: scroll;
+	}
+
+	.service-type-chip{
+		border: 1px solid black;
+		padding: 0.125rem 0.5rem;
+		cursor: pointer;
+		user-select: none;
+	}
+
+	.service-type-chip-selected{
+		background-color: #00000066;
+	}
+
   @media(max-width: 1100px){
     .app-nav{
       left: 17%;
@@ -94,17 +140,55 @@
       right: 1%;
     }
   }
-  </style>
+</style>
   
-  <script>
-    import { defineComponent } from 'vue';
-    import Navbar from './Navbar.vue';
-  
-    export default defineComponent({
-      name: 'AppLayout',
-      components: {
-        Navbar,
-      }
-    });
-  </script>
+<script>
+  import { defineComponent } from 'vue';
+  import Navbar from './Navbar.vue';
+	import CreateTransportationPopup from './CreateTransportationPopup';
+	import CreateAccomodationPopup from './CreateAccomodationPopup';
+	import CreateEducationPopup from './CreateEducationPopup';
 
+  export default defineComponent({
+    name: 'AppLayout',
+		data(){
+			return {
+				createTransportationPopup: false,
+				createAccomodationPopup: false,
+				createEducationPopup: false
+			}
+		},
+    components: {
+      Navbar,
+			CreateTransportationPopup,
+			CreateAccomodationPopup,
+			CreateEducationPopup
+    },
+		methods: {
+			openCreateTransportationPopup(){
+				this.createTransportationPopup = true;	
+				document.body.style.overflow = 'hidden';
+			},
+			closeCreateTransportationPopup(){
+				this.createTransportationPopup = false;	
+				document.body.style.overflow = '';
+			},
+			openCreateAccomodationPopup(){
+				this.createAccomodationPopup = true;	
+				document.body.style.overflow = 'hidden';
+			},
+			closeCreateAccomodationPopup(){
+				this.createAccomodationPopup = false;	
+				document.body.style.overflow = '';
+			},
+			openCreateEducationPopup(){
+				this.createEducationPopup = true;	
+				document.body.style.overflow = 'hidden';
+			},
+			closeCreateEducationPopup(){
+				this.createEducationPopup = false;	
+				document.body.style.overflow = '';
+			}
+		}
+  });
+</script>

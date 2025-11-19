@@ -42,15 +42,26 @@
 								<span>Hotel &amp; houses</span>
 							</router-link>
             </div>
-            <div>
-							<router-link class="d-flex flex-column justify-content-center align-items-center text-decoration-none" to="/create-service">
+
+            <div class="position-relative">
+							<a href="#" class="d-flex flex-column justify-content-center align-items-center text-decoration-none c-btn"
+								@click="toggleCreateDropdown" ref="create-dropdown-btn">
 								<font-awesome-icon class="cnav-icon" :icon="['fas', 'square-plus']" />
 								<span>Create</span>
-							</router-link>
+							</a>
+
+
+							<div v-if="createDropdownIsOpen" class="create-dropdown d-flex flex-column" ref="dropdown-ref">
+								<span @click="openCreateTransportationPopup" class="cursor-pointer">Transportation</span>
+								<span @click="openCreateAccomodationPopup" class="cursor-pointer">Accomodation</span>
+								<span @click="openCreateEducationPopup" class="cursor-pointer">Education</span>
+							</div>
+
             </div>
         </nav>
 				
 				<ServiceFilter v-if="filterPopupIsOpen" :closeFilterPopup="closeFilterPopup"/>
+
     </div>
 </template>
 
@@ -115,6 +126,15 @@
     margin-left: -25px;
   }
 
+	.create-dropdown{
+		position: absolute;
+		background-color: white;
+		right: 0;
+		padding: 0.5rem;
+		box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+		border-radius: 0.125rem;
+		padding-right: 2rem;
+	}
 
   @media(min-width: 460px){
 		.search-ctn {
@@ -144,16 +164,41 @@
         name: "navbar",
 				data(){
 					return {
-						filterPopupIsOpen: false
+						filterPopupIsOpen: false,
+						createDropdownIsOpen: false
 					}
 				},
+				props:[
+					"openCreateTransportationPopup",
+					"openCreateAccomodationPopup",
+					"openCreateEducationPopup"
+				],
 				methods: {
+					clickOutsideCreateServiceDropdown(event){
+						const createDropdownRef = this.$refs["dropdown-ref"];
+						const createDropdownBtnRef = this.$refs["create-dropdown-btn"];
+
+						if(createDropdownBtnRef?.contains(event.target)){
+							return;
+						}
+
+						if(createDropdownRef && !createDropdownRef?.contains(event.target)){
+							this.toggleCreateDropdown();
+							document.removeEventListener("mousedown", this.clickOutsideCreateServiceDropdown);
+						}
+					},
 					toggleFilterPopup(){
 						this.filterPopupIsOpen = !this.filterPopupIsOpen;
 					},
 					closeFilterPopup(){
 						this.filterPopupIsOpen = false;
-					}
+					},
+					toggleCreateDropdown(){
+						this.createDropdownIsOpen = !this.createDropdownIsOpen;
+						if(this.createDropdownIsOpen){
+							document.addEventListener("mousedown", this.clickOutsideCreateServiceDropdown);
+						}
+					},
 				},
 				components: {
 					ServiceFilter
