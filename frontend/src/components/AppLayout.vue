@@ -165,25 +165,31 @@
 			CreateEducationPopup
     },
 		methods: {
-			openCreateTransportationPopup(){
+			openCreateTransportationPopup(closeCallerDropdown){
 				this.createTransportationPopup = true;	
 				document.body.style.overflow = 'hidden';
+
+				closeCallerDropdown();
 			},
 			closeCreateTransportationPopup(){
 				this.createTransportationPopup = false;	
 				document.body.style.overflow = '';
 			},
-			openCreateAccomodationPopup(){
+			openCreateAccomodationPopup(closeCallerDropdown){
 				this.createAccomodationPopup = true;	
 				document.body.style.overflow = 'hidden';
+
+				closeCallerDropdown();
 			},
 			closeCreateAccomodationPopup(){
 				this.createAccomodationPopup = false;	
 				document.body.style.overflow = '';
 			},
-			openCreateEducationPopup(){
+			openCreateEducationPopup(closeCallerDropdown){
 				this.createEducationPopup = true;	
 				document.body.style.overflow = 'hidden';
+
+				closeCallerDropdown();
 			},
 			closeCreateEducationPopup(){
 				this.createEducationPopup = false;	

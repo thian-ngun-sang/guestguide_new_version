@@ -52,9 +52,9 @@
 
 
 							<div v-if="createDropdownIsOpen" class="create-dropdown d-flex flex-column" ref="dropdown-ref">
-								<span @click="openCreateTransportationPopup" class="cursor-pointer">Transportation</span>
-								<span @click="openCreateAccomodationPopup" class="cursor-pointer">Accomodation</span>
-								<span @click="openCreateEducationPopup" class="cursor-pointer">Education</span>
+								<span @click="() => { openCreateTransportationPopup(toggleCreateDropdown) }" class="cursor-pointer">Transportation</span>
+								<span @click="() => { openCreateAccomodationPopup(toggleCreateDropdown) }" class="cursor-pointer">Accomodation</span>
+								<span @click="() => { openCreateEducationPopup(toggleCreateDropdown) }" class="cursor-pointer">Education</span>
 							</div>
 
             </div>
