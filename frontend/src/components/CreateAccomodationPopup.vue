@@ -9,10 +9,11 @@
 			<div class="px-2 pb-2 create-service-field-ctn">
 				<label class="pt-2 pb-1">Accomodation Type</label>
 				<div class="d-flex gap-1">
-					<span class="service-type-chip service-type-chip-selected rounded">Taxi</span>
-					<span class="service-type-chip rounded">Apartment</span>
-					<span class="service-type-chip rounded">Condo</span>
-					<span class="service-type-chip rounded">Dormitory</span>
+					<span v-for="serviceType in serviceTypes" class="service-type-chip rounded text-capitalize"
+						:class="{ 'service-type-chip-selected': serviceType === this.selectedServiceType }"
+						@click="() => { selectServiceType(serviceType) }">
+						{{ serviceType }}
+					</span>
 				</div>
 
 				<label class="pt-2 pb-1">Description</label>
@@ -29,9 +30,11 @@
 
 				<label class="pt-2 pb-1">Payment Type</label>
 				<div class="d-flex gap-1">
-					<span class="service-type-chip service-type-chip-selected rounded">Per Day</span>
-					<span class="service-type-chip rounded">Per Month</span>
-					<span class="service-type-chip rounded">Per Year</span>
+					<span v-for="paymentType in paymentTypes" class="service-type-chip rounded text-capitalize"
+						:class="{ 'service-type-chip-selected': paymentType === this.selectedPaymentType }"
+						@click="() => { selectPaymentType(paymentType) }">
+						{{ paymentType }}
+					</span>
 				</div>
 			</div>
 
@@ -49,6 +52,26 @@
 
   export default defineComponent({
 		name: "CreateAccomodationPopup",
-		props: ["closeCreateAccomodationPopup"]
+		props: ["closeCreateAccomodationPopup"],
+		data(){
+			return {
+				serviceTypes: ["condo", "apartment", "dormitory"],
+				selectedServiceType: "",
+				paymentTypes: ["per day", "per month", "per year"],
+				selectedPaymentType: ""
+			}
+		},
+		mounted(){
+			this.selectedServiceType = this.serviceTypes[0];
+			this.selectedPaymentType = this.paymentTypes[0];
+		},
+		methods:{
+			selectServiceType(serviceType){
+				this.selectedServiceType = serviceType
+			},
+			selectPaymentType(paymentType){
+				this.selectedPaymentType = paymentType 
+			}
+		}
 	});
 </script>

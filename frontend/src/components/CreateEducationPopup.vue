@@ -9,9 +9,11 @@
 			<div class="px-2 pb-2 create-service-field-ctn">
 				<label class="pt-2 pb-1">Course Type</label>
 				<div class="d-flex gap-1">
-					<span class="service-type-chip service-type-chip-selected rounded">In Class</span>
-					<span class="service-type-chip rounded">Online Live</span>
-					<span class="service-type-chip rounded">Online Recorded</span>
+					<span v-for="serviceType in serviceTypes" class="service-type-chip rounded text-capitalize"
+						:class="{ 'service-type-chip-selected': serviceType === this.selectedServiceType }"
+						@click="() => { selectServiceType(serviceType) }">
+						{{ serviceType }}
+					</span>
 				</div>
 
 				<label class="pt-2 pb-1">Description</label>
@@ -40,6 +42,20 @@
 
   export default defineComponent({
 		name: "CreateEducationPopup",
-		props: ["closeCreateEducationPopup"]
+		props: ["closeCreateEducationPopup"],
+		data(){
+			return {
+				serviceTypes: ["inclass", "online live", "online recorded"],
+				selectedServiceType: ""
+			}
+		},
+		mounted(){
+			this.selectedServiceType = this.serviceTypes[0];
+		},
+		methods:{
+			selectServiceType(serviceType){
+				this.selectedServiceType = serviceType
+			}
+		}
 	});
 </script>

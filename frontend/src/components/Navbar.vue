@@ -17,9 +17,9 @@
 						<label for="search-input" class="search-input-label cursor-pointer">
 							<font-awesome-icon class="search-icon" :icon="['fas', 'magnifying-glass']" />
 						</label>
-						<input class="search-input" type="search" placeholder="Search" id="search-input"/>
+						<input class="search-input" type="search" placeholder="Search" id="search-input" v-model="searchQuery" @keyup.enter="submitSearchQuery"/>
 					</div>
-					<button class="btn shadow-none border-0" v-on:click="toggleFilterPopup">
+					<button class="btn shadow-none border-0" v-on:click="toggleFilterPopup" ref="filter-btn">
 						<font-awesome-icon class="filter-icon" :icon="['fas', 'sliders']"/>
 					</button>
 				</div>
@@ -60,7 +60,8 @@
             </div>
         </nav>
 				
-				<ServiceFilter v-if="filterPopupIsOpen" :closeFilterPopup="closeFilterPopup"/>
+				<ServiceFilter v-if="filterPopupIsOpen" :closeFilterPopup="closeFilterPopup" ref="filter-popup" 
+					:clickOutsideFilter="clickOutsideFilter"/>
 
     </div>
 </template>
@@ -102,6 +103,7 @@
 			width: 100%;
 			padding-left: 2.3rem;
 			padding-block: 0.3rem;
+			padding-right: 0.50rem; /* room for icon */
 		}
 
     .cnav-item{
@@ -165,7 +167,8 @@
 				data(){
 					return {
 						filterPopupIsOpen: false,
-						createDropdownIsOpen: false
+						createDropdownIsOpen: false,
+						searchQuery: ""
 					}
 				},
 				props:[
@@ -199,6 +202,24 @@
 							document.addEventListener("mousedown", this.clickOutsideCreateServiceDropdown);
 						}
 					},
+					submitSearchQuery(){
+						console.log(this.searchQuery);
+					},
+					clickOutsideFilter(event){
+						if(this.$refs["filter-btn"].contains(event.target)){
+							document.removeEventListener("mousedown", this.clickOutsideFilter);
+							return;	
+						}
+
+						const filterPopup = this.$refs["filter-popup"]?.$el
+						if(filterPopup !== null && !filterPopup.contains(event.target)){
+							document.removeEventListener("mousedown", this.clickOutsideFilter);
+							this.closeFilterPopup();
+						}else{
+							document.removeEventListener("mousedown", this.clickOutsideFilter);
+						}
+					}
+
 				},
 				components: {
 					ServiceFilter

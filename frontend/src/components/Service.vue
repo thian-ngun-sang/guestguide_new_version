@@ -68,7 +68,13 @@
 
 				<div v-if="service.type === 'transition'" class="service-container position-relative">
 					<div class="position-absolute name-wrapper">
-						<span class="text-white service-username">{{ service.user.first_name }} {{ service.user.last_name }}</span>
+						<div class="service-header d-flex justify-content-between align-items-center">
+							<span>{{ service.user.first_name }} {{ service.user.last_name }}</span>
+							<font-awesome-icon v-if="bookmarked" :icon="['fas', 'bookmark']" class="fa-icon cursor-pointer"
+								@click="() => toggleBookmark(service)"/>
+							<font-awesome-icon v-else :icon="['far', 'bookmark']" class="fa-icon cursor-pointer"
+								@click="() => toggleBookmark(service)"/>
+						</div>
 					</div>	
 
 					<img v-if="service.file" class="service-img mb-1" :src="`${this.$store.state.baseUrl}/posts/${service.file}`"/>
@@ -85,7 +91,13 @@
 
 				<div v-if="service.type === 'courses'" class="service-container position-relative">
 					<div class="position-absolute name-wrapper">
-						<span class="text-white service-username">{{ service.user.first_name }} {{ service.user.last_name }}</span>
+						<div class="service-header d-flex justify-content-between align-items-center">
+							<span>{{ service.user.first_name }} {{ service.user.last_name }}</span>
+							<font-awesome-icon v-if="bookmarked" :icon="['fas', 'bookmark']" class="fa-icon cursor-pointer"
+								@click="() => toggleBookmark(service)"/>
+							<font-awesome-icon v-else :icon="['far', 'bookmark']" class="fa-icon cursor-pointer"
+								@click="() => toggleBookmark(service)"/>
+						</div>
 					</div>	
 
 					<img v-if="service.file" class="service-img mb-1" :src="`${this.$store.state.baseUrl}/posts/${service.file}`">
@@ -103,7 +115,13 @@
 
 				<div v-if="service.type === 'housing'" class="service-container position-relative">
 					<div class="position-absolute name-wrapper">
-						<span class="text-white service-username">{{ service.user.first_name }} {{ service.user.last_name }}</span>
+						<div class="service-header d-flex justify-content-between align-items-center">
+							<span>{{ service.user.first_name }} {{ service.user.last_name }}</span>
+							<font-awesome-icon v-if="bookmarked" :icon="['fas', 'bookmark']" class="fa-icon cursor-pointer"
+								@click="() => toggleBookmark(service)"/>
+							<font-awesome-icon v-else :icon="['far', 'bookmark']" class="fa-icon cursor-pointer"
+								@click="() => toggleBookmark(service)"/>
+						</div>
 					</div>	
 
 					<img v-if="service.file" class="service-img mb-1" :src="`${this.$store.state.baseUrl}/posts/${service.file}`"/>
@@ -136,6 +154,7 @@
 			height: 14.5rem;
 			object-fit: cover;
 			object-position: center;
+			user-select: none;
 		}
 
 		.name-wrapper{
@@ -146,7 +165,11 @@
 
 		.service-username{
 			display: inline-block;
+		}
+
+		.service-header{
 			padding: 0.4rem 0.5rem;
+			color: white;
 		}
 
 		.price-label{
@@ -221,7 +244,8 @@
         name: 'service',
         data(){
             return {
-                ellipsisIsOpen: false
+                ellipsisIsOpen: false,
+								bookmarked: false
             }
         },
         props: ["service", "removeService", "setInfoPopup"],
@@ -361,6 +385,9 @@
 									return this.getBaseUrl + "/profileImages/defaults/user.jpg";
 								}
 							}
+						},
+						toggleBookmark(service){
+							this.bookmarked = !this.bookmarked;	
 						}
         },
 				created(){

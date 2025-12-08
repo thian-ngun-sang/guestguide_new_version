@@ -97,7 +97,7 @@
 	}
 
 	.service-type-chip-selected{
-		background-color: #00000066;
+		background-color: #34c58491;
 	}
 
   @media(max-width: 1100px){

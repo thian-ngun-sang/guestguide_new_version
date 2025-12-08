@@ -18,7 +18,7 @@
 		</div>
 		<hr class="my-1 filter-hr"/>
 		<div class="d-flex justify-content-between mx-2 mt-2">
-			<button class="btn border-0 ps-0">Clear All</button>
+			<button class="btn border-0 ps-0" @click="resetFilter">Clear All</button>
 			<button class="btn border-0 btn-sm btn-dark" v-on:click="showResults">Show 1000+ Results</button>
 		</div>
 	</div>
@@ -59,10 +59,26 @@ export default defineComponent({
 		}
 	},
 	methods: {
+		resetFilter(){
+			this.form = { phoneNumberProvided: false, nearbyMe: false };
+		},
 		showResults(){
 			console.log(this.form);
-		}
+		},
+		// clickOutsideFilter(event){
+		// 	// this.closeFilterPopup();
+		// 	if(!this.$el.contains(event.target)){
+		// 		document.removeEventListener("mousedown", this.clickOutsideFilter);
+		// 		this.closeFilterPopup();
+		// 	}
+		// }
 	},
-	props: ["closeFilterPopup"]
+	props: ["closeFilterPopup", "clickOutsideFilter"],
+	mounted(){
+		document.addEventListener("mousedown", this.clickOutsideFilter);
+	},
+	unmouned(){
+		document.removeEventListener("mousedown", this.clickOutsideFilter);
+	}
 });
 </script>

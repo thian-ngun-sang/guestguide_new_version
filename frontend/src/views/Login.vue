@@ -71,6 +71,7 @@
 												if(msg !== undefined && msg !== null){
 													this.httpErrorMessage = msg;
 												}
+												return;
 											}
 
 											if(error?.message){
