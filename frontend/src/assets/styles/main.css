@@ -3,6 +3,7 @@
 	--app-nav-item-color: black;
 	--app-padding-inline: 11rem;
 	--popup-padding-inline: 20rem;
+	--img-overlay: #00000090;
 }
 
 body{
@@ -21,6 +22,10 @@ body{
 .fixed-to-app-layout{
     left: 15%;
     right: 15%;
+}
+
+.rounded-sm{
+	border-radius: 0.5rem;
 }
 
 /* forms */
@@ -149,8 +154,8 @@ body{
 }
 
 .icon-sm{
-    width: 25px;
-    height: 25px;
+		width: 1.5rem;
+		height: 1.5rem;
 }
 
 .object-cover{

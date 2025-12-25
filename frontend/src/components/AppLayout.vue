@@ -85,8 +85,41 @@
 	}
 
 	.create-service-field-ctn{
+		min-height: 15rem;
 		max-height: 20rem;
 		overflow-y: scroll;
+		display: flex;
+		flex-direction: column;
+		scroll-snap-type: y mandatory;
+	}
+
+	.create-service-img-preview{
+		border-radius: 0.35rem;
+		aspect-ratio: 4/2;
+		object-fit: cover;	
+		user-select: none;
+		scroll-snap-align: center;
+	}
+
+	.create-service-top-bar{
+		border-top-left-radius: 0.35rem;
+		border-top-right-radius: 0.35rem;
+		background-color: var(--img-overlay);
+		gap: 0.5rem;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+	}
+
+	.create-service-top-bar > .icon-sm{
+		font-size: 1.25rem;
+		color: white;
+		cursor: pointer;
+	}
+
+	.disabled{
+		opacity: 0.4;
 	}
 
 	.service-type-chip{
