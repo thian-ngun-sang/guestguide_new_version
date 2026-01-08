@@ -7,6 +7,7 @@ const authRoute = require("./routes/auth");
 const userRoute = require("./routes/user");
 const serviceRoute = require("./routes/service");
 const savedServiceRoute = require("./routes/savedService");
+const transportationRoute = require("./routes/transportation");
 
 const notFound = require("./middlewares/not-found");
 const { authenticate, authorize } = require("./middlewares/auth");
@@ -39,6 +40,7 @@ app.use('/api/v1', authorize);// authorize middleware
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/service', serviceRoute);
 app.use('/api/v1/saved-services', savedServiceRoute);
+app.use('/api/v1/transportation', transportationRoute);
 
 app.use(notFound);
 
