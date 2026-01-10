@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
         if(err){
           return cb(err);
         }else{
-          const uniqueFilename = buf.toString('hex') + "_" + file.originalname;
+          const uniqueFilename = Date.now() + "-" + buf.toString('hex') + "-" + file.originalname;
           cb(null, uniqueFilename);
         }
       })

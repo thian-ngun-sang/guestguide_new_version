@@ -6,21 +6,23 @@ const store = async (req, res) => {
     const file = req.file;
     let queryData = {};
 
-    if(req.file !== undefined){
-        queryData = {
-            serviceType: serviceType,
-            user: user._id,
-            files: file.filenames,
-            address,
-            phone
-        }
+    if(req.files !== undefined){
+			const filePaths = req.files.map(file => file.path);
+
+			queryData = {
+				serviceType: serviceType,
+				user: user._id,
+				files: filePaths,
+				address,
+				phone
+			}
     }else{
-        queryData = {
-            serviceType: serviceType,
-            user: user._id,
-            address,
-            phone
-        }
+			queryData = {
+				serviceType: serviceType,
+				user: user._id,
+				address,
+				phone
+			}
     }
     
     const service = await Transportation.create(queryData);

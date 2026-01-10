@@ -6,25 +6,27 @@ const store = async (req, res) => {
     const file = req.file;
     let queryData = {};
 
-    if(req.file !== undefined){
-        queryData = {
-            user: user._id,
-            serviceType: serviceType,
-						description,
-						price,
-            files: file.filenames,
-            phone,
-            address
-        }
+    if(req.files !== undefined){
+			const filePaths = req.files.map(file => file.path);
+
+			queryData = {
+				user: user._id,
+				serviceType: serviceType,
+				description,
+				price,
+				files: filePaths,
+				phone,
+				address
+			}
     }else{
-        queryData = {
-            user: user._id,
-            serviceType: serviceType,
-						description,
-						price,
-            phone,
-            address
-        }
+			queryData = {
+				user: user._id,
+				serviceType: serviceType,
+				description,
+				price,
+				phone,
+				address
+			}
     }
     
     const service = await Education.create(queryData);
