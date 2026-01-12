@@ -82,6 +82,7 @@
 
 <script>
   import { defineComponent } from 'vue';
+	import axios from 'axios';
 
   export default defineComponent({
 		name: "CreateTransportationPopup",
@@ -91,7 +92,6 @@
 				serviceTypes: ["taxi", "two wheeler", "three wheeler", "air ticket"],
 				selectedServiceType: "",
 				formStep: 1,
-				previews: [],
 				images: [],
 				form: {
 					serviceType: "",
@@ -181,7 +181,6 @@
 				this.formStep = 1;
 			},
 			submit(){
-				// console.log(this.form);
 				const formData = new FormData();
 				formData.append("serviceType", this.form.serviceType);
 				formData.append("phone", this.form.phone);
@@ -190,10 +189,21 @@
 					formData.append("files", file);
 				}
 
+				const headers = {
+					'Content-Type': 'x-www-form-urlencoded',
+					'Content-Encoding': 'multipart/form-data'
+				}
+
+				axios.post("/api/v1/transportation", formData, { headers })
+					.then(res => {
+							// this.$router.push('/');
+							console.log(res);
+					})
+					.catch(err => console.log(err));
+
 			}
 		},
 		onBeforeUnmount(){
-			// this.previews.value.forEach(URL.revokeObjectURL);
 			this.images.value.forEach(img => URL.revokeObjectURL(img.url));
 		}
 	});
