@@ -115,7 +115,7 @@
 					paymentType: "",
 					phone: "",
 					address: "",
-					files: null
+					files: []
 				}
 
 			}
@@ -227,6 +227,7 @@
 					.then(res => {
 							// this.$router.push('/');
 							console.log(res);
+							this.closeCreateAccomodationPopup();
 					})
 					.catch(err => console.log(err));
 			}

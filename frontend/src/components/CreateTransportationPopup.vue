@@ -97,7 +97,7 @@
 					serviceType: "",
 					phone: "",
 					address: "",
-					files: null
+					files: []
 				}
 			}
 		},
@@ -198,6 +198,7 @@
 					.then(res => {
 							// this.$router.push('/');
 							console.log(res);
+							this.closeCreateTransportationPopup();
 					})
 					.catch(err => console.log(err));
 
