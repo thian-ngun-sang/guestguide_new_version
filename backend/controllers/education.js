@@ -7,7 +7,8 @@ const store = async (req, res) => {
     let queryData = {};
 
     if(req.files !== undefined){
-			const filePaths = req.files.map(file => file.path);
+			// const filePaths = req.files.map(file => file.path);
+			const filePaths = req.files.map(file => file.filename);
 
 			queryData = {
 				user: user._id,

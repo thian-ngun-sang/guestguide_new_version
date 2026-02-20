@@ -44,7 +44,7 @@
 						<span v-for="paymentType in paymentTypes" class="service-type-chip rounded text-capitalize"
 							:class="{ 'service-type-chip-selected': paymentType === this.selectedPaymentType }"
 							@click="() => { selectPaymentType(paymentType) }">
-							{{ paymentType }}
+							per {{ paymentType }}
 						</span>
 					</div>
 				</div>
@@ -103,7 +103,7 @@
 			return {
 				serviceTypes: ["condo", "apartment", "dormitory"],
 				selectedServiceType: "",
-				paymentTypes: ["per day", "per month", "per year"],
+				paymentTypes: ["day", "month", "year"],
 				selectedPaymentType: "",
 				images: [],
 				formStep: 1,

@@ -1,23 +1,13 @@
 <template>
-    <!-- <ServiceFilter/> -->
-
 		<AppLayout>
 			<div v-if="services.length !== 0" class="app-content">
 				<div class="service-list">
-					<Service v-for="service in services"
-						:service="service"
-						:removeService="removeService"
-						:setInfoPopup="setInfoPopup"/>
+					<AccomodationServiceView v-for="service in services"
+						:service="service"/>
 
 					<div v-if="services.length <= 2"></div>
 					<div v-if="services.length <= 1"></div>
 				</div>
-
-				<InfoPopup v-if="infoPopup.state"
-					:classProp="infoPopup.className"
-					:text="infoPopup.text"
-					:close="removeInfoPopup"
-					duration="4000"/>
 			</div>
 		</AppLayout>
 </template>
@@ -38,19 +28,15 @@
 import { defineComponent } from 'vue';
 import axios from "axios";
 
-import Service from "../components/Service.vue";
-import AppLayout from "../components/AppLayout.vue";
-import InfoPopup from '@/components/InfoPopup.vue';
-import TransportationServiceView from '@/components/TransportationServiceView.vue';
-import EducationServiceView from '@/components/EducationServiceView.vue';
+import AppLayout from "@/components/AppLayout.vue";
 import AccomodationServiceView from '@/components/AccomodationServiceView.vue';
 
 export default defineComponent({
-  name: 'HomeView',
+  name: 'AccomodationView',
   data(){
     return {
-        services: [],
-        srcUrl: "/api/v1/service",
+				services: [],
+				srcUrl: "/api/v1/accomodation",
         query: "",
 				infoPopup: {
 					state: false,
@@ -81,6 +67,7 @@ export default defineComponent({
           })
           .catch(err => console.log(err));
       }
+      
     },
     getQueryData(){
       this.query = "";
@@ -128,12 +115,8 @@ export default defineComponent({
 		}
   },
   components: {
-    Service,
     // ServiceFilter,
-		InfoPopup,
 		AppLayout,
-		TransportationServiceView,
-		EducationServiceView,
 		AccomodationServiceView
   },
 });

@@ -1,17 +1,21 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import Login from "../views/Login.vue";
-import Register from "../views/Register.vue";
-import ChangePassword from '../views/ChangePassword.vue';
+import Login from "@/views/Login.vue";
+import Register from "@/views/Register.vue";
+import ChangePassword from '@/views/ChangePassword.vue';
 
-import ProfileView from '../views/ProfileView.vue';
-import EditProfile from '../views/EditProfile.vue';
+import ProfileView from '@/views/ProfileView.vue';
+import EditProfile from '@/views/EditProfile.vue';
 
-import HomeView from '../views/HomeView.vue';
+import HomeView from '@/views/HomeView.vue';
 
-import CreateService from '../views/CreateService.vue';
-import EditView from '../views/EditView.vue';
-import SavedServices from '../views/SavedServices.vue';
+import CreateService from '@/views/CreateService.vue';
+import EditView from '@/views/EditView.vue';
+import SavedServices from '@/views/SavedServices.vue';
+
+import TransportationView from '@/views/TransportationView.vue';
+import EducationView from '@/views/EducationView.vue';
+import AccomodationView from '@/views/AccomodationView.vue';
 
 const routes = [
   {
@@ -63,30 +67,18 @@ const routes = [
     }
   },
   {
-    path: '/home-page',
-    name: 'homePage',
-    component: HomeView,
-    // beforeEnter: (to, from, next) => {
-    //   if(localStorage.getItem('vueAuth') == 'true'){
-    //     next();
-    //   }else{
-    //     next('/');
-    //   }
-    // }
-  },
-  {
     path: '/transition',
     name: 'transition',
-    component: HomeView
+    component: TransportationView
   },{
     path: '/courses',
     name: 'courses',
-    component: HomeView
+    component: EducationView
   },
   {
     path: '/housing',
     name: 'housing',
-    component: HomeView
+    component: AccomodationView
   },
   {
     path: '/create-service',

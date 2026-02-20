@@ -196,7 +196,9 @@
 					closeFilterPopup(){
 						this.filterPopupIsOpen = false;
 					},
-					toggleCreateDropdown(){
+					toggleCreateDropdown(event){
+						event?.preventDefault();
+
 						this.createDropdownIsOpen = !this.createDropdownIsOpen;
 						if(this.createDropdownIsOpen){
 							document.addEventListener("mousedown", this.clickOutsideCreateServiceDropdown);

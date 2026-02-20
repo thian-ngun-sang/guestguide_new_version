@@ -21,7 +21,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // for parsing multipart/form-data
-// app.use(express.static('public'));
 app.use(express.static('uploads')); // use 'uploads' as source "/" for static files
 
 // const upload = multer();

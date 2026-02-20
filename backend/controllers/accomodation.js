@@ -3,11 +3,11 @@ const Accomodation = require("../models/Accomodation");
 const store = async (req, res) => {
     const user = req.user;
     const { serviceType, description, price, paymentType, address, phone } = req.body;
-    const file = req.file;
     let queryData = {};
 
     if(req.files !== undefined){
-			const filePaths = req.files.map(file => file.path);
+			// const filePaths = req.files.map(file => file.path);
+			const filePaths = req.files.map(file => file.filename);
 
 			queryData = {
 				user: user._id,
@@ -15,6 +15,7 @@ const store = async (req, res) => {
 				files: filePaths,
 				description,
 				price,
+				paymentType,
 				address,
 				phone
 			}
