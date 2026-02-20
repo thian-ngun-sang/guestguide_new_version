@@ -209,7 +209,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-				padding: 1rem;
+				padding: var(--spacing-modal);
     }
 
 		@media(max-width: 660px){
@@ -260,7 +260,6 @@
 
 		@media(max-width: 360px){
 				/* popup */
-
 				.logout-popup{
 						height: 7.1rem;
 						padding: 0.7rem;

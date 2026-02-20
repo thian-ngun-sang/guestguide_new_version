@@ -1,5 +1,6 @@
 <template>
     <div class="user-select-none">
+			<div class="app-nav">
         <div class="d-flex justify-content-between mt-3 lt-460:mx-2">
             <div>
                 <router-link to="/" class="text-decoration-none text-dark">
@@ -26,19 +27,19 @@
         <nav class="app-navbar lt-460:mx-2">
             <div>
 							<router-link class="d-flex flex-column justify-content-center align-items-center text-decoration-none" :to="{ name: 'transition' }">
-								<font-awesome-icon class="cnav-icon" :icon="['fas', 'truck-moving']" />
+								<font-awesome-icon class="icon-md" :icon="['fas', 'truck-moving']" />
 								<span>Transition</span>
 							</router-link>
             </div>
             <div>
 							<router-link class="d-flex flex-column justify-content-center align-items-center text-decoration-none" to="/courses">
-								<font-awesome-icon class="cnav-icon" :icon="['fas', 'book-open']" />
+								<font-awesome-icon class="icon-md" :icon="['fas', 'book-open']" />
 								<span>Courses</span>
 							</router-link>
             </div>
             <div>
 							<router-link class="d-flex flex-column justify-content-center align-items-center text-decoration-none" to="/housing">
-								<font-awesome-icon class="cnav-icon" :icon="['fas', 'house-chimney-window']" />
+								<font-awesome-icon class="icon-md" :icon="['fas', 'house-chimney-window']" />
 								<span>Hotel &amp; houses</span>
 							</router-link>
             </div>
@@ -46,7 +47,7 @@
             <div class="position-relative">
 							<a href="#" class="d-flex flex-column justify-content-center align-items-center text-decoration-none c-btn"
 								@click="toggleCreateDropdown" ref="create-dropdown-btn">
-								<font-awesome-icon class="cnav-icon" :icon="['fas', 'square-plus']" />
+								<font-awesome-icon class="icon-md" :icon="['fas', 'square-plus']" />
 								<span>Create</span>
 							</a>
 
@@ -59,6 +60,7 @@
 
             </div>
         </nav>
+			</div>
 				
 				<ServiceFilter v-if="filterPopupIsOpen" :closeFilterPopup="closeFilterPopup" ref="filter-popup" 
 					:clickOutsideFilter="clickOutsideFilter"/>
@@ -67,62 +69,58 @@
 </template>
 
 <style>
-    .app-navbar{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-				margin-top: 0.8rem;
-				margin-bottom: 0.5rem;
-    }
+	.app-nav{
+		position: fixed;
+		top: 0px;
+		left: var(--app-padding-inline);
+		right: var(--app-padding-inline);
+		background-color: white;
+		z-index: 2;
+	}
 
-		.user-nav-icon{
-			border: 1px solid black;
-			padding: 0.45rem 0.5rem;
-			border-radius: 50%;
-		}
+	.app-navbar{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 0.8rem;
+		margin-bottom: 0.5rem;
+	}
 
-		.search-ctn {
-			width: 100%;
-		}
+	.user-nav-icon{
+		border: 1px solid black;
+		padding: 0.45rem 0.5rem;
+		border-radius: 50%;
+	}
 
-		.search-input-label{
-			position: absolute;
-			left: 2.8rem;
-		}
+	.search-ctn {
+		width: 100%;
+	}
 
-		.filter-icon{
-			font-size: 1.4rem;
-			border: 1px solid black;
-			padding: 0.2rem;
-			border-radius: 0.2rem;
-		}
+	.search-input-label{
+		position: absolute;
+		left: 2.8rem;
+	}
 
-		.search-input{
-			border: 1px solid black;
-			border-radius: 1rem;
-			width: 100%;
-			padding-left: 2.3rem;
-			padding-block: 0.3rem;
-			padding-right: 0.50rem; /* room for icon */
-		}
+	.filter-icon{
+		font-size: 1.4rem;
+		border: 1px solid black;
+		padding: 0.2rem;
+		border-radius: 0.2rem;
+	}
 
-    .cnav-item{
-        font-size: 20px;
-    }
+	.search-input{
+		border: 1px solid black;
+		border-radius: 1rem;
+		width: 100%;
+		padding-left: 2.3rem;
+		padding-block: 0.3rem;
+		padding-right: 0.50rem;
+	}
 
-		.cnav-icon{
-			/* font-size: 22px; */
-			font-size: 1.2rem;
-		}
-
-    .cnav-item-mobile{
-        display: none;
-    }
-
-    .searchbar-ctn{
-        display: flex;
-        align-items: center;
-    }
+	.searchbar-ctn{
+			display: flex;
+			align-items: center;
+	}
 
   .search-icon{
     margin-left: -25px;

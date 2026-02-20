@@ -3,9 +3,9 @@
 		<div class="position-absolute name-wrapper">
 			<div class="service-header d-flex justify-content-between align-items-center">
 				<span>{{ service.user.first_name }} {{ service.user.last_name }}</span>
-				<font-awesome-icon v-if="bookmarked" :icon="['fas', 'bookmark']" class="fa-icon cursor-pointer"
+				<font-awesome-icon v-if="bookmarked" :icon="['fas', 'bookmark']" class="icon-md cursor-pointer"
 					@click="() => toggleBookmark(service)"/>
-				<font-awesome-icon v-else :icon="['far', 'bookmark']" class="fa-icon cursor-pointer"
+				<font-awesome-icon v-else :icon="['far', 'bookmark']" class="icon-md cursor-pointer"
 					@click="() => toggleBookmark(service)"/>
 			</div>
 		</div>	

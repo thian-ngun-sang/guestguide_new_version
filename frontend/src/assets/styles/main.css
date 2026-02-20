@@ -1,9 +1,13 @@
 :root{
 	--app-background-color: white;
 	--app-nav-item-color: black;
-	--app-padding-inline: 11rem;
-	--popup-padding-inline: 20rem;
 	--img-overlay: #00000090;
+
+	--app-padding-inline: 11rem;
+	--popup-padding-inline: 18rem;
+	--spacing-modal: 0.8rem;
+
+	--icon-md: 1.25rem;
 }
 
 body{
@@ -44,34 +48,7 @@ body{
 	margin-top: 10vh;
 	margin-bottom: 10vh;
 }
-
 /* forms end */
-
-.cpopup{
-    left: 20%;
-    right: 20%;
-    z-index: 2;
-}
-
-.one-four-one{
-    display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
-}
-
-.two-five-two{
-    display: grid;
-    grid-template-columns: 2fr 5fr 2fr;
-}
-
-.one-ten-one{
-    display: grid;
-    grid-template-columns: 1fr 10fr 1fr;
-}
-
-.one-one-one{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-}
 
 .text-align-center{
     text-align: center;
@@ -148,22 +125,17 @@ body{
     align-items: end;
 }
 
-.icon{
-    width: 30px;
-    height: 30px;
-}
-
 .icon-sm{
 		width: 1.5rem;
 		height: 1.5rem;
 }
 
-.object-cover{
-    object-fit: cover;
+.icon-md{
+	font-size: var(--icon-md);
 }
 
-.fa-icon{
-    font-size: 1.20rem;
+.object-cover{
+    object-fit: cover;
 }
 
 .list-style-type-none{
@@ -175,14 +147,13 @@ body{
 }
 
 .normal-popup{
-    position: fixed;
-    /* top: 6.5rem; */
-    left: 28%;
-    right: 28%;
-    background-color: rgb(78, 141, 73);
-    border-radius: 1.5px;
-    /* box-shadow: 0.5px 0.5px 2px black; */
-		color: red;
+	position: fixed;
+	left: var(--popup-padding-inline);
+	right: var(--popup-padding-inline);
+	background-color: rgb(78, 141, 73);
+	border-radius: 1.5px;
+	/* box-shadow: 0.5px 0.5px 2px black; */
+	color: red;
 }
 
 .divider{
@@ -190,25 +161,32 @@ body{
 	background: black;
 }
 
-@media(max-width: 560px){
-	/* popup */
-	.normal-popup{
-			left: 25%;
-			right: 25%;
+/* Small laptops */
+@media(max-width: 1024px){
+	:root{
+		--app-padding-inline: 4rem;
+		--popup-padding-inline: 8rem;
+	}
+}
+
+/* tablets */
+@media(max-width: 768px){
+	:root{
+		--app-padding-inline: 2rem;
+		--popup-padding-inline: 6rem;
+	}
+}
+
+
+/* mobile */
+@media(max-width: 640px){
+	:root{
+		--app-padding-inline: 1rem;
+		--popup-padding-inline: 1rem;
 	}
 }
 
 @media(max-width: 460px){
-	/* popup */
-	.normal-popup{
-			left: 23%;
-			right: 23%;
-	}
-
-	*{
-		font-size: 15px;	
-	}
-
 	.lt-460\:d-none{
 		display: none;
 	}
@@ -277,16 +255,6 @@ body{
 }
 
 @media(max-width: 360px){
-	/* popup */
-	.normal-popup{
-			left: 20%;
-			right: 20%;
-	}
-
-	*{
-		font-size: 13px;
-	}
-
 	.lt-360\:d-none{
 		display: none;
 	}
@@ -335,12 +303,6 @@ body{
 }
 
 @media(max-width: 280px){
-	/* popup */
-	.normal-popup{
-			left: 15%;
-			right: 15%;
-	}
-
 	*{
 		font-size: 12px;
 	}
@@ -364,5 +326,3 @@ body{
 		font-size: 12px;
 	}
 }
-
-

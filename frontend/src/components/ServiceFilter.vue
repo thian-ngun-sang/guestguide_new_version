@@ -31,8 +31,8 @@
 		position: absolute;
 		z-index: 2;
 		border-radius: 8px;
-		left: 20%;
-		right: 20%;
+		left: var(--popup-padding-inline);
+		right: var(--popup-padding-inline);
 		box-shadow: 0.8px 0.8px 2px black;
 	}
 

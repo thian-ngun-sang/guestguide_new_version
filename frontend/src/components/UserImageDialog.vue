@@ -3,7 +3,9 @@
         <div class="d-flex justify-content-between mb-1 text-white">
             <span v-if="meta.type === 'cover'">Cover Image</span>
             <span v-else-if="meta.type === 'profile'">Profile Image</span>
-            <span v-on:click="actions.closeUserImageDialogPopup" class="cursor-pointer">X</span>
+            <span v-on:click="actions.closeUserImageDialogPopup" class="cursor-pointer">
+							<font-awesome-icon class="text-lg icon-md" :icon="['fas', 'close']" />
+						</span>
         </div>
         <div v-if="meta.type === 'profile'" class="d-flex justify-content-center bg-dark">
             <img class="popup-md-profile object-cover" :src="meta.imageUrl"/>
@@ -14,7 +16,7 @@
         <div class="mt-2 d-flex justify-content-between">
             <div>
                 <!-- <button class="btn btn-sm btn-dark">View Image</button> -->
-                <button class="ms-2 btn btn-sm btn-dark">
+                <button class="btn btn-sm btn-dark">
                     <label v-if="meta.modified" for="account--user-image-diaglog" class="cursor-pointer">
 												<span class="lt-260:d-none">Change Image</span>
 												<span class="gt-260:d-none">Change</span>
@@ -64,10 +66,11 @@
 
     .md-popup-center{
         position: fixed;
-        padding: 10px 20px;
+        /* padding: 10px 20px; */
+				padding: var(--spacing-modal);
         top: 10.5rem;
-        left: 28%;
-        right: 28%;
+        left: var(--popup-padding-inline);
+        right: var(--popup-padding-inline);
         background-color: rgb(78, 141, 73);
         border-radius: 3px;
     }
@@ -82,59 +85,19 @@
         border-radius: 0.1rem;
     }
 
-		@media(max-width: 760px){
-			.md-popup-center{
-					left: 20%;
-					right: 20%;
-			}
-		}
-
-		@media(max-width: 660px){
-			.md-popup-center{
-					left: 16%;
-					right: 16%;
-			}
-		}
-
-		@media(max-width: 460px){
-			.md-popup-center{
-					left: 11%;
-					right: 11%;
-			}
-		}
-
 		@media(max-width: 460px) and (max-height: 660px){
-			.md-popup-center{
-				top: 12rem;
-			}
-
 			.popup-md-cover{
 					height: 30vh;
 			}
 		}
 
-		@media(max-width: 460px) and (max-height: 460px){
-			.md-popup-center{
-				top: 6rem;
-			}
-		}
-
 		@media(max-width: 360px){
 			.md-popup-center{
-					top: 12.5rem;
-					left: 8%;
-					right: 8%;
-					padding: 5px 10px;
+				top: 12.5rem;
 			}
 		}
 
 		@media(max-width: 280px){
-			.md-popup-center{
-					top: 13.5rem;
-					left: 7%;
-					right: 7%;
-			}
-
 			.popup-md-cover{
 					height: 25vh;
 			}
