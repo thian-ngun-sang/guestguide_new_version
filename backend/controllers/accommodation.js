@@ -1,38 +1,41 @@
-const Accomodation = require("../models/Accomodation");
+const Accomodation = require("../models/Accommodation");
+const FeedItem = require("../models/FeedItem");
 
 const store = async (req, res) => {
     const user = req.user;
     const { serviceType, description, price, paymentType, address, phone } = req.body;
-    let queryData = {};
 
-    if(req.files !== undefined){
-			// const filePaths = req.files.map(file => file.path);
-			const filePaths = req.files.map(file => file.filename);
-
-			queryData = {
-				user: user._id,
-				serviceType: serviceType,
-				files: filePaths,
-				description,
-				price,
-				paymentType,
-				address,
-				phone
-			}
-    }else{
-			queryData = {
-				user: user._id,
-				serviceType: serviceType,
-				description,
-				price,
-				paymentType,
-				address,
-				phone
-			}
-    }
+		const queryData = {
+			user: user._id,
+			 serviceType,
+			description,
+			price,
+			paymentType,
+			address,
+			phone,
+			...(req.files?.length && {
+				files: req.files.map(file => file.filename)
+			})
+		}
     
-    const service = await Accomodation.create(queryData);
-    return res.status(200).json({ "msg": "Accomodation created", service });
+		try {
+				const service = await Accomodation.create(queryData);
+
+				try {
+						await FeedItem.create({
+							user: user._id,
+							entityId: service._id,
+							entityType: 'accommodation'
+						});
+				} catch (err) {
+						await service.deleteOne();
+						throw err;
+				}
+				return res.status(200).json({ "msg": "Accommodation created", service });
+		} catch (err) {
+				console.error(err);
+				return res.status(500).json({ "msg": "Internal Server Error" });
+		}
 }
 
 const index = async (req, res) => {

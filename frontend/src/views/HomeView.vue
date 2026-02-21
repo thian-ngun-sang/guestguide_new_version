@@ -4,10 +4,16 @@
 		<AppLayout>
 			<div v-if="services.length !== 0" class="app-content">
 				<div class="service-list">
-					<Service v-for="service in services"
-						:service="service"
+					<!-- <Service v-for="service in services"
+						:service="service.entityData"
 						:removeService="removeService"
-						:setInfoPopup="setInfoPopup"/>
+						:setInfoPopup="setInfoPopup"/> -->
+
+					<div v-for="service in services">
+						<AccomodationServiceView v-if="service.entityType === 'accommodation'" :service="service.entityData"/>
+						<TransportationServiceView v-if="service.entityType === 'transportation'" :service="service.entityData"/>
+						<EducationServiceView v-if="service.entityType === 'education'" :service="service.entityData"/>
+					</div>
 
 					<div v-if="services.length <= 2"></div>
 					<div v-if="services.length <= 1"></div>
@@ -50,7 +56,7 @@ export default defineComponent({
   data(){
     return {
         services: [],
-        srcUrl: "/api/v1/service",
+        srcUrl: "/api/v1/feed-item",
         query: "",
 				infoPopup: {
 					state: false,
@@ -64,12 +70,25 @@ export default defineComponent({
   },
   methods: {
     fetchServices(){
+
+
+			/*************************************************/
+			// axios.get("/api/v1/feed-item")
+			// 	.then(res => {
+			// 		const { services } = res.data;
+			// 		console.log(services);
+			// 	})
+			// 	.catch(err => console.log(err));
+			/*************************************************/
+
+
       this.getQueryData();
 
       if(this.query === ""){
         axios.get(this.srcUrl)
           .then(res => {
             const { services } = res.data;
+						// console.log(services);
 						this.services = services;
           })
           .catch(err => console.log(err.response));

@@ -66,7 +66,7 @@
             </div>
         </div>
 
-				<div v-if="service.type === 'transition'" class="service-container position-relative">
+				<div v-if="service.serviceType === 'transportation'" class="service-container position-relative">
 					<div class="position-absolute name-wrapper">
 						<div class="service-header d-flex justify-content-between align-items-center">
 							<span>{{ service.user.first_name }} {{ service.user.last_name }}</span>
@@ -306,7 +306,7 @@
 
 								axios.post(`/api/v1/saved-services`, data)
 									.then(res => {
-										console.log(res.data);
+										// console.log(res.data);
 
 										this.setInfoPopup({
 											state: true,
@@ -315,7 +315,7 @@
 										});
 									})
 									.catch(err => {
-										console.log(err.response.data);
+										// console.log(err.response.data);
 										const { msg } = err.response.data;
 									
 										if(msg){

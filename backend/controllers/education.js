@@ -1,37 +1,41 @@
 const Education = require("../models/Education");
+const FeedItem = require("../models/FeedItem");
 
 const store = async (req, res) => {
     const user = req.user;
     const { serviceType, description, price, address, phone } = req.body;
-    const file = req.file;
-    let queryData = {};
 
-    if(req.files !== undefined){
-			// const filePaths = req.files.map(file => file.path);
-			const filePaths = req.files.map(file => file.filename);
-
-			queryData = {
-				user: user._id,
-				serviceType: serviceType,
-				description,
-				price,
-				files: filePaths,
-				phone,
-				address
-			}
-    }else{
-			queryData = {
-				user: user._id,
-				serviceType: serviceType,
-				description,
-				price,
-				phone,
-				address
-			}
-    }
+		const queryData = {
+			user: user._id,
+			serviceType,
+			description,
+			price,
+			address,
+			phone,
+			...(req.files?.length && {
+				files: req.files.map(file => file.filename)
+			})
+		}
     
-    const service = await Education.create(queryData);
-    return res.status(200).json({ "msg": "Education created", service });
+		try {
+			const service = await Education.create(queryData);
+
+			try {
+					await FeedItem.create({
+						user: user._id,
+						entityId: service._id,
+						entityType: 'education'
+					});
+			} catch (err) {
+					await service.deleteOne();
+					throw err;
+			}
+
+				return res.status(200).json({ "msg": "Education created", service });
+		} catch (err) {
+				console.error(err);
+				return res.status(500).json({ "msg": "Internal Server Error" });
+		}
 }
 
 const index = async (req, res) => {

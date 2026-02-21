@@ -9,7 +9,8 @@ const serviceRoute = require("./routes/service");
 const savedServiceRoute = require("./routes/savedService");
 const transportationRoute = require("./routes/transportation");
 const educationRoute = require("./routes/education");
-const accomodationRoute = require("./routes/accomodation");
+const accommodationRoute = require("./routes/accommodation");
+const feedItemRoute = require("./routes/feedItem");
 
 const notFound = require("./middlewares/not-found");
 const { authenticate, authorize } = require("./middlewares/auth");
@@ -43,7 +44,8 @@ app.use('/api/v1/service', serviceRoute);
 app.use('/api/v1/saved-services', savedServiceRoute);
 app.use('/api/v1/transportation', transportationRoute);
 app.use('/api/v1/education', educationRoute);
-app.use('/api/v1/accomodation', accomodationRoute);
+app.use('/api/v1/accomodation', accommodationRoute);
+app.use('/api/v1/feed-item', feedItemRoute);
 
 app.use(notFound);
 

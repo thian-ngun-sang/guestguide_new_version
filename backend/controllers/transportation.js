@@ -1,33 +1,39 @@
 const Transportation = require("../models/Transportation");
+const FeedItem = require("../models/FeedItem");
 
 const store = async (req, res) => {
     const user = req.user;
     const { serviceType, address, phone } = req.body;
-    const file = req.file;
-    let queryData = {};
+		// const filePaths = req.files.map(file => file.path);
 
-    if(req.files !== undefined){
-			// const filePaths = req.files.map(file => file.path);
-			const filePaths = req.files.map(file => file.filename);
-
-			queryData = {
-				serviceType: serviceType,
-				user: user._id,
-				files: filePaths,
-				address,
-				phone
-			}
-    }else{
-			queryData = {
-				serviceType: serviceType,
-				user: user._id,
-				address,
-				phone
-			}
-    }
+		const queryData = {
+			user: user._id,
+			serviceType,
+			address,
+			phone,
+			...(req.files?.length && {
+				files: req.files.map(file => file.filename)
+			})
+		}
     
-    const service = await Transportation.create(queryData);
-    return res.status(200).json({ "msg": "Transportation created", service });
+		try {
+				const service = await Transportation.create(queryData);
+
+				try {
+						await FeedItem.create({
+							user: user._id,
+							entityId: service._id,
+							entityType: 'transportation'
+						});
+				} catch (err) {
+						await service.deleteOne();
+						throw err;
+				}
+				return res.status(200).json({ "msg": "Transportation created", service });
+		} catch (err) {
+				console.error(err);
+				return res.status(500).json({ "msg": "Internal Server Error" });
+		}
 }
 
 const index = async (req, res) => {

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const Accomodation = mongoose.Schema({
+const Accommodation = mongoose.Schema({
     user: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: "User",
@@ -40,5 +40,5 @@ const Accomodation = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Accomodation', Accomodation);
+module.exports = mongoose.model('Accommodation', Accommodation);
 
