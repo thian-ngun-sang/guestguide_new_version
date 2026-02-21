@@ -41,4 +41,3 @@ const Accommodation = mongoose.Schema({
 });
 
 module.exports = mongoose.model('Accommodation', Accommodation);
-

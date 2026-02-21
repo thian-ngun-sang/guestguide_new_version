@@ -42,31 +42,18 @@ const index = async (req, res) => {
     const { q, phone, serviceType } = req.query;
 
     let searchQuery = {};
-    if(q !== undefined){
-        const addressRegex = new RegExp(q, "i");
-        searchQuery = {
-            ...searchQuery,
-            address: {
-                $regex: addressRegex
-            }
-        }
-    }
-
-    if(serviceType !== undefined){
-        searchQuery = {
-            ...searchQuery,
-            serviceType: serviceType 
-        }
-    }
-
-    if(phone === "true"){
-        searchQuery = {
-            ...searchQuery,
-            phone: {
-                $ne: ""
-            }
-        }
-    }
+		if (q !== undefined) {
+				searchQuery.$or = [
+					{ address: { $regex: new RegExp(q, "i") } },
+					{ description: { $regex: new RegExp(q, "i") } }
+				]
+		}
+		if (serviceType !== undefined) {
+				searchQuery.serviceType = serviceType;
+		}
+		if (phone === "true") {
+				searchQuery.phone = { $ne: "" };
+		}
 
     let services = await Accomodation.find(searchQuery,
         "-__v -updated_at")

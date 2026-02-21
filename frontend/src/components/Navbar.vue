@@ -203,7 +203,15 @@
 						}
 					},
 					submitSearchQuery(){
-						console.log(this.searchQuery);
+						// console.log(this.searchQuery);
+						// console.log(this.$route.query.nearby);
+
+						this.$router.replace({
+								query: {
+										...this.$route.query,
+										q: this.searchQuery || undefined
+								}
+						});
 					},
 					clickOutsideFilter(event){
 						if(this.$refs["filter-btn"].contains(event.target)){
@@ -220,6 +228,9 @@
 						}
 					}
 
+				},
+				mounted(){
+					this.searchQuery = this.$route.query.q;
 				},
 				components: {
 					ServiceFilter

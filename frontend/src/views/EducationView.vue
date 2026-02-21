@@ -114,6 +114,12 @@ export default defineComponent({
 			}
 		}
   },
+	watch: {
+			'$route.query'(query) {
+				this.fetchServices();
+				// this.fetchResults();
+			}
+	},
   components: {
     // ServiceFilter,
 		AppLayout,

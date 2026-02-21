@@ -4,34 +4,19 @@ const Education = require("../models/Education");
 const Accommodation = require("../models/Accommodation");
 
 const index = async (req, res) => {
-    // const { q, phone, serviceType } = req.query;
+    const { q, phone, serviceType } = req.query;
 
-    // let searchQuery = {};
-    // if(q !== undefined){
-    //     const addressRegex = new RegExp(q, "i");
-    //     searchQuery = {
-    //         ...searchQuery,
-    //         address: {
-    //             $regex: addressRegex
-    //         }
-    //     }
-    // }
-
-    // if(serviceType !== undefined){
-    //     searchQuery = {
-    //         ...searchQuery,
-    //         serviceType: serviceType 
-    //     }
-    // }
-
-    // if(phone === "true"){
-    //     searchQuery = {
-    //         ...searchQuery,
-    //         phone: {
-    //             $ne: ""
-    //         }
-    //     }
-    // }
+    let searchQuery = {};
+    if(q !== undefined){
+        const addressRegex = new RegExp(q, "i");
+        searchQuery.address = { $regex: addressRegex }
+    }
+    if(serviceType !== undefined){
+        searchQuery.rerviceType = serviceType 
+    }
+    if(phone === "true"){
+        searchQuery.phone = { $ne: "" }
+    }
 
     // let services = await FeedItem.find(searchQuery,
     //     "-__v -updated_at")
@@ -64,13 +49,29 @@ const index = async (req, res) => {
 				educationObjects,
 				accommodationObjects
 			] = await Promise.all([
-				Transportation.find({ _id: { $in: groupedIds.transportation } })
+				Transportation
+					.find({
+						_id: { $in: groupedIds.transportation },
+						...searchQuery
+					})
 					.populate("user", "first_name last_name profile_image gender")
 					.lean(),
-				Education.find({ _id: { $in: groupedIds.education } })
+				Education
+					.find({
+						_id: { $in: groupedIds.education },
+						...(q && {
+							$or: [{ address: new RegExp(q, "i") } , { description: new RegExp(q, "i") }]
+						})
+					})
 					.populate("user", "first_name last_name profile_image gender")
 					.lean(),
-				Accommodation.find({ _id: { $in: groupedIds.accommodation } })
+				Accommodation
+					.find({
+						_id: { $in: groupedIds.accommodation },
+						...(q && {
+							$or: [{ address: new RegExp(q, "i") } , { description: new RegExp(q, "i") }]
+						})
+					})
 					.populate("user", "first_name last_name profile_image gender")
 					.lean()
 			]);
@@ -89,10 +90,12 @@ const index = async (req, res) => {
 			};
 
 			// 5. Hydrate feed
-			hydratedFeed = feedItems.map(item => ({
-				...item,
-				entityData: objectMaps[item.entityType][item.entityId.toString()] || null
-			}));
+			hydratedFeed = feedItems
+				.map(item => ({
+					...item,
+					entityData: objectMaps[item.entityType][item.entityId.toString()] || null
+				}))
+				.filter(item => item.entityData !== null);
 
 		} catch (err) {
 			res.status(500).json({ error: err.message });

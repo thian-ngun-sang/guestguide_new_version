@@ -42,28 +42,13 @@ const index = async (req, res) => {
     let searchQuery = {};
     if(q !== undefined){
         const addressRegex = new RegExp(q, "i");
-        searchQuery = {
-            ...searchQuery,
-            address: {
-                $regex: addressRegex
-            }
-        }
+        searchQuery.address = { $regex: addressRegex }
     }
-
     if(serviceType !== undefined){
-        searchQuery = {
-            ...searchQuery,
-            serviceType: serviceType 
-        }
+        searchQuery.serviceType = serviceType 
     }
-
     if(phone === "true"){
-        searchQuery = {
-            ...searchQuery,
-            phone: {
-                $ne: ""
-            }
-        }
+        searchQuery.phone = { $ne: "" }
     }
 
     let services = await Transportation.find(searchQuery,
