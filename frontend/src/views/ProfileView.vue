@@ -2,10 +2,12 @@
 	<AppLayout>
 			<div v-if="this.$store.state.isLoading == false">
 					<div class="cover-image-parent">
-							<img class="cover-image cursor-pointer" :src="this.$store.state.baseUrl +'/coverImages/' + user.cover_image" v-on:click="openCoverDialogPopup"/>
+							<img class="cover-image cursor-pointer" :src="this.$store.state.baseUrl +'/coverImages/' + user.cover_image"
+							v-on:click="openCoverDialogPopup"/>
 					</div>
 					<div class="profile-image-parent">
-							<img class="profile-image cursor-pointer" :src="this.$store.state.baseUrl +'/profileImages/' + user.profile_image" v-on:click="openProfileDialogPopup"/>
+							<img class="profile-image cursor-pointer"
+							:src="this.$store.state.baseUrl +'/profileImages/' + user.profile_image" v-on:click="openProfileDialogPopup"/>
 							<div class="account-banner-wrapper">
 									<div class="account-banner">
 											<div>
@@ -15,25 +17,32 @@
 											<div class="account-banner-right-section">
 												 <div>
 															<span class="button-shadow border-radius-3 cursor-pointer">
-																	<router-link class="text-decoration-none text-dark" to="/edit-profile">Edit Profile</router-link>
+																	<router-link class="text-decoration-none text-dark" to="/edit-profile">
+																		Edit Profile
+																	</router-link>
 															</span>
 													</div>
 													<div class="position-relative">
-															<div class="horizontal-dots d-flex justify-content-center cursor-pointer" ref="account-ellipsis" v-on:click="toggleAccountEllipsis">
+															<div class="horizontal-dots d-flex justify-content-center cursor-pointer"
+																ref="account-ellipsis" v-on:click="toggleAccountEllipsis">
 																	<font-awesome-icon icon="ellipsis" class="align-self-center" />
 															</div>
-															<div :class="accountEllipsisState ? 'position-absolute account-menu' : 'd-none'" ref="account-menu">
+															<div :class="accountEllipsisState ? 'position-absolute account-menu' : 'd-none'"
+																ref="account-menu">
 																	<ul class="list-style-type-none user-select-none m-0 p-0">
+																		<li>
+																			<router-link to="/bookmarks" class="text-decoration-none text-dark">
+																				Bookmarks
+																			</router-link>
+																		</li>
+																		<li>
+																			<router-link to="/change-password" class="text-decoration-none text-dark">
+																				Change Password
+																			</router-link>
+																		</li>
 																		<li>
 																			<div class="cursor-pointer" v-on:click="handleLogoutRequest">Logout</div>
 																		</li>
-																		<li>
-																			<router-link to="/saved-services" class="text-decoration-none text-dark">Saved Services</router-link>
-																		</li>
-																		<li>
-																			<router-link to="/change-password" class="text-decoration-none text-dark">Change Password</router-link>
-																		</li>
-
 																	</ul>
 															</div>
 													</div>
@@ -93,7 +102,8 @@
 
 					<!-- popup -->
 					<div>
-							<UserImageDialog v-if="userImageDialog.changeState" :meta="userImageDialog" :actions="{ closeUserImageDialogPopup, changeUserDialogImageUrl, changeUserDialogModified, changeUserProfileImage, changeUserCoverImage }"/>
+							<UserImageDialog v-if="userImageDialog.changeState" :meta="userImageDialog"
+							:actions="{ closeUserImageDialogPopup, changeUserDialogImageUrl, changeUserDialogModified, changeUserProfileImage, changeUserCoverImage }"/>
 					</div>
 			</div>
 		</AppLayout>

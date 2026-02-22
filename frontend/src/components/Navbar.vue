@@ -1,7 +1,7 @@
 <template>
     <div class="user-select-none">
 			<div class="app-nav">
-        <div class="d-flex justify-content-between mt-3 lt-460:mx-2">
+        <div class="d-flex justify-content-between mt-3">
             <div>
                 <router-link to="/" class="text-decoration-none text-dark">
                     <h5>GuestGuide</h5>
@@ -24,7 +24,7 @@
 						<font-awesome-icon class="filter-icon" :icon="['fas', 'sliders']"/>
 					</button>
 				</div>
-        <nav class="app-navbar lt-460:mx-2">
+        <nav class="app-navbar">
             <div>
 							<router-link class="d-flex flex-column justify-content-center align-items-center text-decoration-none" :to="{ name: 'transition' }">
 								<font-awesome-icon class="icon-md" :icon="['fas', 'truck-moving']" />

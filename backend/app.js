@@ -5,8 +5,6 @@ const cors = require("cors");
 
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/user");
-const serviceRoute = require("./routes/service");
-const savedServiceRoute = require("./routes/savedService");
 const transportationRoute = require("./routes/transportation");
 const educationRoute = require("./routes/education");
 const accommodationRoute = require("./routes/accommodation");
@@ -41,8 +39,6 @@ app.use('/api', authenticate);// authenticate middleware
 app.use('/api/auth', authRoute);
 app.use('/api/v1', authorize);// authorize middleware
 app.use('/api/v1/user', userRoute);
-app.use('/api/v1/service', serviceRoute);
-app.use('/api/v1/saved-services', savedServiceRoute);
 app.use('/api/v1/transportation', transportationRoute);
 app.use('/api/v1/education', educationRoute);
 app.use('/api/v1/accomodation', accommodationRoute);

@@ -47,8 +47,9 @@ const store = async (req, res) => {
 const index = async (req, res) => {
 		try {
 			const limit = parseInt(req.query.limit) || 20;
-			// 1. Fetch lightweight feed items
-			const feedItems = await Bookmark.find({})
+			const feedItems = await Bookmark.find({
+					user: req.user._id
+				}, "-__v -user")
 				.sort({ createdAt: -1 })
 				.limit(limit)
 				.lean();
@@ -104,10 +105,21 @@ const index = async (req, res) => {
 
 			// 5. Hydrate feed
 			const hydratedFeed = feedItems
-				.map(item => ({
-					...item,
-					entityData: objectMaps[item.entityType][item.entityId.toString()] || null
-				}))
+				.map(item => {
+					const entity = objectMaps[item.entityType][item.entityId.toString()];
+					if (!entity) return { ...item, entityData: null };
+
+					return {
+						...item,
+						entityData: {
+							...entity,
+							_meta: {
+								bookmarked: { _id: item._id }
+							}
+						}
+					}
+
+				})
 				.filter(item => item.entityData !== null);
 
 				return res.status(200).json({ bookmarkedServices: hydratedFeed });

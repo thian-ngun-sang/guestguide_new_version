@@ -16,6 +16,7 @@ import SavedServices from '@/views/SavedServices.vue';
 import TransportationView from '@/views/TransportationView.vue';
 import EducationView from '@/views/EducationView.vue';
 import AccomodationView from '@/views/AccomodationView.vue';
+import Bookmarks from '@/views/Bookmarks.vue';
 
 const routes = [
   {
@@ -101,6 +102,14 @@ const routes = [
     path: '/saved-services',
     name: 'saved-services',
     component: SavedServices,
+    meta: {
+      loginRequired: true
+    }
+  },
+	{
+    path: '/bookmarks',
+    name: 'bookmarks',
+    component: Bookmarks,
     meta: {
       loginRequired: true
     }

@@ -190,10 +190,6 @@ body{
 	.lt-460\:d-none{
 		display: none;
 	}
-
-	.lt-460\:mx-2{
-		margin-inline: 0.5rem;
-	}
 }
 
 @media(max-width: 460px) and (max-height: 560px){
