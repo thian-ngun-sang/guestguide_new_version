@@ -2,11 +2,11 @@
 	<div class="service-container position-relative">
 		<div class="position-absolute name-wrapper">
 			<div class="service-header d-flex justify-content-between align-items-center">
-				<span>{{ service.user.first_name }} {{ service.user.last_name }}</span>
-				<font-awesome-icon v-if="bookmarked" :icon="['fas', 'bookmark']" class="icon-md cursor-pointer"
-					@click="() => toggleBookmark(service)"/>
+				<span class="user-select-none">{{ service.user.first_name }} {{ service.user.last_name }}</span>
+				<font-awesome-icon v-if="service._meta?.bookmarked?._id" :icon="['fas', 'bookmark']" class="icon-md cursor-pointer"
+					@click="toggleBookmark"/>
 				<font-awesome-icon v-else :icon="['far', 'bookmark']" class="icon-md cursor-pointer"
-					@click="() => toggleBookmark(service)"/>
+					@click="toggleBookmark"/>
 			</div>
 		</div>	
 
@@ -135,12 +135,25 @@
 
 						return textSplit.slice(0, count).join(' ');
 					},
-					toggleBookmark(service){
-						this.bookmarked = !this.bookmarked;	
+					toggleBookmark(){
+						if(!this.service?._meta.bookmarked?._id){
+							axios.post("/api/v1/bookmarks", { entityId: this.service._id, entityType: "education" })
+								.then(res => {
+									const { bookmarked } = res.data
+									this.service._meta.bookmarked = bookmarked;
+								})
+								.catch(err => console.log(err.response));
+						}else{
+							axios.delete(`/api/v1/bookmarks/${this.service._meta.bookmarked._id}`)
+								.then(res => {
+									this.service._meta.bookmarked = null;
+								})
+								.catch(err => console.log(err.response));
+						}
 					}
         },
 				created(){
-					// console.log(this.service);
+					// this.bookmarked = this.service._meta.bookmarked;
 				}
     })
 </script>

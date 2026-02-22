@@ -1,5 +1,6 @@
 const Accomodation = require("../models/Accommodation");
 const FeedItem = require("../models/FeedItem");
+const Bookmark = require('../models/Bookmark');
 
 const store = async (req, res) => {
     const user = req.user;
@@ -57,9 +58,29 @@ const index = async (req, res) => {
 
     let services = await Accomodation.find(searchQuery,
         "-__v -updated_at")
-        .populate("user", "first_name last_name profile_image gender");
+        .populate("user", "first_name last_name profile_image gender")
+				.lean()
 
-    return res.status(200).json({msg: "Success", services});
+		const bookmarks = await Bookmark.find({
+			user: req.user._id,
+			entityId: { $in: services.map(i => i._id) }
+		}).lean();
+		const bookmarksMap = Object.fromEntries(
+			bookmarks.map(b => [
+				`${b.entityId.toString()}`, { _id: b._id }
+			])
+		);
+
+		const hydratedFeed = services.map(item => {
+			return {
+				...item,
+				_meta: {
+					bookmarked: bookmarksMap[`${item._id.toString()}`]
+				}
+			}
+		})
+
+    return res.status(200).json({ msg: "Success", services: hydratedFeed });
 }
 
 const get = async (req, res) => {

@@ -1,30 +1,54 @@
-const FeedItem = require("../models/FeedItem");
+const mongoose = require("mongoose");
+const Bookmark = require("../models/Bookmark");
 const Transportation = require("../models/Transportation");
 const Education = require("../models/Education");
 const Accommodation = require("../models/Accommodation");
-const Bookmark = require('../models/Bookmark');
+
+const models = {
+	accommodation: Accommodation,
+	education: Education,
+	transportation: Transportation
+};
+
+const store = async (req, res) => {
+	try{
+		const { _id: userId } = req.user;
+		const { entityId, entityType } = req.body;
+
+		if (!mongoose.Types.ObjectId.isValid(entityId)) {
+			return res.status(400).json({ msg: "Invalid service id" });
+		}
+
+		const Model = models[entityType];
+		if (!Model) {
+			return res.status(400).json({ msg: "Invalid Service" });
+		}
+		const entity = await Model.findById(entityId);
+		if(!entity){
+			return res.status(404).json({ msg: "Service not found" }); 
+		}
+
+		const bookmarked = await Bookmark.create({
+			user: userId,
+			entityType,
+			entityId
+		});
+		return res.status(201).json({ bookmarked }); 
+	}catch(err){
+		if (err.code === 11000) {
+			return res.status(400).json({ msg: "Service already saved" });
+		}
+
+		console.error(err);
+		return res.status(500).json({ msg: "Server error" });
+	}
+}
 
 const index = async (req, res) => {
-    const { q, phone, serviceType } = req.query;
-
-    let searchQuery = {};
-    if(q !== undefined){
-        const addressRegex = new RegExp(q, "i");
-        searchQuery.address = { $regex: addressRegex }
-    }
-    if(serviceType !== undefined){
-        searchQuery.rerviceType = serviceType 
-    }
-    if(phone === "true"){
-        searchQuery.phone = { $ne: "" }
-    }
-
-		let hydratedFeed;
 		try {
 			const limit = parseInt(req.query.limit) || 20;
-
 			// 1. Fetch lightweight feed items
-			const feedItems = await FeedItem.find({})
+			const feedItems = await Bookmark.find({})
 				.sort({ createdAt: -1 })
 				.limit(limit)
 				.lean();
@@ -35,7 +59,6 @@ const index = async (req, res) => {
 				education: [],
 				accommodation: []
 			};
-
 			feedItems.forEach(item => {
 				groupedIds[item.entityType].push(item.entityId);
 			});
@@ -49,25 +72,18 @@ const index = async (req, res) => {
 				Transportation
 					.find({
 						_id: { $in: groupedIds.transportation },
-						...searchQuery
 					})
 					.populate("user", "first_name last_name profile_image gender")
 					.lean(),
 				Education
 					.find({
-						_id: { $in: groupedIds.education },
-						...(q && {
-							$or: [{ address: new RegExp(q, "i") } , { description: new RegExp(q, "i") }]
-						})
+						_id: { $in: groupedIds.education }
 					})
 					.populate("user", "first_name last_name profile_image gender")
 					.lean(),
 				Accommodation
 					.find({
-						_id: { $in: groupedIds.accommodation },
-						...(q && {
-							$or: [{ address: new RegExp(q, "i") } , { description: new RegExp(q, "i") }]
-						})
+						_id: { $in: groupedIds.accommodation }
 					})
 					.populate("user", "first_name last_name profile_image gender")
 					.lean()
@@ -86,53 +102,27 @@ const index = async (req, res) => {
 				)
 			};
 
-			const bookmarks = await Bookmark.find({
-				user: req.user._id,
-				entityId: { $in: feedItems.map(i => i.entityId) }
-			}).lean();
-
-			const bookmarksMap = Object.fromEntries(
-				bookmarks.map(b => [
-					`${b.entityType}_${b.entityId.toString()}`, { _id: b._id }
-				])
-			);
-
 			// 5. Hydrate feed
-			hydratedFeed = feedItems
-				.map(item => {
-					const entity = objectMaps[item.entityType][item.entityId.toString()];
-					if (!entity) return null;
+			const hydratedFeed = feedItems
+				.map(item => ({
+					...item,
+					entityData: objectMaps[item.entityType][item.entityId.toString()] || null
+				}))
+				.filter(item => item.entityData !== null);
 
-					return {
-						...item,
-						entityData: {
-							...entity,
-							_meta: {
-								bookmarked: bookmarksMap[`${item.entityType}_${item.entityId.toString()}`]
-							}
-						}
-					};
-				})
-				.filter(Boolean);
-
+				return res.status(200).json({ bookmarkedServices: hydratedFeed });
 		} catch (err) {
 			res.status(500).json({ error: err.message });
-			return;
 		}
-
-		return res.status(200).json({ services: hydratedFeed });
 }
 
 const get = async (req, res) => {
     const { id } = req.params;
-    let service;
-    if(id !== null && id !== undefined){
-        try{
-            service = await FeedItem.findById(id, "-__v -updated_at -created_at -_id");
-        }catch(err){
-            return res.status(400).json({msg: "Bad Request"});
-        }
-    }
+		if(!id){
+			return res.status(400).json({msg: "Bad Request"});
+		}
+
+		const service = await Bookmark.findById(id, "-__v -updated_at -created_at -_id");
 		if(!service){
         return res.status(404).json({msg: "Service Not Found"});
 		}
@@ -142,11 +132,11 @@ const get = async (req, res) => {
 
 const remove = async (req, res) => {
 	const { id } = req.params;
-	if(id === "" || id === null || id === undefined){
+	if(!id){
 		return res.status(400).json({ msg: "Bad Request" });
 	}
 
-	let service = await FeedItem.findById(id);
+	let service = await Bookmark.findById(id);
 
 	if(!service){
 			return res.status(404).json({msg: "Service Not Found"});
@@ -156,7 +146,7 @@ const remove = async (req, res) => {
 	}
 
 	try{
-		const result = await FeedItem.deleteOne({ _id: id.toString() });
+		const result = await Bookmark.deleteOne({ _id: id.toString() });
 		if(!result.deletedCount){
 			return res.status(404).json({msg: "Service Not Found"});
 		}
@@ -164,7 +154,7 @@ const remove = async (req, res) => {
 		return res.status(400).json({ msg: "Bad Request" });
 	}
 
-	return res.status(200).json({ msg: "FeedItem has been deleted", service: service });
+	return res.status(200).json({ msg: "Bookmark has been deleted", service: service });
 }
 
-module.exports = { index, get, remove };
+module.exports = { store, index, get, remove };

@@ -11,6 +11,7 @@ const transportationRoute = require("./routes/transportation");
 const educationRoute = require("./routes/education");
 const accommodationRoute = require("./routes/accommodation");
 const feedItemRoute = require("./routes/feedItem");
+const bookmarkRoute = require("./routes/bookmark");
 
 const notFound = require("./middlewares/not-found");
 const { authenticate, authorize } = require("./middlewares/auth");
@@ -46,6 +47,7 @@ app.use('/api/v1/transportation', transportationRoute);
 app.use('/api/v1/education', educationRoute);
 app.use('/api/v1/accomodation', accommodationRoute);
 app.use('/api/v1/feed-item', feedItemRoute);
+app.use('/api/v1/bookmarks', bookmarkRoute);
 
 app.use(notFound);
 
