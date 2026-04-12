@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const { index, updateProfile, updateBio, updateProfileImage, deleteProfileImage, updateCoverImage, deleteCoverImage } = require("../controllers/user");
+const { getCurrentUser, updateProfile, updateBio, updateProfileImage, deleteProfileImage, updateCoverImage, deleteCoverImage } = require("../controllers/user");
 const { upload } = require("../middlewares/upload");
 
-router.route('/').get(index);
+router.route('/me').get(getCurrentUser);
 
 router.route('/update-profile').post(updateProfile);
 router.route('/update-bio').patch(updateBio);

@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/User");
 
-
 function hashPassword(plaintextPassword) {
     const saltRounds = 10;
     return new Promise((resolve, reject) => {

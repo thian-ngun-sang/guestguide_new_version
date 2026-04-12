@@ -26,3 +26,8 @@ library.add(faCoffee, faEllipsis, faArrowLeft, faMagnifyingGlass, faXmark, faSqu
 	faChevronLeft, faChevronRight, faSliders, faBookmark, faBookmarkRegular, faChevronUp, faChevronDown, faTrashCan );
 
 createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(store).use(router).mount('#app')
+
+// Fetch user automatically if token exists
+if (store.state.token) {
+  store.dispatch('fetchUser')
+}

@@ -1,6 +1,6 @@
 const User = require("../models/User");
 
-const index = async (req, res) => {
+const getCurrentUser = async (req, res) => {
     const userId = req.user._id.toString();
     const user = await User.findOne({ _id: userId }, "-password -updated_at -__v");
 
@@ -98,4 +98,4 @@ const deleteCoverImage = (req, res) => {
     return res.status(200).json({ msg: "Cover image has beeen deleted", coverImage: "defaults/coverImage.jpg" });
 }
 
-module.exports = { index, updateProfile, updateBio, updateProfileImage, deleteProfileImage, updateCoverImage, deleteCoverImage };
+module.exports = { getCurrentUser, updateProfile, updateBio, updateProfileImage, deleteProfileImage, updateCoverImage, deleteCoverImage };

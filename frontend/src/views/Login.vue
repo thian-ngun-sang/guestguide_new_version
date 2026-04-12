@@ -29,56 +29,47 @@
 </template>
 
 <script>
-    import { defineComponent } from 'vue';
-    import axios from 'axios';
+  import { defineComponent } from 'vue';
+  import axios from 'axios';
 
-    export default defineComponent({
-        name: 'login',
-        data(){
-            return {
-								form: {
-                	email: "",
-                	password: ""
-								},
-								httpErrorMessage: "",
-								isSubmitted: false
-            };
+  export default defineComponent({
+    name: 'login',
+    data(){
+      return {
+        form: {
+          email: "",
+          password: ""
         },
-        methods: {
-            login(e){
-                e.preventDefault();
-								this.isSubmitted = true;
+        httpErrorMessage: "",
+        isSubmitted: false
+      };
+    },
+    methods: {
+      async login(e){
+        e.preventDefault();
+        this.isSubmitted = true;
 
-								if(this.form.email === "" || this.form.password === ""){
-									return;
-								}
-                
-                const response = axios.post('/api/auth/login', { ...this.form })
-                    .then(res => {
-                        const data = res.data;
-                        const { token } = data;
-                        // console.log(data);
-
-                        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-                        this.$store.commit('setToken', token);
-                        this.$router.push('/account');
-                        // this.$store.commit('setAuthentication', true);
-                    })
-                    .catch(error => {
-
-											if(error?.response?.data){
-												const { msg } = error.response.data;
-												if(msg !== undefined && msg !== null){
-													this.httpErrorMessage = msg;
-												}
-												return;
-											}
-
-											if(error?.message){
-													this.httpErrorMessage = error.message;
-											}
-										})
-            }
+        if(this.form.email === "" || this.form.password === ""){
+          return;
         }
-    });
+
+        try{
+          await this.$store.dispatch('login', { ...this.form })
+          this.$router.push('/account');
+        }catch(error){
+          if(error?.response?.data){
+            const { msg } = error.response.data;
+            if(msg){
+              this.httpErrorMessage = msg;
+              return;
+            }
+          }
+
+          if(error?.message){
+              this.httpErrorMessage = error.message;
+          }
+        }
+      }
+    }
+  });
 </script>

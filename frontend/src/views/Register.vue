@@ -70,51 +70,47 @@
     export default defineComponent({
         name: 'login',
         data(){
-            return {
-                form: {
-									first_name: "",
-									last_name: "",
-									user_name: "",
-									email: "",
-									password: "",
-									password2: "",
-								},
-								httpErrorMessage: "",
-								isSubmitted: false
-            };
+          return {
+            form: {
+              first_name: "",
+              last_name: "",
+              user_name: "",
+              email: "",
+              password: "",
+              password2: "",
+            },
+            httpErrorMessage: "",
+            isSubmitted: false
+          };
         },
         methods: {
-            register(){
-								this.isSubmitted = true;
-								if(this.form.first_name === "" || this.form.user_name === "" || this.form.email === ""
-									|| this.form.password === "" || this.form.password2 === ""){
-										return;
-								}
-								if(this.form.password !== this.form.password2){
-										return;
-								}
-
-                axios.post('/api/auth/register', { ...this.form })
-                    .then(res => {
-                        const data = res.data;
-                        const { token } = data;
-
-                        this.$store.commit('setToken', token);
-                        // this.$store.commit('setAuthentication', true);
-                        this.$router.push('/account');
-                    })
-                    .catch(error => {
-											if(error.message){
-													this.httpErrorMessage = error.message;
-													return;
-											}
-
-											const { msg } = error.response.data;
-											if(msg !== undefined && msg !== null){
-												this.httpErrorMessage = msg;
-											}
-										})
+          async register(){
+            this.isSubmitted = true;
+            if(this.form.first_name === "" || this.form.user_name === "" || this.form.email === ""
+              || this.form.password === "" || this.form.password2 === ""){
+                return;
             }
+            if(this.form.password !== this.form.password2){
+                return;
+            }
+
+            try{
+              await this.$store.dispatch('register', { ...this.form })
+              this.$router.push('/account');
+            }catch(error){
+              if(error?.response?.data){
+                const { msg } = error.response.data;
+                if(msg){
+                  this.httpErrorMessage = msg;
+                  return;
+                }
+              }
+
+              if(error?.message){
+                this.httpErrorMessage = error.message;
+              }
+            }
+          }
         }
     });
 </script>

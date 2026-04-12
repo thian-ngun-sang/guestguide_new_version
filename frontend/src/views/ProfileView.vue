@@ -1,6 +1,6 @@
 <template>
 	<AppLayout>
-			<div v-if="this.$store.state.isLoading == false">
+			<div>
 					<div class="cover-image-parent">
 							<img class="cover-image cursor-pointer" :src="this.$store.state.baseUrl +'/coverImages/' + user.cover_image"
 							v-on:click="openCoverDialogPopup"/>
@@ -332,17 +332,12 @@
             UserImageDialog,
 						AppLayout
         },
-				computed: {
-					...mapGetters(["getUser"]),
-				},
-        created(){
-            this.user = this.getUser;
-
-            this.$store.dispatch("setIsLoading" , false);
+        mounted(){
+            this.user = this.$store.getters.user;
 						this.form.bio = this.user.bio === undefined ? "" : this.user.bio;
 
-            this.$watch(() => this.user, () => {
-                console.log("Got user info");
+            this.$watch(() => this.$store.getters.user, (newUser) => {
+              this.user = newUser;
             });
         },
         methods: {

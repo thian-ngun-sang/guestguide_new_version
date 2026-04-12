@@ -11,15 +11,18 @@
         name: 'authenticate',
         data(){
             return {
-                isLoading: true
+                isLoading: false
             };
         },
         mounted(){
-            this.index();
+            // if(this.$store.getters.token){
+            //   this.index();
+            // }
 
-            this.$watch(() => this.$store.state.token, () => {
-                this.index();
-            })
+            // this.$watch(() => this.$store.state.token, () => {
+            //     console.log("token changed");
+            //     this.index();
+            // })
         },
         methods: {
             validateImage(image){
@@ -31,14 +34,14 @@
                 return false;
             },
             index(){
-                let token = localStorage.getItem('token');
-                if(token !== "" && token !== null){
-                    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-                }
+                let token = this.$store.getters.token;
+                axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-                axios.get('/api/v1/user')
+                this.isLoading = true;
+                axios.get('/api/v1/user/me')
                     .then(res => {
                         const { user } = res.data;
+
                         if(!this.validateImage(user.profile_image)){
 														if(user.gender === "male"){ 
 															user.profile_image = "defaults/male.jpg";
@@ -47,13 +50,12 @@
 														}else{
 															user.profile_image = "defaults/user.jpg";
 														}
-
                         }
                         if(!this.validateImage(user.cover_image)){
                             user.cover_image = "defaults/coverImage.jpg";
                         }
-                        this.$store.dispatch("setUser", user);
 
+                        this.$store.dispatch("setUser", user);
                         this.isLoading = false;
                     })
                     .catch(err => {

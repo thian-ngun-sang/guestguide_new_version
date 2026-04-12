@@ -17,21 +17,21 @@
             };
         },
         mounted(){
-          	this.authorize();
+          	// this.authorize();
 
-            this.$watch(() => this.$route, (newRoute, oldRoute) => {
-                const { meta } = newRoute;
+            // this.$watch(() => this.$route, (newRoute, oldRoute) => {
+            //     const { meta } = newRoute;
 
-                // if authenticated user tries to get like '/login' redirect him/her to '/user-profile'
-                if(meta.unauthenticated && this.authorized){
-                    this.$router.push('/user-profile');
-                }
+            //     // if authenticated user tries to get like '/login' redirect him/her to '/user-profile'
+            //     if(meta.unauthenticated && this.authorized){
+            //         this.$router.push('/user-profile');
+            //     }
 
-                // if unknown user tries to navigate to url like '/user-profile' redirect him/her to '/login'
-                if(meta.loginRequired && !this.authorized){
-                    this.$router.push('/login');
-                }
-            })
+            //     // if unknown user tries to navigate to url like '/user-profile' redirect him/her to '/login'
+            //     if(meta.loginRequired && !this.authorized){
+            //         this.$router.push('/login');
+            //     }
+            // })
         },
 				methods: {
 					authorize(){

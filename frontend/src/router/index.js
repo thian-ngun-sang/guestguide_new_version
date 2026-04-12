@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+import store from '../store'
+
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 import ChangePassword from '@/views/ChangePassword.vue';
@@ -48,7 +50,10 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    meta: {
+      loginRequired: true
+    }
   },
   {
     path: '/account',
@@ -70,16 +75,25 @@ const routes = [
   {
     path: '/transition',
     name: 'transition',
-    component: TransportationView
+    component: TransportationView,
+    meta: {
+      loginRequired: true
+    }
   },{
     path: '/courses',
     name: 'courses',
-    component: EducationView
+    component: EducationView,
+    meta: {
+      loginRequired: true
+    }
   },
   {
     path: '/housing',
     name: 'housing',
-    component: AccomodationView
+    component: AccomodationView,
+    meta: {
+      loginRequired: true
+    }
   },
   {
     path: '/create-service',
@@ -121,16 +135,15 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  let token = localStorage.getItem("token");
-
-  // some() method loop through an array
-  if(to.matched.some(record => record.meta.loginRequired && token === null || token === "" || token === undefined)){
-    console.log("You are not authorize for this page");
-    next({name: 'login', query: {to: to.path}});
-  }else{
-    next();
+router.beforeEach(async (to, from, next) => {
+  if (to.meta.loginRequired && !store.getters.isLoggedIn) {
+    next('/login')
+  } else if (store.getters.isLoggedIn && !store.state.user) {
+    await store.dispatch('fetchUser')
+    next()
+  } else {
+    next()
   }
-});
+})
 
 export default router
