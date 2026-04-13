@@ -14,7 +14,7 @@
 						</div>
 					</div>
 
-					<img v-if="service.files" class="service-detail--service-img" :src="`${this.$store.state.baseUrl}/${service.files[0]}`"/>
+					<img v-if="service.files?.length" class="service-detail--service-img" :src="`${this.$store.state.baseUrl}/${service.files[0]}`"/>
 					<img v-else class="service-detail--service-img" src="/svgs/image_placeholder.svg"/>
 				</div>
 
