@@ -11,8 +11,8 @@
 		</div>	
 
     <router-link :to="`/courses/${service._id}`" class="no-link-style">
-      <img v-if="service.files" class="service-img mb-1" :src="`${this.$store.state.baseUrl}/${service.files[0]}`"/>
-      <img v-else class="service-img mb-1" src="/svgs/image_placeholder.svg"/>
+      <img v-if="service.files.length" class="service-img mb-1" :src="`${this.$store.state.baseUrl}/${service.files[0]}`"/>
+      <img v-else class="service-img" src="/svgs/image-placeholder.svg"/>
     </router-link>
 
 		<div class="px-2 d-flex justify-content-between price-label">

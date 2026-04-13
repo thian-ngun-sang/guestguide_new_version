@@ -1,6 +1,6 @@
 <template>
 		<AppLayout>
-			<div v-if="services.length !== 0" class="app-content">
+			<div v-if="services.length !== 0" class="app-content app-padding-bottom">
 				<div class="service-list">
 					<AccomodationServiceView v-for="service in services"
 						:service="service"/>
