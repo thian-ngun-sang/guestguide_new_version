@@ -2,17 +2,16 @@
 	<AppLayout>
 			<div>
 					<div class="cover-image-parent">
-							<img class="cover-image cursor-pointer" :src="this.$store.state.baseUrl +'/coverImages/' + user.cover_image"
+							<img class="cover-image cursor-pointer" :src="coverImageUrl"
 							v-on:click="openCoverDialogPopup"/>
 					</div>
 					<div class="profile-image-parent">
 							<img class="profile-image cursor-pointer"
-							:src="this.$store.state.baseUrl +'/profileImages/' + user.profile_image" v-on:click="openProfileDialogPopup"/>
+							:src="profileImageUrl" v-on:click="openProfileDialogPopup"/>
 							<div class="account-banner-wrapper">
 									<div class="account-banner">
 											<div>
 													<div>{{ user.first_name }} {{ user.last_name }}</div>
-													<!-- <div class="cursor-pointer">5 Friends</div> -->
 											</div>
 											<div class="account-banner-right-section">
 												 <div>
@@ -333,6 +332,24 @@
             UserImageDialog,
 						AppLayout
         },
+        computed: {
+          profileImageUrl() {
+            const image = this.user?.profile_image
+            if (!image) {
+              return '/images/user-default-avatar.png' // fallback
+            }
+
+            return `${this.$store.state.baseUrl}/profileImages/${image}`
+          },
+          coverImageUrl(){
+            const image = this.user?.cover_image
+            if (!image) {
+              return '/svgs/empty-image.svg' // fallback
+            }
+
+            return `${this.$store.state.baseUrl}/coverImages/${image}`
+          }
+        },
         mounted(){
             this.user = this.$store.getters.user;
 						this.form.bio = this.$store.getters.user.bio ?? "";
@@ -347,14 +364,14 @@
                 this.userImageDialog = {
                     changeState: true,
                     type: "cover",
-                    imageUrl: `${this.$store.state.baseUrl}/coverImages/${this.user.cover_image}`
+                    imageUrl: this.coverImageUrl
                 };
             },
             openProfileDialogPopup(){
                 this.userImageDialog = {
                     changeState: true,
                     type: "profile",
-                    imageUrl: `${this.$store.state.baseUrl}/profileImages/${this.user.profile_image}`
+                    imageUrl: this.profileImageUrl
                 };
             },
             closeUserImageDialogPopup(){

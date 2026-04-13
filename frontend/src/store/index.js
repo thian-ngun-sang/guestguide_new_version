@@ -102,24 +102,8 @@ export default createStore({
     async fetchUser({ commit, state }) {
       if (!state.token) return
       try {
-        //  const res = await apiFetchUser(state.token)
         const res = await getCurrentUser(state.token)
         const { user } = res.data;
-
-        if(!validateImage(user.profile_image)){
-            if(user.gender === "male"){ 
-              user.profile_image = "defaults/male.jpg";
-            }else if(user.gender == "female"){
-              user.profile_image = "defaults/female.jpg";
-            }else{
-              user.profile_image = "defaults/user.jpg";
-            }
-        }
-        if(!validateImage(user.cover_image)){
-            user.cover_image = "defaults/coverImage.jpg";
-        }
-
-        // commit('setUser', res.data.user)
         commit('setUser', user)
       } catch (err) {
         commit('clearAuth')
