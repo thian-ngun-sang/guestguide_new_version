@@ -2,7 +2,7 @@
 		<div class="change-password-form-view">
 			<div>
 					<span v-on:click="$router.back()" class="cursor-pointer">
-							<font-awesome-icon class="back-btn" :icon="['fasr', 'arrow-left']" />
+							<font-awesome-icon class="icon-btn" :icon="['fasr', 'arrow-left']" />
 					</span>
 			</div>
 			<div class="text-center">
@@ -36,12 +36,6 @@
 			</form>
 		</div>
 </template>
-
-<style>
-    .back-btn{
-        font-size: 25px;
-    }
-</style>
 
 <script>
 import { defineComponent } from "vue";

@@ -28,7 +28,7 @@
 	.filter-popup{
 		background-color: white;
 		padding-block: 0.6rem;
-		position: absolute;
+		position: fixed;
 		z-index: 2;
 		border-radius: 8px;
 		left: var(--popup-padding-inline);

@@ -1,5 +1,5 @@
 <template>
-  <div class="app-layout">
+  <div>
     <div class="main-content">
 
       <Navbar :openCreateTransportationPopup="openCreateTransportationPopup"
@@ -12,21 +12,19 @@
       </div>
     </div>
 
-				<CreateTransportationPopup v-if="createTransportationPopup" :closeCreateTransportationPopup="closeCreateTransportationPopup"/>
-				<CreateAccomodationPopup v-if="createAccomodationPopup" :closeCreateAccomodationPopup="closeCreateAccomodationPopup"/>
-				<CreateEducationPopup v-if="createEducationPopup" :closeCreateEducationPopup="closeCreateEducationPopup"/>
-
+    <CreateTransportationPopup v-if="createTransportationPopup" :closeCreateTransportationPopup="closeCreateTransportationPopup"/>
+    <CreateAccomodationPopup v-if="createAccomodationPopup" :closeCreateAccomodationPopup="closeCreateAccomodationPopup"/>
+    <CreateEducationPopup v-if="createEducationPopup" :closeCreateEducationPopup="closeCreateEducationPopup"/>
 
   </div>
 </template>
   
 <style lang="scss" scope>
   .app-view{
-		margin-top: 9.5rem;
+		margin-top: 10.25rem;
   }
 
   .main-content{
-    /* margin-inline: 15%; */
 		margin-inline: var(--app-padding-inline);
   }
 

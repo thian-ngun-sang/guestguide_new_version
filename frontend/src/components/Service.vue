@@ -157,12 +157,6 @@
 			user-select: none;
 		}
 
-		.name-wrapper{
-			background-color: rgba(0, 0, 0, 0.5);
-			left: 0;
-			right: 0;
-		}
-
 		.service-username{
 			display: inline-block;
 		}

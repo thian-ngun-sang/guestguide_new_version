@@ -1,0 +1,41 @@
+.service-detail--name-wrapper{
+  background-color: rgba(0, 0, 0, 0.5);
+  left: 0;
+  right: 0;
+  padding-block: 0.25rem;
+}
+
+.service-detail--nav{
+  height: 4rem; 
+  display: flex;
+  align-items: end;
+}
+
+.service-detail--service-container{
+  height: auto;
+  width: 100%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.service-detail--service-img{
+  width: 100%;
+  aspect-ratio: 4/2;
+
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+}
+
+.service-detail--service-ctn{
+  margin-top: 0.5rem;
+  background-color: #F3F3F3;
+  border-radius: 1rem;
+  padding: 0.75rem;
+}
+
+.service-detail--user-profile{
+  width: 3rem;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+}

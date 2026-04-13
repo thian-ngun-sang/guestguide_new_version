@@ -20,6 +20,10 @@ import EducationView from '@/views/EducationView.vue';
 import AccomodationView from '@/views/AccomodationView.vue';
 import Bookmarks from '@/views/Bookmarks.vue';
 
+import AccomodationDetailView from '@/views/AccomodationDetailView.vue';
+import EducationDetailView from '@/views/EducationDetailView.vue';
+import TransportationDetailView from '@/views/TransportationDetailView.vue';
+
 const routes = [
   {
     path: '/login',
@@ -43,25 +47,19 @@ const routes = [
     path: '/change-password',
     name: 'changePassword',
     component: ChangePassword,
-    meta: {
-	    authRoute: true
-    }
+    meta: { authRoute: true }
   },
   {
     path: '/',
     name: 'home',
     component: HomeView,
-    meta: {
-      loginRequired: true
-    }
+    meta: { loginRequired: true }
   },
   {
     path: '/account',
     name: 'account',
     component: ProfileView,
-    meta: {
-      loginRequired: true
-    }
+    meta: { loginRequired: true }
   },
   {
     path: '/edit-profile',
@@ -76,24 +74,37 @@ const routes = [
     path: '/transition',
     name: 'transition',
     component: TransportationView,
-    meta: {
-      loginRequired: true
-    }
-  },{
+    meta: { loginRequired: true }
+  },
+  {
+    path: '/transition/:id',
+    name: 'transition-detail-view',
+    component: TransportationDetailView,
+    meta: { loginRequired: true }
+  },
+  {
     path: '/courses',
     name: 'courses',
     component: EducationView,
-    meta: {
-      loginRequired: true
-    }
+    meta: { loginRequired: true }
+  },
+  {
+    path: '/courses/:id',
+    name: 'courses-detail-view',
+    component: EducationDetailView,
+    meta: { loginRequired: true }
   },
   {
     path: '/housing',
     name: 'housing',
     component: AccomodationView,
-    meta: {
-      loginRequired: true
-    }
+    meta: { loginRequired: true }
+  },
+  {
+    path: '/housing/:id',
+    name: 'housing-item-view',
+    component: AccomodationDetailView,
+    meta: { loginRequired: true }
   },
   {
     path: '/create-service',
@@ -106,27 +117,20 @@ const routes = [
   {
     path: '/service/edit/:id',
     name: 'service/edit/:id',
-    // component: () => import('../views/EditView.vue'),
     component: EditView,
-    meta: {
-      loginRequired: true
-    }
+    meta: { loginRequired: true }
   },
 	{
     path: '/saved-services',
     name: 'saved-services',
     component: SavedServices,
-    meta: {
-      loginRequired: true
-    }
+    meta: { loginRequired: true }
   },
 	{
     path: '/bookmarks',
     name: 'bookmarks',
     component: Bookmarks,
-    meta: {
-      loginRequired: true
-    }
+    meta: { loginRequired: true }
   }
 ]
 

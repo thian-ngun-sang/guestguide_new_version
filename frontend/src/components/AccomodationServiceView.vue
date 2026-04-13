@@ -11,8 +11,10 @@
 						</div>
 					</div>	
 
-					<img v-if="service.files" class="service-img mb-1" :src="`${this.$store.state.baseUrl}/${service.files[0]}`"/>
-					<img v-else class="service-img mb-1" src="/svgs/image_placeholder.svg"/>
+          <router-link :to="`/housing/${service._id}`" class="no-link-style">
+            <img v-if="service.files" class="service-img mb-1" :src="`${this.$store.state.baseUrl}/${service.files[0]}`"/>
+            <img v-else class="service-img mb-1" src="/svgs/image_placeholder.svg"/>
+          </router-link>
 
 					<div class="px-2 d-flex justify-content-between price-label">
 						<span class="text-capitalize">{{ service.serviceType }}</span>
@@ -27,7 +29,7 @@
     </div>
 </template>
 
-<style>
+<style scoped>
 		.service-container{
 			border: 1px solid black;
 			border-radius: 10px;

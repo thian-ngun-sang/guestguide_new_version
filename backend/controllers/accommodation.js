@@ -88,7 +88,10 @@ const get = async (req, res) => {
     let service;
     if(id !== null && id !== undefined){
         try{
-            service = await Accomodation.findById(id, "-__v -updated_at -created_at -_id");
+          service = await Accomodation
+            .findById(id, "-__v -updated_at -created_at")
+            .populate("user", "first_name last_name profile_image gender created_at")
+            .lean()
         }catch(err){
             return res.status(400).json({msg: "Bad Request"});
         }
@@ -97,7 +100,21 @@ const get = async (req, res) => {
         return res.status(404).json({msg: "Service Not Found"});
 		}
 
-    return res.status(200).json({msg: "Success", service});
+		const bookmark = await Bookmark.findOne({
+			user: req.user._id,
+			entityId: service._id
+		}, "_id").lean();
+
+		const hydratedFeed = {
+				...service,
+				_meta: {
+					...(bookmark &&
+            { bookmarked: bookmark }
+          )
+				}
+			}
+
+    return res.status(200).json({ msg: "Success", service: hydratedFeed });
 }
 
 const update = async (req, res) => {

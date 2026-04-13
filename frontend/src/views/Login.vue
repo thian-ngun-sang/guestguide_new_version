@@ -3,13 +3,13 @@
         <form v-on:submit="login">
             <div>
                 <label class="form-label">Email</label>
-                <input class="form-control" type="email" v-model="form.email"/>
+                <input class="form-control" type="email" v-model="form.email" autocomplete="email"/>
 								<small v-if="isSubmitted && form.email === ''" class="text-danger">Email cannot be empty</small>
             </div>
 
             <div>
                 <label class="form-label">Password</label>
-                <input class="form-control" type="password" v-model="form.password"/>
+                <input class="form-control" type="password" v-model="form.password" autocomplete="current-password"/>
 								<small v-if="isSubmitted && form.password === ''" class="text-danger">Password cannot be empty</small>
             </div>
 

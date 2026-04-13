@@ -3,7 +3,7 @@
 	--app-nav-item-color: black;
 	--img-overlay: #00000090;
 
-	--app-padding-inline: 11rem;
+	--app-padding-inline: 16rem;
 	--popup-padding-inline: 18rem;
 	--spacing-modal: 0.8rem;
 
@@ -19,13 +19,12 @@ body{
     margin-top: 25px;
 }
 
-.app-content{
-	margin-top: 10.5rem;
+.app-padding-inline{
+  padding-inline: var(--app-padding-inline);
 }
 
-.fixed-to-app-layout{
-    left: 15%;
-    right: 15%;
+.app-content{
+	margin-top: 10.5rem;
 }
 
 .rounded-sm{
@@ -88,11 +87,34 @@ body{
   -webkit-appearance: none;
   -moz-appearance: none;
   background: url("data:image/svg+xml;utf8,<svg fill='green' height='12' width='12' xmlns='http://www.w3.org/2000/svg'><polygon points='0,0 12,0 6,6'/></svg>") no-repeat right 0.4rem center;
-  background-size: 0.6rem;}
+  background-size: 0.6rem;
+}
 
-.c-btn{
-    cursor: pointer;
-    user-select: none;
+.no-link-style {
+  color: inherit;       /* use parent text color */
+  text-decoration: none; /* remove underline */
+}
+
+.btn{
+  cursor: pointer;
+  user-select: none;
+}
+
+.solid-btn{
+  cursor: pointer;
+  user-select: none;
+  padding: 0.25rem 1rem;
+  border-radius: 0.25rem;
+}
+
+.icon-btn{
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.solid-btn-black{
+  background-color: black;
+  color: white;
 }
 
 .btn-green{
