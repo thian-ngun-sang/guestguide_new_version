@@ -1,10 +1,7 @@
 import { createStore } from 'vuex'
-import axios from 'axios'
 
-// Mock API functions for example purposes
-const apiLogin = (credentials) => axios.post('/api/auth/login', credentials)
-const apiRegister = (credentials) => axios.post('/api/auth/register', credentials)
-const apiFetchUser = (token) => axios.get('/api/v1/user/me', { headers: { Authorization: `Bearer ${token}` } })
+import { login, register } from '@/api/auth.api';
+import { getCurrentUser } from '@/api/user.api';
 
 const validateImage = (image) => {
     if(image === undefined || image === "" || image === null){
@@ -39,7 +36,7 @@ export default createStore({
   mutations: {
     setToken(state, token) {
       state.token = token
-      axios.defaults.headers.common["Authorization"] = `Bearer ${state.token}`;
+      // axios.defaults.headers.common["Authorization"] = `Bearer ${state.token}`;
     },
     setUser(state, user) {
       state.user = user
@@ -55,7 +52,7 @@ export default createStore({
     async register({ commit, dispatch }, credentials){
         try {
         // Call API to register
-        const res = await apiRegister(credentials)
+        const res = await register(credentials)
         const token = res.data.token
 
         // Save token
@@ -80,7 +77,7 @@ export default createStore({
     async login({ commit, dispatch }, credentials) {
         try {
         // Call API to login
-        const res = await apiLogin(credentials)
+        const res = await login(credentials)
         const token = res.data.token
 
         // Save token
@@ -105,8 +102,8 @@ export default createStore({
     async fetchUser({ commit, state }) {
       if (!state.token) return
       try {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${state.token}`;
-        const res = await apiFetchUser(state.token)
+        //  const res = await apiFetchUser(state.token)
+        const res = await getCurrentUser(state.token)
         const { user } = res.data;
 
         if(!validateImage(user.profile_image)){

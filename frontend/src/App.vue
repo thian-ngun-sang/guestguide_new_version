@@ -1,21 +1,14 @@
 <template>
   <div>
-    <Authenticate>
-      <AuthLayout v-if="auth_layout"/>
-      <Authorize v-else>
-        <router-view/>
-      </Authorize>
-    </Authenticate>
+    <AuthLayout v-if="auth_layout"/>
+    <router-view v-else/>
   </div>
 </template>
 
 <script>
   import { defineComponent } from 'vue';
 
-  import AppLayout from "./components/AppLayout.vue";
   import AuthLayout from './components/AuthLayout.vue';
-  import Authenticate from './components/Authenticate.vue';
-  import Authorize from './components/Authorize.vue';
 
   export default defineComponent({
     name: 'App',
@@ -25,9 +18,6 @@
       }
     },
     components: {
-      Authenticate,
-      Authorize,
-      AppLayout,
       AuthLayout,
     },
     created(){

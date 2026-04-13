@@ -82,7 +82,8 @@
 
 <script>
   import { defineComponent } from 'vue';
-	import axios from 'axios';
+
+  import { createTransportation } from '@/api/transportation.api';
 
   export default defineComponent({
 		name: "CreateTransportationPopup",
@@ -189,19 +190,11 @@
 					formData.append("files", file);
 				}
 
-				const headers = {
-					'Content-Type': 'x-www-form-urlencoded',
-					'Content-Encoding': 'multipart/form-data'
-				}
-
-				axios.post("/api/v1/transportation", formData, { headers })
+        createTransportation(formData)
 					.then(res => {
-							// this.$router.push('/');
-							console.log(res);
-							this.closeCreateTransportationPopup();
+            this.closeCreateTransportationPopup();
 					})
 					.catch(err => console.log(err));
-
 			}
 		},
 		onBeforeUnmount(){

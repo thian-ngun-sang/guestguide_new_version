@@ -2,7 +2,7 @@
     <!-- <ServiceFilter/> -->
 
 		<AppLayout>
-			<div v-if="services.length !== 0" class="app-content">
+			<div v-if="services.length !== 0" class="app-content app-padding-bottom">
 				<div class="service-list">
 					<!-- <Service v-for="service in services"
 						:service="service.entityData"
@@ -42,7 +42,8 @@
 
 <script>
 import { defineComponent } from 'vue';
-import axios from "axios";
+
+import { getFeedItemList } from '@/api/feed-item.api';
 
 import Service from "../components/Service.vue";
 import AppLayout from "../components/AppLayout.vue";
@@ -56,7 +57,6 @@ export default defineComponent({
   data(){
     return {
         services: [],
-        srcUrl: "/api/v1/feed-item",
 				infoPopup: {
 					state: false,
 					className: "",
@@ -72,15 +72,14 @@ export default defineComponent({
       const query = this.getQueryData();
 
       if(query === ""){
-        axios.get(this.srcUrl)
+        getFeedItemList()
           .then(res => {
             const { services } = res.data;
-						// console.log(services);
 						this.services = services;
           })
           .catch(err => console.log(err.response));
       }else{
-        axios.get(this.srcUrl + query)
+        getFeedItemList(query)
           .then(res => {
               const { services } = res.data;
               this.services = services;

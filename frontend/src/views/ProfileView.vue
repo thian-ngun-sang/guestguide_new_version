@@ -293,10 +293,11 @@
 
 <script>
     import { defineComponent } from 'vue';
-		import axios from 'axios';
 		import { mapGetters } from 'vuex';
-		import AppLayout from "../components/AppLayout.vue";
 
+    import { updateUserBio } from '@/api/user.api'
+
+		import AppLayout from "../components/AppLayout.vue";
     import UserImageDialog from "../components/UserImageDialog.vue";
 
     export default(defineComponent({
@@ -334,10 +335,11 @@
         },
         mounted(){
             this.user = this.$store.getters.user;
-						this.form.bio = this.user.bio === undefined ? "" : this.user.bio;
+						this.form.bio = this.$store.getters.user.bio ?? "";
 
             this.$watch(() => this.$store.getters.user, (newUser) => {
               this.user = newUser;
+              this.form.bio = this.$store.getters.user.bio ?? "";
             });
         },
         methods: {
@@ -421,7 +423,7 @@
 								return;
 							}
 
-							axios.patch("/api/v1/user/update-bio", this.form)
+              updateUserBio(this.form)
 								.then(res => {
 									const { msg, bio } = res.data;
 									if(bio !== undefined && bio !== null){

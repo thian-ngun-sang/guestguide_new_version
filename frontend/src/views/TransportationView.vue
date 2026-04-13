@@ -26,7 +26,7 @@
 
 <script>
 import { defineComponent } from 'vue';
-import axios from "axios";
+import { getTransportationList } from '@/api/transportation.api';
 
 import AppLayout from "../components/AppLayout.vue";
 import TransportationServiceView from '@/components/TransportationServiceView.vue';
@@ -36,7 +36,6 @@ export default defineComponent({
   data(){
     return {
 				services: [],
-				srcUrl: "/api/v1/transportation",
         query: "",
 				infoPopup: {
 					state: false,
@@ -53,14 +52,14 @@ export default defineComponent({
       this.getQueryData();
 
       if(this.query === ""){
-        axios.get(this.srcUrl)
+        getTransportationList()
           .then(res => {
             const { services } = res.data;
 						this.services = services;
           })
           .catch(err => console.log(err.response));
       }else{
-        axios.get(this.srcUrl + this.query)
+        getTransportationList(this.query)
           .then(res => {
               const { services } = res.data;
               this.services = services;

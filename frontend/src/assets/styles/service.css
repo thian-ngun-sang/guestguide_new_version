@@ -8,7 +8,7 @@
 .service-detail--nav{
   height: 4rem; 
   display: flex;
-  align-items: end;
+  align-items: center;
 }
 
 .service-detail--service-container{

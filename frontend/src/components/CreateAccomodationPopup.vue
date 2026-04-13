@@ -94,7 +94,8 @@
 
 <script>
   import { defineComponent } from 'vue';
-	import axios from 'axios';
+
+  import { createAccomodation } from '@/api/accomodation.api';
 
   export default defineComponent({
 		name: "CreateAccomodationPopup",
@@ -218,20 +219,12 @@
 					formData.append("files", file);
 				}
 
-				const headers = {
-					'Content-Type': 'x-www-form-urlencoded',
-					'Content-Encoding': 'multipart/form-data'
-				}
-
-				axios.post("/api/v1/accomodation", formData, { headers })
+        createAccomodation(formData)
 					.then(res => {
-							// this.$router.push('/');
-							console.log(res);
-							this.closeCreateAccomodationPopup();
+            this.closeCreateAccomodationPopup();
 					})
 					.catch(err => console.log(err));
 			}
-
 		}
 	});
 </script>

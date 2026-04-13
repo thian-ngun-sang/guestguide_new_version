@@ -39,7 +39,8 @@
 
 <script>
 import { defineComponent } from "vue";
-import axios from "axios";
+
+import { changePassword } from '@/api/auth.api';
 
 export default (defineComponent({
 	name: "changePassword",
@@ -66,7 +67,7 @@ export default (defineComponent({
 				return;
 			}
 
-			axios.post("/api/auth/change-password", this.form)
+      changePassword(this.form)
 				.then(res => {
 					this.$router.push("/account");
 				})

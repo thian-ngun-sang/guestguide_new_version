@@ -121,7 +121,7 @@
 
 <script>
     import { defineComponent } from 'vue';
-		import axios from 'axios';
+    import { createBookmark, deleteBookmark } from '@/api/bookmark.api';
 
     export default defineComponent({
         name: 'transitionService',
@@ -140,14 +140,14 @@
 					},
 					toggleBookmark(){
 						if(!this.service?._meta.bookmarked?._id){
-							axios.post("/api/v1/bookmarks", { entityId: this.service._id, entityType: "transportation" })
+							createBookmark({ entityId: this.service._id, entityType: "transportation" })
 								.then(res => {
 									const { bookmarked } = res.data
 									this.service._meta.bookmarked = bookmarked;
 								})
 								.catch(err => console.log(err.response));
 						}else{
-							axios.delete(`/api/v1/bookmarks/${this.service._meta.bookmarked._id}`)
+							deleteBookmark(this.service._meta.bookmarked._id)
 								.then(res => {
 									this.service._meta.bookmarked = null;
 								})

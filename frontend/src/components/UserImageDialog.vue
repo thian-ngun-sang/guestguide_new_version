@@ -107,7 +107,8 @@
 
 <script>
     import { defineComponent } from 'vue';
-    import axios from 'axios';
+
+    import { updateProfileImage, updateCoverImage, deleteProfileImage, deleteCoverImage } from '@/api/user.api';
 
     export default defineComponent({
         name: 'OptionPopup',
@@ -159,15 +160,11 @@
             },
             saveImage(){
                 const formData = new FormData();
-                const headers = {
-                    'Content-Type': 'x-www-form-urlencoded',
-                    'Content-Encoding': 'multipart/form-data'
-                }
 
                 if(this.meta.type === "profile"){
                     formData.append("profileImage", this.formImage);
 
-                    axios.post(`/api/v1/user/update-profile-image`, formData, { headers })
+                    updateProfileImage(formData)
                         .then(res => {
                             const { profileImage } = res.data;
                             if(profileImage !== undefined){
@@ -179,7 +176,7 @@
                 }else if(this.meta.type === "cover"){
                     formData.append("coverImage", this.formImage);
 
-                    axios.post(`/api/v1/user/update-cover-image`, formData, { headers })
+                    updateCoverImage(formData)
                         .then(res => {
                             const { coverImage } = res.data;
                             this.actions.closeUserImageDialogPopup();
@@ -196,7 +193,7 @@
             },
             confirmImageDelete(){
                 if(this.meta.type === "profile"){
-                    axios.post(`/api/v1/user/delete-profile-image`)
+                    deleteProfileImage()
                         .then(res => {
                             const { profileImage } = res.data;
                             this.actions.changeUserProfileImage(profileImage);
@@ -206,7 +203,7 @@
                         })
                         .catch(err => console.log(err.response));
                 }else if(this.meta.type === "cover"){
-                    axios.post(`/api/v1/user/delete-cover-image`)
+                    deleteCoverImage()
                         .then(res => {
                             const { coverImage } = res.data;
                             this.actions.changeUserCoverImage(coverImage);

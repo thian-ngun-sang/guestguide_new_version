@@ -81,7 +81,8 @@
 
 <script>
   import { defineComponent } from 'vue';
-	import axios from 'axios';
+
+  import { createEducation } from '@/api/education.api';
 
   export default defineComponent({
 		name: "CreateEducationPopup",
@@ -194,16 +195,9 @@
 					formData.append("files", file);
 				}
 
-				const headers = {
-					'Content-Type': 'x-www-form-urlencoded',
-					'Content-Encoding': 'multipart/form-data'
-				}
-
-				axios.post("/api/v1/education", formData, { headers })
+        createEducation(formData)
 					.then(res => {
-							// this.$router.push('/');
-							console.log(res);
-							this.closeCreateEducationPopup();
+            this.closeCreateEducationPopup();
 					})
 					.catch(err => console.log(err));
 			}

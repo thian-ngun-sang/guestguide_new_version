@@ -26,7 +26,8 @@
 
 <script>
 import { defineComponent } from 'vue';
-import axios from "axios";
+
+import { getEducationList } from '@/api/education.api';
 
 import AppLayout from "../components/AppLayout.vue";
 import EducationServiceView from '@/components/EducationServiceView.vue';
@@ -36,7 +37,6 @@ export default defineComponent({
   data(){
     return {
 				services: [],
-				srcUrl: "/api/v1/education",
         query: "",
 				infoPopup: {
 					state: false,
@@ -53,14 +53,14 @@ export default defineComponent({
       this.getQueryData();
 
       if(this.query === ""){
-        axios.get(this.srcUrl)
+        getEducationList()
           .then(res => {
             const { services } = res.data;
 						this.services = services;
           })
           .catch(err => console.log(err.response));
       }else{
-        axios.get(this.srcUrl + this.query)
+        getEducationList(this.query)
           .then(res => {
               const { services } = res.data;
               this.services = services;

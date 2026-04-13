@@ -47,7 +47,8 @@
 
 <script>
     import { defineComponent } from 'vue';
-    import axios from 'axios';
+
+    import { getCurrentUser, updateUser } from '@/api/user.api';
 
     export default defineComponent({
         name: 'login',
@@ -64,40 +65,40 @@
             };
         },
         mounted(){
-            axios.get("/api/v1/user")
-                .then(res => {
-                    const { user } = res.data;
+          getCurrentUser()
+              .then(res => {
+                  const { user } = res.data;
 
-                    this.user.first_name = user.first_name;
-                    this.user.last_name = user.last_name;
-                    this.user.user_name = user.user_name;
-                    this.user.email = user.email;
+                  this.user.first_name = user.first_name;
+                  this.user.last_name = user.last_name;
+                  this.user.user_name = user.user_name;
+                  this.user.email = user.email;
 
-										// if the gender of user is undefined, set it to empty string
-										this.user.gender = user.gender !== undefined ? user.gender : "";
+                  // if the gender of user is undefined, set it to empty string
+                  this.user.gender = user.gender !== undefined ? user.gender : "";
 
-                    // console.log(res)
-                })
-                .catch(err => console.log(err))
+                  // console.log(res)
+              })
+              .catch(err => console.log(err))
         },
         methods: {
-            submitForm(){
-                axios.post("/api/v1/user/update-profile", this.user)
-                    .then(res => {
-												const { user } = res.data;
-												if(user !== undefined){
-													this.$store.dispatch("setUser", user)
-													this.$router.push('/account');
-												}
-                    })
-                    .catch(err => {
-											const { msg } = err.response.data;
+          submitForm(){
+              updateUser(this.user)
+                  .then(res => {
+                      const { user } = res.data;
+                      if(user !== undefined){
+                        this.$store.dispatch("setUser", user)
+                        this.$router.push('/account');
+                      }
+                  })
+                  .catch(err => {
+                    const { msg } = err.response.data;
 
-											if(msg !== undefined && msg !== null){
-												this.httpErrorMessage = msg; 
-											}
-										})
-            }
+                    if(msg !== undefined && msg !== null){
+                      this.httpErrorMessage = msg; 
+                    }
+                  })
+          }
         }
     });
 </script>

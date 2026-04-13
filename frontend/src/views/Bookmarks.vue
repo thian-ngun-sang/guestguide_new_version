@@ -1,6 +1,6 @@
 <template>
 		<AppLayout>
-			<div v-if="services.length !== 0" class="app-content">
+			<div v-if="services.length !== 0" class="app-content app-padding-bottom">
 				<div class="service-list">
 					<div v-for="service in services">
 						<AccomodationServiceView v-if="service.entityType === 'accommodation'" :service="service.entityData"/>
@@ -29,7 +29,8 @@
 
 <script>
 import { defineComponent } from 'vue';
-import axios from "axios";
+
+import { getBookmarkList } from '@/api/bookmark.api';
 
 import Service from "../components/Service.vue";
 import AppLayout from "../components/AppLayout.vue";
@@ -43,7 +44,6 @@ export default defineComponent({
   data(){
     return {
         services: [],
-        srcUrl: "/api/v1/bookmarks",
 				infoPopup: {
 					state: false,
 					className: "",
@@ -59,14 +59,14 @@ export default defineComponent({
       const query = this.getQueryData();
 
       if(query === ""){
-        axios.get(this.srcUrl)
+        getBookmarkList()
           .then(res => {
             const { bookmarkedServices } = res.data;
 						this.services = bookmarkedServices;
           })
           .catch(err => console.log(err.response));
       }else{
-        axios.get(this.srcUrl + query)
+        getBookmarkList(query)
           .then(res => {
             const { bookmarkedServices } = res.data;
 						this.services = bookmarkedServices;

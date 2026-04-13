@@ -65,7 +65,6 @@
 
 <script>
     import { defineComponent } from 'vue';
-    import axios from 'axios';
 
     export default defineComponent({
         name: 'login',

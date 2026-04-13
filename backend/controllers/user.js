@@ -67,7 +67,7 @@ const updateProfileImage = (req, res) => {
     }
 
     user.save();
-    return res.status(200).json({ msg: "Profile image changed", profileImage: profileImage.filename });
+    return res.status(200).json({ msg: "Profile image changed", profileImage: profileImage?.filename });
 }
 
 const deleteProfileImage = (req, res) => {

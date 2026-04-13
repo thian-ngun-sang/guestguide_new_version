@@ -6,6 +6,7 @@
 	--app-padding-inline: 16rem;
 	--popup-padding-inline: 18rem;
 	--spacing-modal: 0.8rem;
+  --app-padding-bottom: 2rem;
 
 	--icon-md: 1.25rem;
 }
@@ -21,6 +22,10 @@ body{
 
 .app-padding-inline{
   padding-inline: var(--app-padding-inline);
+}
+
+.app-padding-bottom{
+  padding-bottom: var(--app-padding-bottom);
 }
 
 .app-content{
@@ -321,25 +326,6 @@ body{
 }
 
 @media(max-width: 280px){
-	*{
-		font-size: 12px;
-	}
-}
-
-@media(max-width: 261px){
-	.lt-260\:d-none{
-		display: none;
-	}
-}
-
-@media(min-width: 260px){
-	.gt-260\:d-none{
-		display: none;
-		color: red;
-	}
-}
-
-@media(max-width: 260px){
 	*{
 		font-size: 12px;
 	}
