@@ -25,6 +25,7 @@
 					:close="removeInfoPopup"
 					duration="4000"/>
 			</div>
+      <div ref="sentinel"></div>
 		</AppLayout>
 </template>
 
@@ -57,6 +58,12 @@ export default defineComponent({
   data(){
     return {
         services: [],
+        nextCursor: null,
+        loading: false,
+        hasMore: true,
+
+        observer: null,
+
 				infoPopup: {
 					state: false,
 					className: "",
@@ -65,27 +72,51 @@ export default defineComponent({
     };
   },
   mounted(){
-    this.fetchServices();
+    // Attach to a sentinel element at the bottom of your list
+    this.observer = new IntersectionObserver(entries => {
+      // if (entries[0].isIntersecting) this.fetchServices();
+
+      if (entries[0].isIntersecting && !this.loading && this.hasMore) {
+        this.fetchServices();
+      }
+    }, { rootMargin: "200px" });
+
+    // this.observer.observe(this.$refs.sentinel);
+    // this.fetchServices();
+
+    // // Don't observe yet — fetch first, then observe after items push sentinel down
+    // this.fetchServices().then(() => {
+    //   this.observer.observe(this.$refs.sentinel);
+    // });
+
+    this.fetchServices().then(() => {
+      this.$nextTick(() => {
+        this.observer.observe(this.$refs.sentinel);
+      });
+    });
   },
   methods: {
     fetchServices(){
-      const query = this.getQueryData();
+      if (this.loading || !this.hasMore) return Promise.resolve();  // 👈 always return a promise
 
-      if(query === ""){
-        getFeedItemList()
-          .then(res => {
-            const { services } = res.data;
-						this.services = services;
-          })
-          .catch(err => console.log(err.response));
-      }else{
-        getFeedItemList(query)
-          .then(res => {
-              const { services } = res.data;
-              this.services = services;
-          })
-          .catch(err => console.log(err));
-      }
+      this.loading = true;
+
+      const query = this.getQueryData();
+      return getFeedItemList(query)
+        .then(res => {
+          const { services, nextCursor } = res.data;
+          this.services = [ ...this.services, ...services ];
+
+          this.nextCursor = nextCursor;
+          this.hasMore    = this.nextCursor !== null;
+          this.loading    = false;  // 👈 missing
+
+          if (!this.hasMore) this.observer?.disconnect();
+        })
+        .catch(err => {
+          console.log(err)
+          this.loading    = false;  // 👈 missing
+        });
     },
     getQueryData(){
       let query = "";
@@ -108,6 +139,10 @@ export default defineComponent({
       let nearby = this.$route.query.nearby;
       if(nearby !== undefined && nearby === 'true'){
         query = query + `&nearby=${nearby}`;
+      }
+
+      if(this.nextCursor){
+        query = query + `&cursor=${this.nextCursor}`;
       }
 
       if(query.startsWith("&")){
@@ -134,10 +169,25 @@ export default defineComponent({
 		}
   },
 	watch: {
-			'$route.query'(query) {
-				this.fetchServices();
-				// this.fetchResults();
-			}
+    '$route.query'() {
+      this.services    = [];
+      this.nextCursor  = null;
+      this.hasMore     = true;
+      this.loading     = false;
+      this.observer?.disconnect();
+
+      // this.fetchServices().then(() => {
+      //   this.observer.observe(this.$refs.sentinel);
+      // });
+
+      this.observer?.disconnect();
+
+      this.fetchServices().then(() => {
+        this.$nextTick(() => {
+          this.observer.observe(this.$refs.sentinel);
+        });
+      });
+    }
 	},
   components: {
     Service,

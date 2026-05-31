@@ -4,8 +4,23 @@ const Education = require("../models/Education");
 const Accommodation = require("../models/Accommodation");
 const Bookmark = require('../models/Bookmark');
 
+const { decodeCursor, buildCursorFilter } = require('../utils/cursorPagination');
+
 const index = async (req, res) => {
-    const { q, phone, serviceType } = req.query;
+    const { q, phone, serviceType, cursor, limit: limitParam } = req.query;
+    const limit = parseInt(limitParam) || 5;
+
+    // --- Decode cursor ---
+    // cursor is base64-encoded JSON: { createdAt, _id }
+    let cursorFilter = {};
+    if (cursor) {
+      try {
+        const decoded = decodeCursor(cursor);
+        cursorFilter = buildCursorFilter(decoded);
+      } catch {
+        return res.status(400).json({ error: "Invalid cursor" });
+      }
+    }
 
     let searchQuery = {};
     if(q !== undefined){
@@ -21,11 +36,9 @@ const index = async (req, res) => {
 
 		let hydratedFeed;
 		try {
-			const limit = parseInt(req.query.limit) || 20;
-
 			// 1. Fetch lightweight feed items
-			const feedItems = await FeedItem.find({})
-				.sort({ createdAt: -1 })
+			const feedItems = await FeedItem.find({ ...searchQuery, ...cursorFilter })
+				.sort({ created_at: -1 })
 				.limit(limit)
 				.lean();
 
@@ -120,7 +133,15 @@ const index = async (req, res) => {
 			return;
 		}
 
-		return res.status(200).json({ services: hydratedFeed });
+    // --- Build next cursor from last item ---
+    const lastItem = hydratedFeed.at(-1);
+    const nextCursor = lastItem && hydratedFeed.length === limit
+      ? Buffer.from(
+          JSON.stringify({ created_at: lastItem.created_at, _id: lastItem._id })
+        ).toString("base64")
+      : null;                              // null = no more pages
+
+		return res.status(200).json({ services: hydratedFeed, nextCursor });
 }
 
 const get = async (req, res) => {

@@ -2,9 +2,20 @@ const Education = require("../models/Education");
 const FeedItem = require("../models/FeedItem");
 const Bookmark = require('../models/Bookmark');
 
+const { decodeCursor, buildCursorFilter } = require('../utils/cursorPagination');
+
+function priceToNumber(priceStr) {
+  if (!priceStr || typeof priceStr !== 'string') return 0;
+  const cleaned = priceStr.replace(/,/g, '').replace('$', '').trim();
+
+  // 3. Convert to a floating-point number
+  return parseFloat(cleaned);
+}
+
 const store = async (req, res) => {
     const user = req.user;
-    const { serviceType, description, price, address, phone } = req.body;
+    const { serviceType, description, price: priceParam, address, phone } = req.body;
+    const price = priceToNumber(priceParam);
 
 		const queryData = {
 			user: user._id,
@@ -40,7 +51,20 @@ const store = async (req, res) => {
 }
 
 const index = async (req, res) => {
-    const { q, phone, serviceType } = req.query;
+    const { q, phone, serviceType, cursor, limit: limitParam } = req.query;
+    const limit = parseInt(limitParam) || 20;
+
+    // --- Decode cursor ---
+    // cursor is base64-encoded JSON: { created_at, _id }
+    let cursorFilter = {};
+    if (cursor) {
+      try {
+        const decoded = decodeCursor(cursor);
+        cursorFilter = buildCursorFilter(decoded);
+      } catch {
+        return res.status(400).json({ error: "Invalid cursor" });
+      }
+    }
 
     let searchQuery = {};
 
@@ -57,9 +81,11 @@ const index = async (req, res) => {
 				searchQuery.phone = { $ne: "" };
 		}
 
-    let services = await Education.find(searchQuery,
+    let services = await Education.find({ ...searchQuery, ...cursorFilter },
         "-__v -updated_at")
         .populate("user", "first_name last_name profile_image gender")
+				.sort({ created_at: -1 })
+				.limit(limit)
 				.lean();
 
 		const bookmarks = await Bookmark.find({
@@ -81,7 +107,16 @@ const index = async (req, res) => {
 			}
 		})
 
-    return res.status(200).json({ msg: "Success", services: hydratedFeed });
+
+    // --- Build next cursor from last item ---
+    const lastItem = hydratedFeed.at(-1);
+    const nextCursor = lastItem && hydratedFeed.length === limit
+      ? Buffer.from(
+          JSON.stringify({ created_at: lastItem.created_at, _id: lastItem._id })
+        ).toString("base64")
+      : null; // null = no more pages
+
+    return res.status(200).json({ msg: "Success", services: hydratedFeed, nextCursor });
 }
 
 const get = async (req, res) => {

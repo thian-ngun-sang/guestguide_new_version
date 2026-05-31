@@ -9,6 +9,7 @@
 					<div v-if="services.length <= 1"></div>
 				</div>
 			</div>
+      <div ref="sentinel"></div>
 		</AppLayout>
 </template>
 
@@ -37,7 +38,12 @@ export default defineComponent({
   data(){
     return {
 				services: [],
-        query: "",
+        nextCursor: null,
+        loading: false,
+        hasMore: true,
+
+        observer: null,
+
 				infoPopup: {
 					state: false,
 					className: "",
@@ -46,57 +52,75 @@ export default defineComponent({
     };
   },
   mounted(){
-    this.fetchServices();
+    this.observer = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && !this.loading && this.hasMore) {
+        this.fetchServices();
+      }
+    }, { rootMargin: "200px" });
+
+    this.fetchServices().then(() => {
+      this.$nextTick(() => {
+        this.observer.observe(this.$refs.sentinel);
+      });
+    });
   },
   methods: {
     fetchServices(){
-      this.getQueryData();
+      if (this.loading || !this.hasMore) return Promise.resolve();  // always return a promise
 
-      if(this.query === ""){
-        getEducationList()
-          .then(res => {
-            const { services } = res.data;
-						this.services = services;
-          })
-          .catch(err => console.log(err.response));
-      }else{
-        getEducationList(this.query)
-          .then(res => {
-              const { services } = res.data;
-              this.services = services;
-          })
-          .catch(err => console.log(err));
-      }
-      
+      this.loading = true;
+
+      const query = this.getQueryData();
+      console.log(query);
+      return getEducationList(query)
+        .then(res => {
+          const { services, nextCursor } = res.data;
+          this.services = [ ...this.services, ...services ];
+
+          this.nextCursor = nextCursor;
+          this.hasMore    = this.nextCursor !== null;
+          this.loading    = false;
+
+          if (!this.hasMore) this.observer?.disconnect();
+        })
+        .catch(err => {
+          console.log(err)
+          this.loading    = false;
+        });
     },
     getQueryData(){
-      this.query = "";
+      let query = "";
 
       let q = this.$route.query.q;
       if(q !== undefined && q !== ''){
-        this.query = this.query + `?q=${q}`;
+        query = query + `?q=${q}`;
       }
 
       let type = this.$route.query.type;
       if(type !== undefined && type !== ''){
-        this.query = this.query + `&type=${type}`;
+        query = query + `&type=${type}`;
       }
 
       let phone = this.$route.query.phone;
       if(phone !== undefined && phone !== ''){
-        this.query = this.query + `&phone=${phone}`;
+        query = query + `&phone=${phone}`;
       }
 
       let nearby = this.$route.query.nearby;
       if(nearby !== undefined && nearby === 'true'){
-        this.query = this.query + `&nearby=${nearby}`;
+        query = query + `&nearby=${nearby}`;
       }
 
-      if(this.query.startsWith("&")){
-        let modifiedQuery = this.query.replace(/^&/, "?");
-        this.query = modifiedQuery;
+      if(this.nextCursor){
+        query = query + `&cursor=${this.nextCursor}`;
       }
 
+      if(query.startsWith("&")){
+        let modifiedQuery = query.replace(/^&/, "?");
+        query = modifiedQuery;
+      }
+
+			return query;
     },
 		removeService(serviceId){
 			this.services = this.services.filter(service => {
@@ -115,10 +139,19 @@ export default defineComponent({
 		}
   },
 	watch: {
-			'$route.query'(query) {
-				this.fetchServices();
-				// this.fetchResults();
-			}
+    '$route.query'() {
+      this.services    = [];
+      this.nextCursor  = null;
+      this.hasMore     = true;
+      this.loading     = false;
+      this.observer?.disconnect();
+
+      this.fetchServices().then(() => {
+        this.$nextTick(() => {
+          this.observer.observe(this.$refs.sentinel);
+        });
+      });
+    }
 	},
   components: {
     // ServiceFilter,
