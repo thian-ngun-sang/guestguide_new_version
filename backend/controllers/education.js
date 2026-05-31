@@ -3,19 +3,18 @@ const FeedItem = require("../models/FeedItem");
 const Bookmark = require('../models/Bookmark');
 
 const { decodeCursor, buildCursorFilter } = require('../utils/cursorPagination');
-
-function priceToNumber(priceStr) {
-  if (!priceStr || typeof priceStr !== 'string') return 0;
-  const cleaned = priceStr.replace(/,/g, '').replace('$', '').trim();
-
-  // 3. Convert to a floating-point number
-  return parseFloat(cleaned);
-}
+const { priceToNumber } = require('../utils/currency');
 
 const store = async (req, res) => {
     const user = req.user;
     const { serviceType, description, price: priceParam, address, phone } = req.body;
-    const price = priceToNumber(priceParam);
+
+    let price;
+    try{
+      price = priceToNumber(priceParam);
+    }catch(err){
+      return res.status(400).json({ msg: "Invalid number in price field" });
+    }
 
 		const queryData = {
 			user: user._id,
@@ -155,7 +154,14 @@ const get = async (req, res) => {
 
 const update = async (req, res) => {
     const { id } = req.params;
-    const { serviceType, description, price, address, phone } = req.body;
+    const { serviceType, description, price: priceParam, address, phone } = req.body;
+
+    let price;
+    try{
+      price = priceToNumber(priceParam);
+    }catch(err){
+      return res.status(400).json({ msg: "Invalid number in price field" });
+    }
 
 		if(id === "" || id === null || id === undefined){
 			return res.status(400).json({ msg: "Bad Request" });
