@@ -71,7 +71,6 @@ export default defineComponent({
       this.loading = true;
 
       const query = this.getQueryData();
-      console.log(query);
       return getEducationList(query)
         .then(res => {
           const { services, nextCursor } = res.data;

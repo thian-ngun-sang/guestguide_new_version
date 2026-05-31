@@ -12,7 +12,7 @@
 					</div>	
 
           <router-link :to="`/transition/${service._id}`" class="no-link-style">
-            <img v-if="service.files.length" class="service-img mb-1" :src="`${this.$store.state.baseUrl}/${service.files[0]}`"/>
+            <img v-if="service.files.length" class="service-img mb-1" :src="`${this.$store.state.baseUrl}/transportation/${service.files[0]}`"/>
             <img v-else class="service-img" src="/svgs/image-placeholder.svg"/>
           </router-link>
 

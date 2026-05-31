@@ -1,17 +1,21 @@
 const multer = require('multer');
 const crypto = require("crypto");
+const fs = require('fs');
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb){
-      if(req.originalUrl === "/api/v1/user/update-profile-image"){
-        cb(null, 'uploads/profileImages/');
-      }else if(req.originalUrl === "/api/v1/user/update-cover-image"){
-        cb(null, 'uploads/coverImages/');
-      }else if(file.fieldname === "file"){
-        cb(null, 'uploads/posts/');
-      }else{
-        cb(null, 'uploads/');
-      }
+      let folder = 'uploads/';
+
+      if (req.originalUrl.includes('profile-image')) folder += 'users/profiles';
+      else if (req.originalUrl.includes('cover-image')) folder += 'users/covers';
+
+      else if (req.originalUrl.includes('education')) folder += 'education/';
+      else if (req.originalUrl.includes('accommodation')) folder += 'accommodation/';
+      else if (req.originalUrl.includes('transportation')) folder += 'transportation/';
+
+      // Automatically create the directory if it doesn't exist yet
+      fs.mkdirSync(folder, { recursive: true });
+      cb(null, folder);
     },
     filename: function (req, file, cb) {
       crypto.randomBytes(16, (err, buf) => {

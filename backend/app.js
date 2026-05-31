@@ -41,7 +41,7 @@ app.use('/api/v1', authorize);// authorize middleware
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/transportation', transportationRoute);
 app.use('/api/v1/education', educationRoute);
-app.use('/api/v1/accomodation', accommodationRoute);
+app.use('/api/v1/accommodation', accommodationRoute);
 app.use('/api/v1/feed-item', feedItemRoute);
 app.use('/api/v1/bookmarks', bookmarkRoute);
 

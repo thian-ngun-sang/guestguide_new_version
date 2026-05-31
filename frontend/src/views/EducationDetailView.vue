@@ -14,8 +14,7 @@
 						</div>
 					</div>
 
-					<img v-if="service.files?.length" class="service-detail--service-img" :src="`${this.$store.state.baseUrl}/${service.files[0]}`"/>
-					<img v-else class="service-detail--service-img" src="/svgs/image_placeholder.svg"/>
+					<img class="service-detail--service-img" :src="serviceImageUrl"/>
 				</div>
 
         <div class="service-detail--service-ctn">
@@ -32,8 +31,7 @@
 
           <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex gap-2">
-              <img v-if="service?.user?.profile_image" :src="service?.user?.profile_image" class="service-detail--user-profile"/>
-              <img v-if="!service?.user?.profile_image" src="/images/user-default-avatar.png" class="service-detail--user-profile"/>
+              <img :src="profileImageUrl" class="service-detail--user-profile"/>
 
               <div>
                 <span class="user-select-none d-block">{{ service?.user?.first_name }} {{ service?.user?.last_name }}</span>
@@ -61,6 +59,8 @@
   import { getEducation } from '@/api/education.api';
   import { createBookmark, deleteBookmark } from '@/api/bookmark.api';
 
+  import { mediaPrefixer } from '@/utils/mediaHelper';
+
   export default defineComponent({
     name: 'EducationDetailView',
     data(){
@@ -79,6 +79,23 @@
         .catch(err => {
           console.log(err);
         })
+    },
+    computed: {
+      profileImageUrl() {
+        const image = this.service?.user?.profile_image
+        if (!image) {
+          return '/images/user-default-avatar.png' // fallback
+        }
+
+        return mediaPrefixer.getUrl(image, 'userProfile')
+      },
+      serviceImageUrl(){
+        if(!this.service?.files?.length){
+          return "/svgs/image-placeholder.svg "
+        }
+
+        return mediaPrefixer.getUrl(this.service.files[0], 'education')
+      },
     },
     methods: {
       toggleBookmark(){

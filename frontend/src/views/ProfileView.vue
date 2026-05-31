@@ -299,6 +299,8 @@
 		import AppLayout from "../components/AppLayout.vue";
     import UserImageDialog from "../components/UserImageDialog.vue";
 
+    import { mediaPrefixer } from '@/utils/mediaHelper';
+
     export default(defineComponent({
         name: "userProfile",
         data(){
@@ -339,7 +341,7 @@
               return '/images/user-default-avatar.png' // fallback
             }
 
-            return `${this.$store.state.baseUrl}/profileImages/${image}`
+            return mediaPrefixer.getUrl(image, 'userProfile')
           },
           coverImageUrl(){
             const image = this.user?.cover_image
@@ -347,7 +349,7 @@
               return '/svgs/empty-image.svg' // fallback
             }
 
-            return `${this.$store.state.baseUrl}/coverImages/${image}`
+            return mediaPrefixer.getUrl(image, 'userCover')
           }
         },
         mounted(){
