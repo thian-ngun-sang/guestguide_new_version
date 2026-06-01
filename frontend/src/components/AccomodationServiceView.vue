@@ -18,7 +18,7 @@
 
 					<div class="px-2 d-flex justify-content-between price-label">
 						<span class="text-capitalize">{{ service.serviceType }}</span>
-						<span>{{ service.price }}/{{ service.paymentType }}</span>
+						<span>${{ service.price }}/{{ service.paymentType }}</span>
 					</div>
 					<div class="px-2 location-label">
 						{{ service.address }}

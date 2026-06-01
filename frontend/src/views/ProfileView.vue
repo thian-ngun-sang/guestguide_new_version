@@ -123,6 +123,7 @@
         margin-top: -20px;
         /* margin-left: 25px; */
 				margin-left: 1.56rem;
+        object-fit: cover;
     }
 
     .profile-image-parent{

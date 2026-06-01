@@ -1,7 +1,7 @@
 <template>
   <div class="app-padding-inline mb-5">
     <div class="service-detail--nav">
-      <font-awesome-icon class="icon-btn mb-2" :icon="['fasr', 'arrow-left']" @click="$router.back()"/>
+      <font-awesome-icon class="icon-btn mb-2" :icon="['fasr', 'arrow-left']" @click="goBack"/>
     </div>
 
     <div class="position-relative">
@@ -120,6 +120,13 @@
         }
 
         return d.getFullYear()
+      },
+      goBack() {
+        if (window.history.length > 1) {
+          this.$router.back()
+        } else {
+          this.$router.push('/housing');
+        }
       }
     },
     components: { AppLayout, AccomodationServiceView } })
